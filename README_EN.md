@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">test_auto_route</h1>
-  <p align="center"><strong>Automated LLM Evaluation + Intelligent Routing — All-in-One Platform</strong></p>
+  <p align="center"><strong>Automated LLM Evaluation + Intelligent Routing Program</strong></p>
   <p align="center">
     <a href="./README.md">中文</a> | <a href="./README_EN.md">English</a>
   </p>
@@ -16,7 +16,7 @@
 
 ## Introduction
 
-**test_auto_route** is an all-in-one platform for LLM capability evaluation and intelligent routing, solving two core problems:
+**test_auto_route** is an automated LLM evaluation and intelligent routing program, solving two core problems:
 
 - **Automated Evaluation**: Objectively and comprehensively evaluate LLM capabilities across diverse benchmark suites
 - **Intelligent Routing**: Automatically select the best model based on user input when multiple models are available

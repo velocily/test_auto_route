@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">test_auto_route</h1>
-  <p align="center"><strong>模型自动评测 + 智能路由 — 一体化平台</strong></p>
+  <p align="center"><strong>模型自动评测 + 智能路由程序</strong></p>
   <p align="center">
     <a href="./README.md">中文</a> | <a href="./README_EN.md">English</a>
   </p>
@@ -16,7 +16,7 @@
 
 ## 项目简介
 
-**test_auto_route** 是一个模型能力评测 + 智能路由的一体化平台，解决两个核心问题：
+**test_auto_route** 是一个模型能力评测 + 智能路由程序，解决两个核心问题：
 
 - **自动评测**：客观、全面地评测大语言模型在多类题库上的能力
 - **智能路由**：面对多个可用模型，根据用户输入自动选择最优模型
