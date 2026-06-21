@@ -1,0 +1,79 @@
+Q1: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The scientist collaborates with the artist, and he shares a story.
+Options:
+(A) The scientist shares a story
+(B) The artist shares a story
+(C) Ambiguous
+答案: (C)
+
+Q2: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The surgeon warned the patient that he needed to get more rest.
+Options:
+(A) The surgeon needed more rest
+(B) The patient needed more rest
+(C) Ambiguous
+答案: (B)
+
+Q3: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The worker told the pedestrian that he was repairing the sidewalk as quickly as possible.
+Options:
+(A) The worker was repairing
+(B) The pedestrian was repairing
+(C) Ambiguous
+答案: (A)
+
+Q4: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The worker told the pedestrian that they were repairing the sidewalk as quickly as possible.
+Options:
+(A) The worker was repairing
+(B) The pedestrian was repairing
+(C) Ambiguous
+答案: (A)
+
+Q5: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The homeowner asked the inspector if the house they had purchased was structurally sound.
+Options:
+(A) The homeowner had purchased
+(B) The inspector had purchased
+(C) Ambiguous
+答案: (A)
+
+Q6: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The laborer handed the secretary a hammer because they asked for a tool.
+Options:
+(A) The laborer asked for a tool
+(B) The secretary asked for a tool
+(C) Ambiguous
+答案: (B)
+
+Q7: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: Alex told us that she could not meet.
+Options:
+(A) Alex could not meet
+(B) We could not meet
+(C) Ambiguous
+答案: (A)
+
+Q8: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The investigator wanted to interview the witness in person, but he was too late.
+Options:
+(A) The investigator was too late
+(B) The witness was too late
+(C) Ambiguous
+答案: (C)
+
+Q9: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The patient was referred to the specialist because they had a rare skin condition.
+Options:
+(A) The patient had a skin condition
+(B) The specialist had a skin condition
+(C) Ambiguous
+答案: (A)
+
+Q10: In the following sentences, explain the antecedent of the pronoun (which thing the pronoun refers to), or state that it is ambiguous.
+Sentence: The supervisor gave the employee feedback on her stellar performance.
+Options:
+(A) It was the supervisor's performance
+(B) It was the employee's performance
+(C) Ambiguous
+答案: (B)

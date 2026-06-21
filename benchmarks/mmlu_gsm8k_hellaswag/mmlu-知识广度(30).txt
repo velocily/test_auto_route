@@ -1,0 +1,604 @@
+Q1 [college_mathematics]: A large class is to be divided into teams and each student must be a member of exactly one team. However, each student dislikes three of their classmates. Dislike between students need not be mutual. If the teams do not need to be equally sized, how many must be created so that no student is the teammate of someone they dislike?
+A:4 B:7 C:10 D:13
+答案: B
+
+Q2 [high_school_european_history]: This question refers to the following information.
+"XI. As the present sciences are useless for the discovery of effects, so the present system of logic is useless for the discovery of the sciences.
+XIX. There are and can exist but two ways of investigating and discovering truth. The one hurries on rapidly from the senses and particulars to the most general axioms, and from them, as principles and their supposed indisputable truth, derives and discovers the intermediate axioms. This is the way now in use. The other constructs its axioms from the senses and particulars, by ascending continually and gradually, till it finally arrives at the most general axioms, which is the true but unattempted way.
+XXII. Each of these two ways begins from the senses and particulars, and ends in the greatest generalities&…
+XXXVI. We have but one simple method of delivering our sentiments, namely, we must bring men to particulars and their regular series and order, and they must for a while renounce their notions, and begin to form an acquaintance with things."
+Francis Bacon, English philosopher and essayist, Novum Organum, 1620
+By the 1800s, the method of empirical reasoning reflected in the passage had undergone which of the following changes?
+A:It had weakened to the point of irrelevance. B:It had become a core principle of European culture. C:It had been refined and changed by so many people that it had become unrecognizable to those such as Bacon who had pioneered it. D:It had stagnated to the point that the common person had begun to search for a new organizing principle of life.
+答案: B
+
+Q3 [high_school_biology]: There are 40 individuals in population 1, all of which have genotype A1A1, and there are 25 individuals in population 2, all of genotype A2A2. Assume that these populations are located far from one another and that their environmental conditions are very similar. Based on the information given here, the observed genetic variation is mostly likely an example of
+A:genetic drift. B:gene flow. C:disruptive selection. D:discrete variation.
+答案: A
+
+Q4 [formal_logic]: Identify the conclusion of the following argument. All of psychology has gotten stuck in moral prejudices and fears. No one has come close to understanding it as the development of the will to power. However, if a person even begins to regard the effects of hatred, envy, covetousness, and the lust to rule as conditions of life and furthermore, as factors essential to the general economy of life, he will begin to get seasick. At this point, he begins to lose himself, and sail over morality. Thus, psychology becomes again the path to fundamental problems. (Friedrich Nietzsche, Beyond Good and Evil)
+A:All of psychology has gotten stuck in moral prejudices and fears. B:No one has come close to understanding it as the development of the will to power. C:If a person even begins to regard the effects of hatred, envy, covetousness, and the lust to rule as conditions of life and furthermore, as factors essential to the general economy of life, he will begin to get seasick. D:Psychology becomes again the path to fundamental problems.
+答案: D
+
+Q5 [moral_scenarios]: For which of these two scenarios does the main character (who uses I/me/my) do something clearly morally wrong, according to ordinary moral standards in the US as of 2020? Scenario 1 | I was bored and dug a hole to create a cellar in my backyard. Scenario 2 | I was due to start work soon, so I went to a baseball game.
+A:Wrong, Wrong B:Wrong, Not wrong C:Not wrong, Wrong D:Not wrong, Not wrong
+答案: C
+
+Q6 [professional_law]: A developer is the owner of a parcel of land in fee simple absolute (the record title is also in the developer). The parcel of land is and has been unpossessed land. Assume that each person listed below as the grantee in a deed paid value and took without actual notice of any facts that would defeat her title and without knowledge of any facts that would put her on inquiry, both at the time she took her deed and at the time she recorded it. The following conveyances, each by a general warranty deed, take place in the order listed: An artist conveys to a bartender; the developer conveys to the artist; the artist conveys to a counselor; the bartender conveys to a dentist; the counselor conveys to an engineer. No deed was recorded until after the artist-to- counselor deed was executed and then before the execution of any other deed, the order of recording was as follows: developer to artist; artist to bartender; artist to counselor. The bartender-to-dentist deed and counselor-to- engineer deed were each recorded immediately after their respective executions. The owner of the parcel of land in a notice jurisdiction is
+A:the bartender. B:the counselor. C:the dentist. D:the engineer.
+答案: D
+
+Q7 [professional_law]: A man, his brother and his friend all discuss murdering the man's neighbor because the neighbor took some shots at the man's dog but he missed. They agree on a plan. They decided on strychnine poisoning, which the friend told them how to get and they went and got it. When they asked the friend to go forward in poisoning the victim, he refused, saying, "I'm was only here for planning and advice, but I never intended to commit murder." The man and his brother took the poison to a meeting with the neighbor, but he wouldn't drink. They were caught and arrested. The statute requires an overt act for criminal conspiracy. Which of the following most accurately states the criminal responsibility of each of the three men?
+A:The man and his brother have committed criminal conspiracy and attempted murder. B:The man and his brother are guilty of conspiracy but not attempted murder. C:The man and his brother are guilty of conspiracy and attempted murder, but the friend is guilty of nothing. D:The man and his brother are guilty of conspiracy and attempted murder, and the friend is guilty of criminal conspiracy.
+答案: D
+
+Q8 [professional_psychology]: You regularly waive the co-payment for your low-income clients who are covered by insurance and believe this is acceptable since you normally bill your clients on a sliding fee scale. This is:
+A:a common and ethical practice. B:ethical as long as you don't bill the insurance company for an increased hourly fee in order to collect your full fee. C:ethical as long as the insurance company does not explicitly prohibit such arrangements. D:ethical only if the insurance company is aware of the arrangement.
+答案: D
+
+Q9 [college_biology]: Which of the following depicts the correct sequence of membranes of the chloroplast, beginning with the innermost membrane and ending with the outermost membrane?
+A:Thylakoid membrane, inner membrane, outer membrane B:Inner membrane, outer membrane, thylakoid membrane C:Outer membrane, inner membrane, thylakoid membrane D:Strama, outer membrane, inner membrane
+答案: A
+
+Q10 [professional_law]: A motorist who was injured in an accident sued the negligent other driver for his damages. The defense medical expert did an independent medical examination and reviewed all medical records. The expert testified that the accident did not cause the injuries because the medical records proved a long history of prior treatment for the same symptoms. The jury returned a verdict for the plaintiff but awarded only $10 in damages. On post-trial motions, the plaintiff argued that the expert's testimony was inadmissible hearsay because he based it on prior treating physicians' records, and the prior doctors were not available for cross-examination. Under the Federal Rules of Evidence, what is the correct ruling?
+A:Testimony regarding the plaintiff's condition prior to the accident is irrelevant and the testimony is inadmissible. B:The Federal Rules of Evidence allow the admission of hearsay statements that were made for the purpose of medical diagnosis or treatment. C:Medical testimony that is relevant to the issues can never by excluded from the defendant's case because it is always reliable. D:The testimony is inadmissible hearsay because there was a constitutional right under these facts to cross-examine the doctors who wrote the prior records.
+答案: B
+
+Q11 [professional_law]: An aspiring actress, whose auditions had not been going well, was forced to pawn her mother's pearls to pay rent and buy food. She finally got good news when her agent told her that she had landed a part in a big movie. Delighted, the actress went down to the pawnshop to retrieve her mother's pearls. When she arrived, the clerk told her that she needed to have cash in order to retrieve the necklace. As she had not been paid yet for the movie, the actress called her agent and told him her dilemma. The agent told her he would come down to the pawnshop and fix everything. When the agent arrived, the actress was still arguing with the clerk. The agent pulled the actress aside and told her that he would distract the clerk while the actress snatched the necklace. The agent then pretended to be interested in an antique lighter, and the actress snatched her necklace off the counter and left the store. The agent is subsequently prosecuted for larceny. The defendant could most appropriately be found
+A:guilty of larceny, but not conspiracy to commit larceny. B:guilty of conspiracy to commit larceny, but not larceny. C:guilty of both larceny and conspiracy to commit larceny. D:not guilty of either larceny or conspiracy to commit larceny.
+答案: C
+
+Q12 [prehistory]: Which subfield of anthropology has been described as studying "other people's garbage"?
+A:primatology B:archaeology C:paleoanthropology D:linguistics
+答案: B
+
+Q13 [moral_scenarios]: For which of these two scenarios does the main character (who uses I/me/my) do something clearly morally wrong, according to ordinary moral standards in the US as of 2020? Scenario 1 | I filled up my friend's car with sugar before returning it. Scenario 2 | She said she wouldn't give me her address so I followed her home.
+A:Wrong, Wrong B:Wrong, Not wrong C:Not wrong, Wrong D:Not wrong, Not wrong
+答案: A
+
+Q14 [prehistory]: Charles Lyell argued that the Earth must be extremely old based on the fact that:
+A:many processes that can be observed act extremely slowly. B:uniformitarianism can account for significant geological features. C:erosion works incredibly slowly. D:All of the above.
+答案: D
+
+Q15 [moral_disputes]:  Which of the following is a view that Dershowitz argues for?
+A:Torture is permissible in the "ticking bomb" case. B:No democratic society should allow public officials to engage in illegal actions "off the books." C:"Torture warrants" should be part of a legal system regulating the practice of torture. D:all of the above
+答案: D
+
+Q16 [high_school_chemistry]: Potassium-40 is a minor isotope found in naturally occurring potassium. It is radioactive and can be detected on simple radiation counters. How many protons, neutrons, and electrons does potassium-40 have when it is part of K2SO4?
+A:21 neutrons, 19 protons, 18 electrons B:20 neutrons, 19 protons, 19 electrons C:21 neutrons, 19 protons, 19 electrons D:19 neutrons, 19 protons, 19 electrons
+答案: A
+
+Q17 [high_school_microeconomics]: Which of the following is not correct for the perfectly competitive firm, in the long run?
+A:price = minimum average cost. B:price = marginal revenue. C:price = minimum average variable cost. D:price = marginal cost.
+答案: C
+
+Q18 [professional_law]: | Driveway--------------------------------------------------------------House | House |-------------------------------------------------------------- | Garage | House--------------------------------------------------------------LOT3 | LOT2 | LOT1 --------------------------------------------------------------(TEACHER) | (NEIGHBOR) | (CO-WORKER | | & BOSS)-------------------------------------------------------------On March 1, 1999, a landowner, the sole owner and occupant of lot 1, died and devised lot ito both his co-worker and his boss "as their community property. " The co-worker and boss were siblings, and neither was married. Lot 1 consisted of a single- family house with a yard, garage, and driveway. On May 1, 1999, the boss moved into the house on lot 1. One year later, the co-worker and the boss executed and delivered the following deed instrument to a neighbor ". . . hereby grant to (the neighbor) the northerly 30 feet of lot 1, consisting of the paved driveway now existing, to be used for the ingress and egress of motor vehicles, but should (the neighbor) or his heirs and assigns use said property for any other purpose, all the rights, privileges, and immunities herein granted shall cease and determine. " In consideration for the said deed, the neighbor paid the co-worker and the boss $2,000 (which they divided equally). The deed was never recorded by the neighbor. Because the boss didn't own a car, she never used the driveway. Similarly, the neighbor never used the driveway because he unexpectedly had his driver's license suspended shortly after executing the above instrument. The boss died intestate on May 1, 2001, leaving her daughter as her sole heir. Following her mother's death, the daughter moved into the house on May 2, 2001. On June 1, 2001 the neighbor sold lot 2 to a professor by a deed that contained no mention of the driveway located on lot 1. The neighbor and the professor assumed that the latter had the right to use the driveway, so they didn't insert any recitations in their deed instrument regarding the driveway. Immediately upon her taking possession of the premises, the daughter began to use the driveway on lot 1. Consequently, she objected to the professor's use of the driveway. After the daughter refused to permit the professor to use the driveway, he brought suit to determine his right to continue use of the driveway. The professor should
+A:win, because he acquired an implied easement to use the driveway as owner of the dominant tenement. B:win, because the neighbor's easement to use the driveway was conveyed to the professor. C:lose, because the Statute of Frauds was not satisfied. D:lose, because the neighbor's non-use of the driveway effectuated an abandonment of the easement.
+答案: B
+
+Q19 [security_studies]: What is the role of non-governmental organisations (NGOs) in the global defence trade?
+A:Non-governmental organisations are the primary actors in modern arms control measures. B:Non-governmental agencies are unable to access the resources and information needed to develop effective policy or action on arms control. C:Non-governmental groups have played a significant and effective role in developing arms control measures in recent years. D:There is a serious lack of involvement by non-governmental actors in controlling the global defence trade.
+答案: C
+
+Q20 [professional_law]: A farmer was the record title owner of a 30-acre tract of farmland. The farmer lived out of state and rarely visited the farmland, which remained unoccupied. Adjoining the farmland was a 50-acre ranch, which was owned by a rancher. In 2004, the rancher forged the farmer's signature on a deed and purported to convey the farmland to a grocer. The grocer paid the rancher $100,000 as the purchase price for the farmland. The following year, the grocer sold the property to a buyer for $125,000. The deed from the grocer to the buyer was properly executed and recorded by the buyer. This jurisdiction has the following "pure race" recording statute in effect:"No conveyance or other instrument is valid as against purchasers for a valuable consideration who record first. "After the buyer took possession of the farmland, he renovated the farmhouse that was located on the property and made improvements valued at $50,000. In 2006, the farmer returned to visit his sister. During his visit, the farmer went to the farmland to inspect his farmland. While doing so, he encountered the buyer, who informed the farmer that he was the new owner of the property. The farmer thereupon instituted suit to quiet title to the farmland. After judgment was rendered in the farmer's favor, the buyer was ejected from the property. The buyer has now filed an appropriate action against the grocer seeking restitution for the loss he incurred with respect to the purchase and improvements made on the farmland. The buyer will likely recover
+A:nothing, because the grocer was also a fraud victim and suffered a substantial financial loss. B:$25,000. 00 C:$50,000. 00 D:$125,000. 00
+答案: D
+
+Q21 [high_school_psychology]: Someone with brain damage who has difficulty making the muscle movements needed to produce accurate speech might have damage to which area of the brain?
+A:Wernicke's area B:hippocampus C:Broca's area D:amygdala
+答案: C
+
+Q22 [moral_scenarios]: For which of these two scenarios does the main character (who uses I/me/my) do something clearly morally wrong, according to ordinary moral standards in the US as of 2020? Scenario 1 | After school I went to the park to throw bread crumbs at the ducks. Scenario 2 | I left the same diaper on my elderly paralyzed aunt for days at a time.
+A:Wrong, Wrong B:Wrong, Not wrong C:Not wrong, Wrong D:Not wrong, Not wrong
+答案: C
+
+Q23 [professional_law]: One day, while riding his motorcycle through a residential area, a man hit and injured a child who darted into his path. The child's mother files suit against the man. At trial, the mother is then called to testify as to her conversation with the man at the hospital where her son was rushed immediately following the accident. According to the mother, the man told her, "Don't worry, my insurance company will pay for all of your son's medical expenses. "If offered into evidence, the court will most likely rule that the mother's statement is
+A:admissible, on the issue of the defendant's negligence. B:admissible, to show that the defendant is able to pay for the medical expenses. C:inadmissible, because the testimony was highly prejudicial. D:admissible, only to prove ownership or control of the motorcycle.
+答案: D
+
+Q24 [international_law]: What is the fundamental premise of monist theory?
+A:Monism posits that international law is superior to domestic laws B:Monism posits that international and domestic law are part of the same legal order C:Monism posits that domestic laws are superior to international law D:Monism posits that domestic and international law never clash
+答案: B
+
+Q25 [high_school_psychology]: Individuals in which of the following occupations will be potentially LEAST likely to be susceptible to health problems as a result of disrupted circadian rhythms?
+A:Shift nurse B:Police officer C:Flight attendant D:College professor
+答案: D
+
+Q26 [high_school_microeconomics]: If the price of one good (A) increases and the quantity demanded of another good (B) increases, the two goods are
+A:substitute goods. B:complement goods. C:inferior goods. D:normal goods.
+答案: A
+
+Q27 [college_physics]: The speed of light inside of a nonmagnetic dielectric material with a dielectric constant of 4.0 is
+A:1.2 x 10^9 m/s B:3.0 x 10^8 m/s C:1.5 x 10^8 m/s D:1.0 x 10^8 m/s
+答案: C
+
+Q28 [human_aging]: Older adults' negative beliefs about their own memories seem to be more influenced by _____ than by their actual performance on memory tests
+A:Negative stereotypes about older memory B:Time of day and weather conditions C:Who they are speaking with D:Their slower processing speed
+答案: A
+
+Q29 [philosophy]: Parfit claims that:
+A:it is possible for an outcome to be worse for a particular person than some alternative. B:it is possible for an outcome to be worse than some alternative. C:both a and b. D:neither a. nor b.
+答案: C
+
+Q30 [professional_medicine]: A 72-year-old woman with advanced ovarian cancer metastatic to the liver is brought to the physician by her son because she cries all the time and will not get out of bed. On a 10-point scale, she rates the pain as a 1 to 2. She also has hypertension and major depressive disorder. She has received chemotherapy for 2 years. Current medications also include oxycodone (10 mg twice daily), hydrochlorothiazide (25 mg/d), and fluoxetine (20 mg/d). She is 165 cm (5 ft 5 in) tall and weighs 66 kg (145 lb); BMI is 24 kg/m2 . Her temperature is 37°C (98.6°F), pulse is 110/min, respirations are 12/min, and blood pressure is 120/80 mm Hg. Examination shows a firm, distended abdomen with moderate tenderness over the liver. On mental status examination, she is oriented to person, place, and time. She has good eye contact but appears sad and cries easily. Which of the following is the most appropriate next step in management?
+A:Reassurance B:Assess for suicidal ideation C:Begin dextroamphetamine therapy D:Increase oxycodone dosage
+答案: B
+Q31 [high_school_biology]: 人体血液循环系统中，体循环的起点是哪个腔室？
+A:左心房 B:右心房 C:左心室 D:右心室
+答案: C
+
+Q32 [high_school_chemistry]: 下列哪种物质属于有机化合物？
+A:氯化钠 B:碳酸钙 C:乙醇 D:硫酸
+答案: C
+
+Q33 [high_school_physics]: 一个物体在水平面上做匀速直线运动，受到的摩擦力为5N，则施加的拉力为多少？
+A:0N B:2.5N C:5N D:10N
+答案: C
+
+Q34 [high_school_geography]: 世界上面积最大的沙漠是哪个？
+A:撒哈拉沙漠 B:阿拉伯沙漠 C:戈壁沙漠 D:卡拉哈里沙漠
+答案: A
+
+Q35 [high_school_history]: 中国历史上第一个统一的封建王朝是哪个？
+A:夏朝 B:商朝 C:周朝 D:秦朝
+答案: D
+
+Q36 [high_school_biology]: 植物细胞与动物细胞相比，特有的结构是什么？
+A:细胞膜 B:细胞核 C:细胞壁 D:线粒体
+答案: C
+
+Q37 [high_school_chemistry]: 下列哪种气体在空气中含量最多？
+A:氧气 B:氮气 C:二氧化碳 D:氢气
+答案: B
+
+Q38 [high_school_physics]: 声音传播需要介质，下列哪种介质中声音传播最快？
+A:空气 B:水 C:钢铁 D:真空
+答案: C
+
+Q39 [high_school_geography]: 地球自转一周的时间约为多少？
+A:12小时 B:24小时 C:48小时 D:365天
+答案: B
+
+Q40 [high_school_history]: 工业革命最早发生在哪个国家？
+A:法国 B:美国 C:德国 D:英国
+答案: D
+
+Q41 [college_biology]: 在DNA复制过程中，负责解开双螺旋结构的酶是什么？
+A:DNA聚合酶 B:RNA聚合酶 C:解旋酶 D:连接酶
+答案: C
+
+Q42 [college_chemistry]: 下列哪种晶体的熔点最高？
+A:离子晶体 B:分子晶体 C:原子晶体（共价晶体） D:金属晶体
+答案: C
+
+Q43 [college_physics]: 根据牛顿第二定律，以下哪个说法正确？
+A:力是维持运动的原因 B:加速度与合外力成正比 C:加速度与质量成正比 D:力与速度成正比
+答案: B
+
+Q44 [college_computer_science]: 在计算机组成原理中，ALU的全称是什么？
+A:Average Logic Unit B:Arithmetic Logic Unit C:Advanced Logic Unit D:Array Logic Unit
+答案: B
+
+Q45 [college_economics]: 需求定律指的是什么？
+A:价格上升，需求量增加 B:价格下降，需求量减少 C:价格上升，需求量减少 D:价格与需求量无关
+答案: C
+
+Q46 [high_school_biology]: 人体中负责气体交换的器官是什么？
+A:心脏 B:肝脏 C:肺 D:肾脏
+答案: C
+
+Q47 [high_school_chemistry]: 金属活动性顺序中，排在氢前面的金属能与酸反应放出什么气体？
+A:氧气 B:氮气 C:氢气 D:二氧化碳
+答案: C
+
+Q48 [high_school_physics]: 凸透镜成像时，当物体在焦距以内时，成什么像？
+A:倒立实像 B:倒立虚像 C:正立实像 D:正立虚像
+答案: D
+
+Q49 [high_school_geography]: 信风带主要分布在哪个纬度之间？
+A:赤道附近 B:中纬度地区 C:极地附近 D:高低纬度之间
+答案: A
+
+Q50 [high_school_history]: 《独立宣言》是在哪一年签署的？
+A:1775年 B:1776年 C:1783年 D:1789年
+答案: B
+
+Q51 [college_medicine]: 人体最大的内脏器官是什么？
+A:心脏 B:大脑 C:肝脏 D:肺
+答案: C
+
+Q52 [college_physics]: 光从空气进入水中时，会发生什么现象？
+A:折射，折射角大于入射角 B:折射，折射角小于入射角 C:反射，不发生折射 D:不发生任何变化
+答案: B
+
+Q53 [college_chemistry]: pH值表示溶液的什么性质？
+A:浓度 B:温度 C:酸碱性 D:密度
+答案: C
+
+Q54 [college_computer_science]: 数据库管理系统(DBMS)中，SQL代表什么？
+A:Standard Query Language B:Structured Query Language C:Simple Query Language D:Sequential Query Language
+答案: B
+
+Q55 [college_economics]: 通货膨胀主要的特征是什么？
+A:物价持续下降 B:货币购买力持续上升 C:物价持续上涨 D:失业率持续下降
+答案: C
+
+Q56 [high_school_biology]: 基因突变是指什么？
+A:染色体数目改变 B:DNA分子中碱基对的改变 C:基因在染色体上的位置改变 D:蛋白质结构的改变
+答案: B
+
+Q57 [high_school_chemistry]: 下列哪种物质是强酸？
+A:醋酸 B:碳酸 C:盐酸 D:次氯酸
+答案: C
+
+Q58 [high_school_physics]: 电流的单位是什么？
+A:伏特 B:安培 C:欧姆 D:瓦特
+答案: B
+
+Q59 [high_school_geography]: 板块构造学说认为，地球岩石圈分为几大板块？
+A:四大 B:五大 C:六大 D:七大
+答案: C
+
+Q60 [high_school_economics]: 市场经济中，资源配置主要由什么决定？
+A:政府计划 B:市场价格 C:传统习惯 D:国际协议
+答案: B
+
+Q61 [college_biology]: 线粒体的主要功能是什么？
+A:蛋白质合成 B:光合作用 C:有氧呼吸产生ATP D:脂质合成
+答案: C
+
+Q62 [college_physics]: 一个物体从高处自由下落，其动能和势能如何变化（忽略空气阻力）？
+A:动能增加，势能增加 B:动能减少，势能减少 C:动能增加，势能减少 D:动能不变，势能减少
+答案: C
+
+Q63 [college_mathematics]: 函数f(x)=x^2在x=1处的导数是多少？
+A:0 B:1 C:2 D:3
+答案: C
+
+Q64 [college_chemistry]: 下列哪种元素属于惰性气体？
+A:氧 B:氮 C:氦 D:氯
+答案: C
+
+Q65 [college_computer_science]: 在面向对象编程中，封装的主要目的是什么？
+A:提高代码执行速度 B:隐藏内部实现细节 C:增加代码行数 D:减少变量使用
+答案: B
+
+Q66 [high_school_biology]: 生态系统中的能量流动方向是什么？
+A:循环流动 B:单向流动 C:双向流动 D:随机流动
+答案: B
+
+Q67 [high_school_physics]: 热传递的三种方式不包括以下哪种？
+A:传导 B:对流 C:辐射 D:反射
+答案: D
+
+Q68 [high_school_chemistry]: 下列哪种物质是电解质？
+A:蔗糖 B:乙醇 C:食盐溶液 D:蒸馏水
+答案: C
+
+Q69 [high_school_geography]: 地球上最大的洋是哪个？
+A:大西洋 B:印度洋 C:北冰洋 D:太平洋
+答案: D
+
+Q70 [high_school_history]: 法国大革命开始于哪一年？
+A:1776年 B:1789年 C:1799年 D:1804年
+答案: B
+
+Q71 [college_biology]: 减数分裂最终产生几个子细胞？
+A:2个 B:3个 C:4个 D:8个
+答案: C
+
+Q72 [college_physics]: 电磁感应现象发现者是谁？
+A:牛顿 B:爱因斯坦 C:法拉第 D:麦克斯韦
+答案: C
+
+Q73 [college_economics]: 什么是机会成本？
+A:已支付的货币成本 B:放弃的最高价值替代方案 C:生产成本 D:边际成本
+答案: B
+
+Q74 [college_computer_science]: 操作系统的主要功能不包括以下哪项？
+A:进程管理 B:内存管理 C:病毒查杀 D:文件系统管理
+答案: C
+
+Q75 [college_mathematics]: 下列哪个是质数？
+A:15 B:21 C:23 D:27
+答案: C
+
+Q76 [high_school_biology]: 光合作用中，光反应的主要产物是什么？
+A:葡萄糖 B:ATP和NADPH C:CO2 D:水
+答案: B
+
+Q77 [high_school_chemistry]: 钠的化学符号是什么？
+A:K B:Na C:Ca D:Fe
+答案: B
+
+Q78 [high_school_physics]: 一个物体受到平衡力作用时，其运动状态如何？
+A:一定静止 B:一定运动 C:保持匀速直线运动或静止 D:一定加速运动
+答案: C
+
+Q79 [high_school_geography]: 温带季风气候主要分布在哪个大洲的东部？
+A:非洲 B:欧洲 C:亚洲 D:南美洲
+答案: C
+
+Q80 [high_school_history]: 蒸汽机的改良者是谁？
+A:牛顿 B:瓦特 C:爱因斯坦 D:爱迪生
+答案: B
+
+Q81 [college_biology]: 细胞膜的基本骨架由什么组成？
+A:蛋白质 B:糖类 C:磷脂双分子层 D:核酸
+答案: C
+
+Q82 [college_physics]: 波长的单位是什么？
+A:赫兹 B:米 C:牛顿 D:焦耳
+答案: B
+
+Q83 [college_chemistry]: 催化剂在化学反应中的作用是什么？
+A:改变化学平衡 B:改变反应速率 C:增加产物产量 D:改变反应热
+答案: B
+
+Q84 [college_computer_science]: TCP/IP协议中，TCP负责什么？
+A:IP地址分配 B:可靠数据传输 C:路由选择 D:域名解析
+答案: B
+
+Q85 [college_economics]: 宏观经济学主要研究什么？
+A:个体经济行为 B:企业决策 C:国民经济整体运行 D:市场价格
+答案: C
+
+Q86 [high_school_biology]: 染色体的化学成分主要是什么？
+A:蛋白质和RNA B:DNA和蛋白质 C:脂质和糖类 D:RNA和糖类
+答案: B
+
+Q87 [high_school_physics]: 下列哪种波是横波？
+A:声波 B:水波 C:光波 D:地震P波
+答案: C
+
+Q88 [high_school_chemistry]: 下列哪种金属最活泼？
+A:银 B:铜 C:铁 D:钾
+答案: D
+
+Q89 [high_school_geography]: 热带雨林气候的主要特征是什么？
+A:全年高温多雨 B:夏季高温多雨冬季寒冷干燥 C:全年温和多雨 D:夏季炎热干旱冬季温和多雨
+答案: A
+
+Q90 [high_school_history]: 中国古代四大发明不包括以下哪项？
+A:造纸术 B:火药 C:地动仪 D:印刷术
+答案: C
+
+Q91 [college_biology]: 基因工程中常用的运载体不包括以下哪种？
+A:质粒 B:噬菌体 C:核糖体 D:动植物病毒
+答案: C
+
+Q92 [college_physics]: 相对论的基本假设之一是什么？
+A:时间是绝对的 B:光速在任何惯性系中不变 C:质量是绝对的 D:空间是绝对的
+答案: B
+
+Q93 [college_mathematics]: 微积分基本定理连接了哪两个概念？
+A:极限和连续 B:微分和积分 C:级数和序列 D:矩阵和向量
+答案: B
+
+Q94 [college_computer_science]: 二分查找的时间复杂度是多少？
+A:O(1) B:O(n) C:O(log n) D:O(n^2)
+答案: C
+
+Q95 [college_chemistry]: 同分异构体是指什么？
+A:分子式相同结构不同的化合物 B:分子式不同结构相同的化合物 C:分子式和结构都相同的化合物 D:分子式和结构都不同的化合物
+答案: A
+
+Q96 [high_school_biology]: 人体免疫系统中，B细胞的主要功能是什么？
+A:吞噬病原体 B:产生抗体 C:直接杀伤靶细胞 D:调节体温
+答案: B
+
+Q97 [high_school_physics]: 电池是将什么能转化为什么能？
+A:电能转化为化学能 B:化学能转化为电能 C:机械能转化为电能 D:电能转化为光能
+答案: B
+
+Q98 [high_school_chemistry]: 下列哪种物质是混合物？
+A:蒸馏水 B:氧气 C:空气 D:纯金
+答案: C
+
+Q99 [high_school_geography]: 世界上最长的山脉是哪个？
+A:喜马拉雅山脉 B:安第斯山脉 C:阿尔卑斯山脉 D:落基山脉
+答案: B
+
+Q100 [high_school_history]: 第一次世界大战爆发于哪一年？
+A:1912年 B:1914年 C:1916年 D:1918年
+答案: B
+
+Q101 [college_biology]: 达尔文自然选择学说的核心内容是什么？
+A:用进废退 B:适者生存 C:获得性遗传 D:物种不变
+答案: B
+
+Q102 [college_physics]: 海森堡不确定性原理描述了什么？
+A:能量守恒 B:位置和动量不能同时精确测量 C:光速不变 D:波粒二象性
+答案: B
+
+Q103 [college_computer_science]: 栈(stack)的数据结构特点是什么？
+A:先进先出 B:先进后出 C:随机存取 D:按索引存取
+答案: B
+
+Q104 [college_economics]: GDP代表什么？
+A:国民生产总值 B:国内生产总值 C:国民收入 D:个人可支配收入
+答案: B
+
+Q105 [college_mathematics]: 一个三角形的内角和是多少度？
+A:90度 B:180度 C:270度 D:360度
+答案: B
+
+Q106 [high_school_biology]: 人体消化系统中，胃的主要功能是什么？
+A:吸收营养 B:储存和初步消化食物 C:分泌胆汁 D:吸收水分
+答案: B
+
+Q107 [high_school_physics]: 光的反射定律中，入射角等于什么？
+A:折射角 B:反射角 C:0度 D:90度
+答案: B
+
+Q108 [high_school_chemistry]: 下列哪种物质属于氧化物？
+A:NaCl B:H2O C:NaOH D:HCl
+答案: B
+
+Q109 [high_school_geography]: 等高线越密集表示什么？
+A:坡度越缓 B:坡度越陡 C:海拔越高 D:海拔越低
+答案: B
+
+Q110 [high_school_history]: 美国南北战争的主要原因是什么？
+A:领土争端 B:奴隶制问题 C:宗教冲突 D:贸易争端
+答案: B
+
+Q111 [college_biology]: 细胞分裂中，DNA复制发生在哪个时期？
+A:G1期 B:S期 C:G2期 D:M期
+答案: B
+
+Q112 [college_physics]: 焦耳定律描述了电流通过导体时产生的什么？
+A:电压 B:热量 C:磁力 D:电容
+答案: B
+
+Q113 [college_chemistry]: 化学平衡的特点是什么？
+A:反应停止 B:正反应速率等于逆反应速率 C:反应物完全消耗 D:只有正反应进行
+答案: B
+
+Q114 [college_computer_science]: 在Python中，列表(list)和元组(tuple)的主要区别是什么？
+A:列表可哈希，元组不可 B:列表可变，元组不可变 C:列表有序，元组无序 D:列表只能存数字，元组可存任意类型
+答案: B
+
+Q115 [college_economics]: 什么是边际效用递减规律？
+A:消费越多，总效用越大 B:消费越多，边际效用递减 C:消费越多，边际效用递增 D:消费与效用无关
+答案: B
+
+Q116 [high_school_biology]: 神经系统的基本结构和功能单位是什么？
+A:细胞体 B:神经元 C:突触 D:树突
+答案: B
+
+Q117 [high_school_physics]: 下列哪种现象属于光的折射？
+A:镜面反射 B:小孔成像 C:筷子在水中看起来折断 D:影子形成
+答案: C
+
+Q118 [high_school_chemistry]: 下列哪种物质是单质？
+A:水 B:二氧化碳 C:氧气 D:食盐
+答案: C
+
+Q119 [high_school_geography]: 地球内部圈层结构从外到内依次是什么？
+A:地核-地幔-地壳 B:地壳-地幔-地核 C:地幔-地壳-地核 D:地壳-地核-地幔
+答案: B
+
+Q120 [high_school_history]: 文艺复兴运动起源于哪个国家？
+A:法国 B:英国 C:意大利 D:德国
+答案: C
+
+Q121 [college_biology]: 酶的化学本质是什么？
+A:糖类 B:脂质 C:蛋白质或RNA D:DNA
+答案: C
+
+Q122 [college_physics]: 一个物体做匀速圆周运动，下列关于其加速度的说法正确的是？
+A:加速度为零 B:加速度方向指向圆心 C:加速度方向沿切线方向 D:加速度大小不断变化
+答案: B
+
+Q123 [college_mathematics]: 下列哪个数是2的平方根？
+A:1 B:1.414 C:2 D:4
+答案: B
+
+Q124 [college_computer_science]: HTTP协议默认使用哪个端口？
+A:21 B:25 C:80 D:443
+答案: C
+
+Q125 [college_chemistry]: 下列哪种变化是化学变化？
+A:冰融化 B:铁生锈 C:水蒸发 D:糖溶解
+答案: B
+
+Q126 [high_school_biology]: 呼吸作用的主要场所是细胞的哪个结构？
+A:细胞核 B:线粒体 C:核糖体 D:高尔基体
+答案: B
+
+Q127 [high_school_physics]: 电流强度等于什么？
+A:电压除以电阻 B:电压乘以电阻 C:电压加电阻 D:电压减电阻
+答案: A
+
+Q128 [high_school_chemistry]: 下列哪种物质是高分子化合物？
+A:葡萄糖 B:淀粉 C:乙醇 D:乙酸
+答案: B
+
+Q129 [high_school_geography]: 世界上最大的岛屿是哪个？
+A:台湾岛 B:格陵兰岛 C:马达加斯加岛 D:苏门答腊岛
+答案: B
+
+Q130 [high_school_history]: 二战中，日本偷袭珍珠港发生在哪一年？
+A:1939年 B:1940年 C:1941年 D:1942年
+答案: C
+
+Q131 [college_biology]: 细胞有丝分裂中，染色体数目加倍发生在哪个时期？
+A:前期 B:中期 C:后期 D:末期
+答案: C
+
+Q132 [college_physics]: 根据能量守恒定律，能量可以？
+A:凭空产生 B:凭空消失 C:从一种形式转化为另一种形式 D:以上都不对
+答案: C
+
+Q133 [college_economics]: 比较优势理论是谁提出的？
+A:亚当·斯密 B:大卫·李嘉图 C:凯恩斯 D:马克思
+答案: B
+
+Q134 [college_computer_science]: 哈希表的平均查找时间复杂度是多少？
+A:O(n) B:O(log n) C:O(1) D:O(n^2)
+答案: C
+
+Q135 [college_mathematics]: 正态分布曲线关于什么对称？
+A:原点 B:均值 C:中位数 D:众数
+答案: B
+
+Q136 [high_school_biology]: 人体的内分泌腺不包括以下哪个？
+A:甲状腺 B:肾上腺 C:唾液腺 D:垂体
+答案: C
+
+Q137 [high_school_physics]: 摩擦力的方向与物体运动方向的关系是什么？
+A:一定相同 B:一定相反 C:可能与运动方向相同或相反 D:一定垂直
+答案: C
+
+Q138 [high_school_chemistry]: 下列哪种物质属于盐类？
+A:NaOH B:HCl C:NaCl D:H2O
+答案: C
+
+Q139 [high_school_geography]: 温带海洋性气候的特点是什么？
+A:全年高温多雨 B:夏季炎热冬季寒冷 C:全年温和多雨 D:全年干旱少雨
+答案: C
+
+Q140 [high_school_history]: 唐朝的开国皇帝是谁？
+A:李世民 B:李渊 C:武则天 D:李隆基
+答案: B
+
+Q141 [college_biology]: 减数分裂的主要意义是什么？
+A:细胞数量增加 B:保证亲子代遗传稳定性 C:使后代遗传物质多样性增加 D:细胞生长
+答案: C
+
+Q142 [high_school_physics]: 并联电路中，总电阻与各支路电阻的关系是什么？
+A:总电阻大于任何支路电阻 B:总电阻小于任何支路电阻 C:总电阻等于各支路电阻之和 D:总电阻等于各支路电阻之积
+答案: B
+
+Q143 [high_school_chemistry]: 下列哪种物质不能导电？
+A:铜 B:石墨 C:氯化钠溶液 D:蔗糖溶液
+答案: D
+
+Q144 [high_school_geography]: 寒流和暖流交汇处通常会形成什么？
+A:沙漠 B:渔场 C:森林 D:草原
+答案: B
+
+Q145 [high_school_history]: 哥伦布发现新大陆是在哪一年？
+A:1488年 B:1492年 C:1498年 D:1502年
+答案: B
+
+Q146 [college_computer_science]: 快速排序算法的平均时间复杂度是多少？
+A:O(n) B:O(n log n) C:O(n^2) D:O(log n)
+答案: B
+
+Q147 [college_chemistry]: 氧化还原反应的本质是什么？
+A:氧的得失 B:电子的转移 C:氢的得失 D:化合价的改变
+答案: B
+
+Q148 [college_biology]: 达尔文自然选择学说中，生物进化的原材料是什么？
+A:环境变化 B:基因突变和基因重组 C:自然选择 D:生殖隔离
+答案: B
+
+Q149 [college_physics]: 波尔模型中，电子在什么轨道上运动不辐射能量？
+A:任意轨道 B:离核最近轨道 C:特定稳定轨道 D:离核最远轨道
+答案: C
+
+Q150 [college_economics]: 什么是货币政策的主要工具之一？
+A:税收 B:政府支出 C:利率调整 D:关税
+答案: C

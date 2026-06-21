@@ -1,0 +1,519 @@
+Q1: Write a Python function to calculate the factorial of a number using recursion.
+答案: def factorial(n): return 1 if n <= 1 else n * factorial(n-1)
+
+Q2: Explain the difference between a list and a tuple in Python.
+答案: A list is mutable (can be modified after creation), while a tuple is immutable (cannot be changed). Lists use square brackets [], tuples use parentheses ().
+
+Q3: Write a SQL query to find all employees in the Sales department with a salary greater than 50000.
+答案: SELECT * FROM employees WHERE department = 'Sales' AND salary > 50000;
+
+Q4: What is the purpose of a foreign key in a relational database?
+答案: A foreign key establishes a relationship between tables, ensures referential integrity, and guarantees that values in the child table correspond to primary key values in the parent table.
+
+Q5: Write a Python function to check if a string is a palindrome.
+答案: def is_palindrome(s): return s == s[::-1]
+
+Q6: Explain the concept of object-oriented programming (OOP) and its four main principles.
+答案: OOP organizes code around objects rather than functions. The four main principles are: encapsulation, inheritance, polymorphism, and abstraction.
+
+Q7: What is the difference between HTTP and HTTPS?
+答案: HTTPS adds an SSL/TLS encryption layer on top of HTTP, encrypting data in transit. HTTP transmits data in plaintext. HTTP uses port 80, HTTPS uses port 443.
+
+Q8: Write a JavaScript function to reverse a string without using the built-in reverse() method.
+答案: function reverseStr(s){ let r=''; for(let i=s.length-1;i>=0;i--) r+=s[i]; return r; }
+
+Q9: Explain the concept of recursion in programming with an example.
+答案: Recursion is when a function calls itself to solve a smaller instance of the same problem. Example: factorial(n) = n * factorial(n-1), with base case n<=1 returning 1.
+
+Q10: What is the difference between '==' and 'is' in Python?
+答案: '==' compares whether the values of two objects are equal. 'is' compares whether two objects are the same instance in memory (identity comparison).
+
+Q11: Write a Python function to find the longest common prefix among a list of strings.
+答案: def lcp(strs):
+    if not strs: return ''
+    prefix = strs[0]
+    for s in strs[1:]:
+        while not s.startswith(prefix):
+            prefix = prefix[:-1]
+            if not prefix: return ''
+    return prefix
+
+Q12: Explain what a REST API is and its main principles.
+答案: REST (Representational State Transfer) is an architectural style for APIs. Main principles: statelessness, client-server separation, cacheability, uniform interface, and layered system.
+
+Q13: What is the difference between a stack and a queue?
+答案: A stack follows Last-In-First-Out (LIFO) order - the last element added is the first removed. A queue follows First-In-First-Out (FIFO) order - the first element added is the first removed.
+
+Q14: Write a Python function to merge two sorted lists into one sorted list.
+答案: def merge(a, b):
+    result = []
+    i = j = 0
+    while i < len(a) and j < len(b):
+        if a[i] <= b[j]:
+            result.append(a[i]); i += 1
+        else:
+            result.append(b[j]); j += 1
+    result.extend(a[i:]); result.extend(b[j:])
+    return result
+
+Q15: Explain the concept of normalization in database design.
+答案: Normalization is the process of organizing data to reduce redundancy and dependency. It includes normal forms like 1NF, 2NF, 3NF, and BCNF, each with stricter rules for data integrity.
+
+Q16: What is the difference between synchronous and asynchronous programming?
+答案: Synchronous programming blocks execution until an operation completes. Asynchronous programming uses callbacks, Promises, or async/await to continue execution and handle results when the operation finishes, without blocking the main thread.
+
+Q17: Write a Python function to count the number of vowels in a string.
+答案: def count_vowels(s): return sum(1 for c in s.lower() if c in 'aeiou')
+
+Q18: Explain the concept of Big O notation and its importance in algorithm analysis.
+答案: Big O notation describes the upper bound of an algorithm's time or space complexity as input size grows. It helps evaluate algorithm efficiency, e.g., O(1), O(n), O(n^2), allowing comparison of algorithms.
+
+Q19: What is the difference between a class and an object in object-oriented programming?
+答案: A class is a template or blueprint that defines attributes and methods. An object is a concrete instance of a class. A class defines structure; an object is the actual realization in memory.
+
+Q20: Write a Python function to implement the bubble sort algorithm.
+答案: def bubble_sort(arr):
+    for i in range(len(arr)):
+        for j in range(len(arr)-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
+
+Q21: Explain the concept of dependency injection and its benefits.
+答案: Dependency Injection (DI) is a pattern where dependencies are provided to a class externally (via constructor, property, or interface) rather than created inside the class. Benefits: decoupling, easier testing, better maintainability.
+
+Q22: What is the difference between a primary key and a unique key in SQL?
+答案: A primary key uniquely identifies each record, cannot be NULL, and only one is allowed per table. A unique key ensures values are unique but can contain NULLs, and multiple unique keys are allowed per table.
+
+Q23: Write a Python function to find the intersection of two arrays.
+答案: def intersection(a, b): return list(set(a) & set(b))
+
+Q24: Explain the concept of multithreading vs multiprocessing in Python.
+答案: Multithreading shares memory within a process and is limited by the GIL, making it suitable for I/O-bound tasks. Multiprocessing uses separate memory spaces, bypasses the GIL, and is suitable for CPU-bound tasks.
+
+Q25: What is the purpose of the __init__ method in Python classes?
+答案: The __init__ method is the constructor in Python classes. It is automatically called when an object is created and is used to initialize the instance's attributes.
+
+Q26: Explain the difference between TCP and UDP protocols.
+答案: TCP is connection-oriented, reliable, and ordered, using a three-way handshake. UDP is connectionless, unreliable, and unordered, but has lower overhead and is faster.
+
+Q27: Write a Python function to find the maximum element in a list.
+答案: def find_max(arr): return max(arr) if arr else None
+
+Q28: What is a hash table and how does it work?
+答案: A hash table uses a hash function to map keys to bucket positions, enabling O(1) average lookup. Collisions are resolved using chaining (linked lists) or open addressing (probing).
+
+Q29: Explain the concept of polymorphism in object-oriented programming.
+答案: Polymorphism allows objects of different classes to respond to the same method call in their own way. It is achieved through method overriding and interface implementation, enabling flexible and extensible code.
+
+Q30: What is the difference between SQL JOIN types (INNER, LEFT, RIGHT, FULL)?
+答案: INNER JOIN returns only matching rows from both tables. LEFT JOIN returns all rows from the left table plus matches. RIGHT JOIN returns all rows from the right table plus matches. FULL JOIN returns all rows from both tables.
+
+Q31: Write a Python decorator that measures function execution time.
+答案: import time
+def timer(f):
+    def w(*a, **k):
+        t = time.time()
+        r = f(*a, **k)
+        print(time.time() - t)
+        return r
+    return w
+
+Q32: Explain the concept of garbage collection in programming languages.
+答案: Garbage Collection (GC) automatically reclaims memory occupied by objects no longer referenced. Common algorithms include reference counting, mark-and-sweep, and generational collection.
+
+Q33: What is the difference between a process and a thread?
+答案: A process is a unit of resource allocation with its own memory space. A thread is a unit of CPU scheduling that shares memory with other threads in the same process. Thread switching has lower overhead than process switching.
+
+Q34: Write a Python function to check if a number is prime.
+答案: def is_prime(n): return n > 1 and all(n % i for i in range(2, int(n**0.5) + 1))
+
+Q35: Explain the ACID properties in database transactions.
+答案: ACID stands for: Atomicity (all or nothing), Consistency (data remains valid), Isolation (concurrent transactions don't interfere), and Durability (committed changes are permanent).
+
+Q36: What is the difference between GET and POST HTTP methods?
+答案: GET is used to retrieve data, parameters go in the URL, it is cacheable, and has length limits. POST is used to submit data, parameters go in the body, it is not cacheable, and has no length limit.
+
+Q37: Write a Python generator function to generate Fibonacci numbers.
+答案: def fib():
+    a, b = 0, 1
+    while True:
+        yield a
+        a, b = b, a + b
+
+Q38: Explain the concept of closure in JavaScript.
+答案: A closure is a combination of a function and its lexical environment. It allows an inner function to access variables from an outer function even after the outer function has finished executing.
+
+Q39: What is the difference between an array and a linked list?
+答案: An array uses contiguous memory, supports O(1) random access, and O(n) insertion/deletion. A linked list uses non-contiguous memory with pointers, supports O(n) access, and O(1) insertion/deletion (given the node).
+
+Q40: Write a SQL query to find the second highest salary in a table.
+答案: SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary) FROM employees);
+
+Q41: Explain the concept of virtual functions in C++.
+答案: A virtual function is declared with the 'virtual' keyword and supports runtime polymorphism. Through a vtable for dynamic dispatch, a base class pointer can call the derived class's overridden implementation.
+
+Q42: What is the difference between static and dynamic typing?
+答案: Statically typed languages (C++, Java) determine types at compile time, offering better safety and performance. Dynamically typed languages (Python, JS) determine types at runtime, offering more flexibility but less safety.
+
+Q43: Write a Python function to reverse a linked list.
+答案: def reverse(head):
+    prev = None
+    while head:
+        head.next, prev, head = prev, head, head.next
+    return prev
+
+Q44: Explain the concept of inheritance in object-oriented programming.
+答案: Inheritance allows a subclass to acquire properties and methods from a parent class, enabling code reuse and establishing an is-a relationship. Subclasses can override or extend parent behavior.
+
+Q45: What is the purpose of an index in a database?
+答案: An index speeds up data retrieval, similar to a book's table of contents. It uses structures like B+ trees. The tradeoff is increased storage space and slower write operations.
+
+Q46: Write a Python function to implement quicksort algorithm.
+答案: def quicksort(arr):
+    if len(arr) <= 1: return arr
+    pivot = arr[0]
+    return quicksort([x for x in arr[1:] if x < pivot]) + [pivot] + quicksort([x for x in arr[1:] if x >= pivot])
+
+Q47: Explain the concept of encapsulation with an example.
+答案: Encapsulation bundles data and methods together while hiding internal implementation. Example: a BankAccount class with a private balance attribute, accessed only through deposit() and withdraw() methods.
+
+Q48: What is the difference between NoSQL and SQL databases?
+答案: SQL databases are relational, structured, ACID-compliant, with fixed schemas. NoSQL databases are non-relational, with flexible schemas, high scalability, and BASE consistency, including document, key-value, column, and graph types.
+
+Q49: Write a Python function to detect a cycle in a linked list.
+答案: def has_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast: return True
+    return False
+
+Q50: Explain the concept of recursion depth limit and how to handle it.
+答案: Python has a default recursion depth limit of 1000, beyond which a RecursionError is raised. It can be adjusted with sys.setrecursionlimit(), or recursion can be converted to iteration to avoid stack overflow.
+
+Q51: What is the difference between authentication and authorization?
+答案: Authentication verifies identity (who you are), typically via passwords or tokens. Authorization verifies permissions (what you can do), determining access rights after authentication.
+
+Q52: Write a Python function to implement binary tree traversal (in-order).
+答案: def inorder(root):
+    if not root: return []
+    return inorder(root.left) + [root.val] + inorder(root.right)
+
+Q53: Explain the concept of abstract classes and interfaces.
+答案: An abstract class can contain both abstract methods (no implementation) and concrete methods, and cannot be instantiated. An interface only defines method signatures without implementation. Python implements abstract classes via the ABC module.
+
+Q54: What is the role of a load balancer in distributed systems?
+答案: A load balancer distributes incoming requests across multiple servers to improve availability and scalability. Common algorithms include round-robin, least connections, and IP hash.
+
+Q55: Write a Python function to find all permutations of a string.
+答案: from itertools import permutations
+def perms(s): return [''.join(p) for p in permutations(s)]
+
+Q56: Explain the concept of event-driven programming.
+答案: Event-driven programming centers on events. Program flow is triggered by user actions or messages, and responses are handled via callback functions. Common in GUI applications and Node.js.
+
+Q57: What is the difference between synchronous and asynchronous I/O?
+答案: Synchronous I/O blocks the caller until the operation completes. Asynchronous I/O returns immediately and notifies the caller when the operation finishes, allowing other tasks to run in the meantime.
+
+Q58: Write a Python function to implement a stack using a list.
+答案: class Stack:
+    def __init__(self): self.items = []
+    def push(self, x): self.items.append(x)
+    def pop(self): return self.items.pop() if self.items else None
+
+Q59: Explain the concept of middleware in web frameworks.
+答案: Middleware is a component in the request/response processing chain that can execute logic before and after routing, such as authentication, logging, CORS handling, and compression.
+
+Q60: What is the difference between a binary tree and a binary search tree?
+答案: A binary tree allows each node to have at most two children. A Binary Search Tree (BST) additionally requires that left child < parent < right child, enabling O(log n) search operations.
+
+Q61: Write a Python function to check if two strings are anagrams.
+答案: def is_anagram(a, b): return sorted(a) == sorted(b)
+
+Q62: Explain the concept of design patterns and name three common ones.
+答案: Design patterns are reusable solution templates for common software design problems. Common examples include Singleton, Factory, Observer, Strategy, and Decorator patterns.
+
+Q63: What is the purpose of Docker containers in software development?
+答案: Docker packages an application and its dependencies into a container, ensuring environment consistency. It facilitates deployment, scaling, and isolation, and is more lightweight than virtual machines.
+
+Q64: Write a Python function to implement breadth-first search on a graph.
+答案: from collections import deque
+def bfs(graph, start):
+    visited = set([start])
+    q = deque([start])
+    result = []
+    while q:
+        n = q.popleft()
+        result.append(n)
+        for x in graph[n]:
+            if x not in visited:
+                visited.add(x); q.append(x)
+    return result
+
+Q65: Explain the concept of functional programming and its key principles.
+答案: Functional programming centers on pure functions, emphasizing immutability, no side effects, higher-order functions, and function composition. Examples include map, filter, and reduce.
+
+Q66: What is the difference between a monolithic architecture and microservices?
+答案: A monolithic architecture bundles all functionality in one application - simple to deploy but highly coupled. Microservices split functionality into independent services that deploy and scale independently, but with higher complexity.
+
+Q67: Write a Python function to find the GCD of two numbers.
+答案: from math import gcd
+def find_gcd(a, b): return gcd(a, b)
+
+Q68: Explain the concept of connection pooling in databases.
+答案: Connection pooling maintains a set of database connections for reuse, avoiding the overhead of frequent creation and destruction. It improves performance, and the pool size is typically configurable.
+
+Q69: What is the difference between a cookie and a session?
+答案: Cookies are stored on the client side, limited in size (about 4KB), and are less secure. Sessions are stored on the server side, identified by a sessionId, and are more secure.
+
+Q70: Write a Python function to implement depth-first search on a graph.
+答案: def dfs(graph, start, visited=None):
+    if visited is None: visited = set()
+    visited.add(start)
+    for n in graph[start]:
+        if n not in visited: dfs(graph, n, visited)
+    return visited
+
+Q71: Explain the concept of lambda functions in Python.
+答案: A lambda is an anonymous function with the syntax 'lambda parameters: expression'. It is used for short operations and is commonly paired with map, filter, and sorted.
+
+Q72: What is the role of a reverse proxy in web architecture?
+答案: A reverse proxy sits between clients and servers, forwarding requests, performing load balancing, SSL termination, caching, and security protection. Examples include Nginx and HAProxy.
+
+Q73: Write a Python function to validate an email address using regex.
+答案: import re
+def valid_email(e): return bool(re.match(r'^[\w.-]+@[\w.-]+\.\w+$', e))
+
+Q74: Explain the concept of immutability in programming.
+答案: An immutable object cannot be changed after creation. Examples include Python's tuple and str. Benefits include thread safety, hashability, and easier reasoning about code.
+
+Q75: What is the difference between a shallow copy and a deep copy?
+答案: A shallow copy duplicates the object itself but not nested objects (shared references). A deep copy recursively duplicates all nested objects, resulting in a fully independent copy.
+
+Q76: Write a Python function to merge two dictionaries.
+答案: def merge_dict(a, b): return {**a, **b}
+
+Q77: Explain the concept of the Observer design pattern.
+答案: The Observer pattern defines a one-to-many dependency: when a subject's state changes, all observers are automatically notified. It is used in event systems and the MVC architecture.
+
+Q78: What is the purpose of a message queue in distributed systems?
+答案: A message queue asynchronously decouples producers and consumers, providing peak shaving, reliable delivery, and ordered processing. Examples include RabbitMQ and Kafka.
+
+Q79: Write a Python function to implement a simple LRU cache.
+答案: from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def cached_func(x): return x * x
+
+Q80: Explain the concept of dependency inversion principle.
+答案: The Dependency Inversion Principle (DIP) states that high-level modules should not depend on low-level modules; both should depend on abstractions. Abstractions should not depend on details; details should depend on abstractions.
+
+Q81: What is the difference between horizontal and vertical scaling?
+答案: Horizontal scaling adds more machine nodes to the system. Vertical scaling increases the capacity of a single machine (CPU, memory). Horizontal scaling has no theoretical upper limit but is more complex.
+
+Q82: Write a Python function to find the longest substring without repeating characters.
+答案: def lengthOfLongestSubstring(s):
+    start = maxlen = 0
+    seen = {}
+    for i, c in enumerate(s):
+        if c in seen and seen[c] >= start:
+            start = seen[c] + 1
+        seen[c] = i
+        maxlen = max(maxlen, i - start + 1)
+    return maxlen
+
+Q83: Explain the concept of the Singleton design pattern.
+答案: The Singleton pattern ensures a class has only one instance and provides a global access point to it. It is commonly used for configuration, logging, and database connections.
+
+Q84: What is the role of an API gateway in microservices architecture?
+答案: An API gateway is a single entry point that handles request routing, authentication, rate limiting, aggregation, and protocol translation, simplifying client calls to microservices.
+
+Q85: Write a Python function to implement a priority queue using heapq.
+答案: import heapq
+class PQ:
+    def __init__(self): self.h = []
+    def push(self, x): heapq.heappush(self.h, x)
+    def pop(self): return heapq.heappop(self.h)
+
+Q86: Explain the concept of the Factory design pattern.
+答案: The Factory pattern creates objects through a factory class, encapsulating instantiation logic. The client does not call 'new' directly, decoupling object creation from usage.
+
+Q87: What is the difference between optimistic and pessimistic locking?
+答案: Optimistic locking assumes no conflict and checks version at commit time. Pessimistic locking acquires a lock before operating. Optimistic is suitable for read-heavy workloads; pessimistic for write-heavy.
+
+Q88: Write a Python function to serialize and deserialize a binary tree.
+答案: def serialize(root):
+    if not root: return '#,'
+    return str(root.val) + ',' + serialize(root.left) + serialize(root.right)
+
+Q89: Explain the concept of the Strategy design pattern.
+答案: The Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. This lets the algorithm vary independently from the client using it, e.g., sorting strategies or payment methods.
+
+Q90: What is the purpose of a CDN (Content Delivery Network)?
+答案: A CDN uses global edge nodes to cache content, responding to users from the nearest location. It reduces latency, offloads the origin server, and improves availability.
+
+Q91: Write a Python function to implement the merge sort algorithm.
+答案: def merge_sort(arr):
+    if len(arr) <= 1: return arr
+    mid = len(arr) // 2
+    return merge(merge_sort(arr[:mid]), merge_sort(arr[mid:]))
+
+Q92: Explain the concept of the SOLID principles in OOP.
+答案: SOLID stands for: Single Responsibility (SRP), Open/Closed (OCP), Liskov Substitution (LSP), Interface Segregation (ISP), and Dependency Inversion (DIP) principles.
+
+Q93: What is the difference between a thread pool and a process pool?
+答案: A thread pool manages a set of reusable threads, suitable for I/O-bound tasks. A process pool manages a set of reusable processes, suitable for CPU-bound tasks, bypassing the GIL.
+
+Q94: Write a Python function to detect if a string contains valid parentheses.
+答案: def is_valid(s):
+    stack = []
+    pairs = {')': '(', ']': '[', '}': '{'}
+    for c in s:
+        if c in pairs.values(): stack.append(c)
+        elif stack and stack[-1] == pairs[c]: stack.pop()
+        else: return False
+    return not stack
+
+Q95: Explain the concept of the Adapter design pattern.
+答案: The Adapter pattern converts an incompatible interface into a compatible one, allowing classes that otherwise could not work together to collaborate. Example: a Type-C to USB adapter.
+
+Q96: What is the role of an ORM (Object-Relational Mapping) framework?
+答案: An ORM maps objects to database tables and automatically generates SQL, eliminating the need to hand-write SQL. Examples include SQLAlchemy and Django ORM.
+
+Q97: Write a Python function to find the k-th largest element in an array.
+答案: import heapq
+def kth_largest(arr, k): return heapq.nlargest(k, arr)[-1]
+
+Q98: Explain the concept of the Decorator design pattern.
+答案: The Decorator pattern dynamically adds responsibilities to an object without altering the original object, offering more flexibility than inheritance. Examples include I/O stream wrappers and Python decorators.
+
+Q99: What is the difference between stateless and stateful applications?
+答案: Stateless applications do not save session state between requests, making them easy to scale horizontally. Stateful applications maintain session state, requiring state synchronization when scaling, e.g., a shopping cart.
+
+Q100: Write a Python function to implement a trie (prefix tree) data structure.
+答案: class Trie:
+    def __init__(self): self.root = {}
+    def insert(self, w):
+        d = self.root
+        for c in w: d = d.setdefault(c, {})
+        d['#'] = True
+
+Q101: Explain the concept of eventual consistency in distributed systems.
+答案: Eventual consistency means that, given no new writes, all replicas will eventually converge to the same value. It trades strong consistency for availability and partition tolerance.
+
+Q102: What is the purpose of a circuit breaker pattern in microservices?
+答案: A circuit breaker fails fast when a service is faulty, preventing cascading failures. It has three states: closed, open, and half-open, protecting system stability.
+
+Q103: Write a Python function to rotate a matrix 90 degrees.
+答案: def rotate(m): return [list(row) for row in zip(*m[::-1])]
+
+Q104: Explain the concept of map-reduce programming model.
+答案: MapReduce splits large data tasks into two phases: Map (process each shard in parallel) and Reduce (aggregate results). It is well-suited for distributed parallel processing of big data.
+
+Q105: What is the difference between a compiled and an interpreted language?
+答案: Compiled languages (C++) are translated to machine code before execution, making them faster. Interpreted languages (Python) are executed line by line at runtime, offering more flexibility but slower performance.
+
+Q106: Write a Python function to implement Dijkstra's shortest path algorithm.
+答案: import heapq
+def dijkstra(g, s):
+    dist = {s: 0}
+    pq = [(0, s)]
+    while pq:
+        d, u = heapq.heappop(pq)
+        if d > dist.get(u, float('inf')): continue
+        for v, w in g.get(u, {}).items():
+            if d + w < dist.get(v, float('inf')):
+                dist[v] = d + w
+                heapq.heappush(pq, (d + w, v))
+    return dist
+
+Q107: Explain the concept of the Command design pattern.
+答案: The Command pattern encapsulates a request as an object, supporting parameterization, queuing, logging, and undo. It decouples the caller from the receiver.
+
+Q108: What is the role of a service mesh in cloud-native applications?
+答案: A service mesh (e.g., Istio) manages communication between services, providing traffic management, security, and observability through sidecar proxies.
+
+Q109: Write a Python function to implement a hash map from scratch.
+答案: class HashMap:
+    def __init__(self, size=1000): self.t = [[] for _ in range(size)]
+    def put(self, k, v):
+        bucket = self.t[k % len(self.t)]
+        for i, (key, _) in enumerate(bucket):
+            if key == k: bucket[i][1] = v; return
+        bucket.append([k, v])
+
+Q110: Explain the concept of the Open/Closed Principle in SOLID.
+答案: The Open/Closed Principle (OCP) states that software entities should be open for extension but closed for modification. New functionality should be added through abstraction and polymorphism, without altering existing code.
+
+Q111: What is the difference between a B-tree and a B+ tree?
+答案: In a B-tree, all nodes store data. In a B+ tree, only leaf nodes store data and they are linked via a linked list, making range queries faster. B+ trees are more suitable for disk-based indexes.
+
+Q112: Write a Python function to implement the insertion sort algorithm.
+答案: def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i
+        while j > 0 and arr[j-1] > key:
+            arr[j] = arr[j-1]; j -= 1
+        arr[j] = key
+    return arr
+
+Q113: Explain the concept of the Liskov Substitution Principle.
+答案: The Liskov Substitution Principle (LSP) states that subclasses must be substitutable for their parent classes without affecting program correctness. Subclasses should not strengthen preconditions or weaken postconditions.
+
+Q114: What is the purpose of a webhook in web development?
+答案: A webhook is a reverse API: the server proactively sends an HTTP POST to the client when an event occurs, enabling real-time callbacks without polling.
+
+Q115: Write a Python function to find all subsets of a given set.
+答案: from itertools import combinations
+def subsets(s): return [list(c) for i in range(len(s)+1) for c in combinations(s, i)]
+
+Q116: Explain the concept of the Interface Segregation Principle.
+答案: The Interface Segregation Principle (ISP) states that clients should not be forced to depend on interfaces they do not use. Large interfaces should be split into smaller, more specific ones.
+
+Q117: What is the difference between a stack overflow and a heap overflow?
+答案: A stack overflow occurs when stack space is exhausted (deep recursion, large local variables). A heap overflow occurs when heap memory is insufficient (memory leaks, large objects).
+
+Q118: Write a Python function to implement a circular queue.
+答案: class CircularQueue:
+    def __init__(self, k):
+        self.q = [0] * k
+        self.head = self.cnt = 0
+    def enq(self, v):
+        if self.cnt < len(self.q):
+            self.q[(self.head + self.cnt) % len(self.q)] = v
+            self.cnt += 1
+
+Q119: Explain the concept of the Dependency Injection Principle.
+答案: The Dependency Injection Principle states that dependencies should be injected through abstractions rather than created inside a class. This reduces coupling and improves testability and maintainability.
+
+Q120: What is the role of a config map in Kubernetes?
+答案: A ConfigMap stores non-sensitive configuration data as key-value pairs. It can be mounted as files or environment variables, decoupling configuration from the container image.
+
+Q121: Write a Python function to implement the selection sort algorithm.
+答案: def selection_sort(arr):
+    for i in range(len(arr)):
+        j = min(range(i, len(arr)), key=arr.__getitem__)
+        arr[i], arr[j] = arr[j], arr[i]
+    return arr
+
+Q122: Explain the concept of the Composite design pattern.
+答案: The Composite pattern composes objects into tree structures to represent part-whole hierarchies, treating individual objects and compositions uniformly. Example: a file system.
+
+Q123: What is the difference between a mutex and a semaphore?
+答案: A mutex allows only one thread to access a resource at a time (binary). A semaphore allows N threads to access a resource (counting), and can be used for resource pooling.
+
+Q124: Write a Python function to implement a bloom filter.
+答案: import mmh3
+class BloomFilter:
+    def __init__(self, size=1000, k=3):
+        self.bit = [0] * size
+        self.k = k
+    def add(self, x):
+        for i in range(self.k):
+            self.bit[mmh3.hash(x, i) % len(self.bit)] = 1
+
+Q125: Explain the concept of the Builder design pattern.
+答案: The Builder pattern separates the construction of a complex object from its representation, building it step by step. The same construction process can produce different representations, e.g., an SQL query builder.

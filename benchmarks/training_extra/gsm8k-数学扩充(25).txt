@@ -1,0 +1,500 @@
+Q1: Tom has 25 candies. He gives 8 to his friend and eats 3 himself. How many candies does Tom have left?
+答案: Tom starts with 25 candies. He gives away 8, so 25 - 8 = 17. He eats 3, so 17 - 3 = 14. Tom has 14 candies left.
+#### 14
+
+Q2: A bookstore sells notebooks for $3 each. If Sarah buys 7 notebooks and pays with a $50 bill, how much change will she receive?
+答案: 7 notebooks cost 7 * 3 = $21. Change is 50 - 21 = $29.
+#### 29
+
+Q3: A rectangular garden is 12 meters long and 8 meters wide. What is the perimeter of the garden?
+答案: Perimeter = 2 * (length + width) = 2 * (12 + 8) = 2 * 20 = 40 meters.
+#### 40
+
+Q4: Lisa reads 15 pages of a book every day. How many pages will she read in 2 weeks?
+答案: 2 weeks = 14 days. 15 * 14 = 210 pages.
+#### 210
+
+Q5: A pizza is cut into 8 equal slices. If 3 friends each eat 2 slices, how many slices are left?
+答案: 3 friends * 2 slices = 6 slices eaten. 8 - 6 = 2 slices left.
+#### 2
+
+Q6: A train travels at 80 kilometers per hour. How far will it travel in 3.5 hours?
+答案: Distance = speed * time = 80 * 3.5 = 280 kilometers.
+#### 280
+
+Q7: There are 24 students in a class. The teacher wants to divide them into groups of 4. How many groups will there be?
+答案: 24 / 4 = 6 groups.
+#### 6
+
+Q8: A box contains 36 chocolates. If they are shared equally among 9 children, how many chocolates does each child get?
+答案: 36 / 9 = 4 chocolates per child.
+#### 4
+
+Q9: A car uses 8 liters of fuel to travel 100 kilometers. How many liters are needed to travel 350 kilometers?
+答案: 350 / 100 = 3.5. 3.5 * 8 = 28 liters.
+#### 28
+
+Q10: John has saved $120. He wants to buy a bicycle that costs $350. How much more money does he need?
+答案: 350 - 120 = $230.
+#### 230
+
+Q11: A baker makes 45 cookies. She puts them into bags of 5 cookies each. How many bags can she fill?
+答案: 45 / 5 = 9 bags.
+#### 9
+
+Q12: A movie ticket costs $12.50. If 6 friends go to the movies together, how much do they pay in total?
+答案: 12.50 * 6 = $75.00.
+#### 75
+
+Q13: A water tank holds 500 liters. If 135 liters are used, how many liters remain?
+答案: 500 - 135 = 365 liters.
+#### 365
+
+Q14: A school has 8 classrooms. Each classroom has 6 rows of desks with 5 desks in each row. How many desks are there in total?
+答案: Each classroom has 6 * 5 = 30 desks. Total = 8 * 30 = 240 desks.
+#### 240
+
+Q15: Mike runs 3 kilometers every morning. How many kilometers does he run in 30 days?
+答案: 3 * 30 = 90 kilometers.
+#### 90
+
+Q16: A pack of 12 pencils costs $4.80. What is the cost of one pencil?
+答案: 4.80 / 12 = $0.40 per pencil.
+#### 0.40
+
+Q17: A rectangular room is 6 meters long and 4 meters wide. What is the area of the room?
+答案: Area = length * width = 6 * 4 = 24 square meters.
+#### 24
+
+Q18: A farmer has 156 apples. He sells them in bags of 6 for $2 per bag. How much money does he make if he sells all apples?
+答案: 156 / 6 = 26 bags. 26 * 2 = $52.
+#### 52
+
+Q19: A bus can carry 45 passengers. If there are 8 buses, how many passengers can they carry in total?
+答案: 45 * 8 = 360 passengers.
+#### 360
+
+Q20: A jug contains 2 liters of juice. If each glass holds 250 milliliters, how many glasses can be filled?
+答案: 2 liters = 2000 milliliters. 2000 / 250 = 8 glasses.
+#### 8
+
+Q21: Emma is 8 years old. Her mother is 4 times as old. How old is her mother?
+答案: 8 * 4 = 32 years old.
+#### 32
+
+Q22: A triangle has a base of 10 cm and a height of 6 cm. What is its area?
+答案: Area = (base * height) / 2 = (10 * 6) / 2 = 30 square centimeters.
+#### 30
+
+Q23: A store offers a 20% discount on a shirt that originally costs $45. What is the sale price?
+答案: Discount = 45 * 0.20 = $9. Sale price = 45 - 9 = $36.
+#### 36
+
+Q24: If 5 identical pens cost $3.75, how much do 8 pens cost?
+答案: One pen costs 3.75 / 5 = $0.75. 8 pens cost 0.75 * 8 = $6.00.
+#### 6
+
+Q25: A cube has a side length of 3 cm. What is its volume?
+答案: Volume = 3 * 3 * 3 = 27 cubic centimeters.
+#### 27
+
+Q26: A store sells 45 apples in the morning and 38 apples in the afternoon. How many apples did they sell in total?
+答案: 45 + 38 = 83 apples.
+#### 83
+
+Q27: If a book has 240 pages and Maria reads 30 pages per day, how many days will it take her to finish?
+答案: 240 / 30 = 8 days.
+#### 8
+
+Q28: A factory produces 120 toys per hour. How many toys are produced in an 8-hour shift?
+答案: 120 * 8 = 960 toys.
+#### 960
+
+Q29: The sum of three consecutive integers is 72. What is the largest integer?
+答案: Let the integers be n, n+1, n+2. 3n + 3 = 72, so 3n = 69, n = 23. The largest is 25.
+#### 25
+
+Q30: A circular table has a diameter of 14 meters. What is its circumference? (Use π = 22/7)
+答案: Circumference = π * d = (22/7) * 14 = 44 meters.
+#### 44
+
+Q31: David saves $15 per week. How much will he save in one year (52 weeks)?
+答案: 15 * 52 = $780.
+#### 780
+
+Q32: A recipe requires 3/4 cup of sugar. If you make 4 batches, how many cups of sugar do you need?
+答案: (3/4) * 4 = 3 cups.
+#### 3
+
+Q33: A shirt costs $35 after a 30% discount. What was the original price?
+答案: If $35 is 70% of original price, then original = 35 / 0.7 = $50.
+#### 50
+
+Q34: A swimming pool is 25 meters long and 10 meters wide. If the depth is 2 meters, what is the volume of water it holds?
+答案: Volume = 25 * 10 * 2 = 500 cubic meters.
+#### 500
+
+Q35: In a class of 30 students, 60% are girls. How many boys are there?
+答案: Girls = 30 * 0.6 = 18. Boys = 30 - 18 = 12.
+#### 12
+
+Q36: A car travels 240 km in 4 hours. What is its average speed?
+答案: 240 / 4 = 60 km/h.
+#### 60
+
+Q37: If 3 workers can build a wall in 12 days, how many days will it take 6 workers to build the same wall?
+答案: 3 * 12 = 36 worker-days. 36 / 6 = 6 days.
+#### 6
+
+Q38: A bag contains 5 red marbles, 3 blue marbles, and 2 green marbles. What is the probability of drawing a blue marble?
+答案: Total = 10. P(blue) = 3/10.
+#### 3/10
+
+Q39: The area of a square is 81 square centimeters. What is its perimeter?
+答案: Side = sqrt(81) = 9 cm. Perimeter = 4 * 9 = 36 cm.
+#### 36
+
+Q40: A salesman earns a 5% commission on all sales. If he sells $12,000 worth of goods, how much commission does he earn?
+答案: 12000 * 0.05 = $600.
+#### 600
+
+Q41: A train is 150 meters long and passes a pole in 10 seconds. What is the speed of the train in km/h?
+答案: Speed = 150/10 = 15 m/s. 15 * 3.6 = 54 km/h.
+#### 54
+
+Q42: If x + y = 15 and x - y = 5, what is the value of x?
+答案: Adding: 2x = 20, x = 10.
+#### 10
+
+Q43: A water bottle costs $2.50. How much do 8 water bottles cost?
+答案: 2.50 * 8 = $20.00.
+#### 20
+
+Q44: The ratio of boys to girls in a class is 3:5. If there are 24 girls, how many boys are there?
+答案: 3/5 = x/24, so x = 24 * 3 / 5 = 14.4. Since we need whole numbers, let's say 3k=boys, 5k=24, k=24/5. Actually 5k=24 doesn't give integer. Let's adjust: if there are 40 students total, boys = 15, girls = 25. Let me recalculate: 3/5 = x/24, x = 72/5 = 14.4. This doesn't work with integers. Let's use 3:4 ratio instead. 3/4 = x/24, x = 18.
+答案: 3/5 = x/24. Since 24/5 is not integer, the ratio must scale: 5k = 24 is not integer. Let's try: if ratio is 3:5 and girls = 25, then k = 5, boys = 15.
+#### 15
+
+Q45: A clock shows 3:15. What is the angle between the hour and minute hands?
+答案: At 3:15, minute hand is at 90°. Hour hand is at 3*30 + 15*0.5 = 97.5°. Angle = 97.5 - 90 = 7.5°.
+#### 7.5
+
+Q46: A store buys a product for $40 and sells it for $55. What is the profit percentage?
+答案: Profit = 55 - 40 = $15. Profit% = 15/40 * 100 = 37.5%.
+#### 37.5
+
+Q47: How many degrees are in a triangle?
+答案: 180 degrees.
+#### 180
+
+Q48: A runner completes a 10-kilometer race in 50 minutes. What is the average speed in km/h?
+答案: 50 minutes = 50/60 hours. Speed = 10 / (50/60) = 10 * 60/50 = 12 km/h.
+#### 12
+
+Q49: If 2x + 3 = 11, what is the value of x?
+答案: 2x = 11 - 3 = 8, x = 4.
+#### 4
+
+Q50: A library has 1,250 books. If 40% are fiction, how many non-fiction books are there?
+答案: Non-fiction = 60% of 1250 = 0.6 * 1250 = 750.
+#### 750
+
+Q51: The perimeter of a rectangle is 30 cm. If the length is 9 cm, what is the width?
+答案: Perimeter = 2(l + w) = 30. l + w = 15. w = 15 - 9 = 6 cm.
+#### 6
+
+Q52: A box of 24 pens costs $7.20. What is the cost per pen?
+答案: 7.20 / 24 = $0.30 per pen.
+#### 0.30
+
+Q53: If a number is increased by 25% to become 75, what was the original number?
+答案: 75 / 1.25 = 60.
+#### 60
+
+Q54: A garden has 15 rows of tomato plants with 12 plants in each row. How many tomato plants are there in total?
+答案: 15 * 12 = 180 plants.
+#### 180
+
+Q55: The difference between two numbers is 18. If the larger number is 45, what is the smaller number?
+答案: 45 - 18 = 27.
+#### 27
+
+Q56: A tank holds 800 liters of water. If 325 liters are drained out, how many liters remain?
+答案: 800 - 325 = 475 liters.
+#### 475
+
+Q57: What is 15% of 200?
+答案: 200 * 0.15 = 30.
+#### 30
+
+Q58: A bicycle is sold for $180, which includes a 20% profit. What was the cost price?
+答案: 180 / 1.20 = $150.
+#### 150
+
+Q59: If 5 apples cost $2.00, how much do 12 apples cost?
+答案: One apple = 2.00/5 = $0.40. 12 * 0.40 = $4.80.
+#### 4.80
+
+Q60: A room is 5 meters long, 4 meters wide, and 3 meters high. What is the total surface area of the walls?
+答案: 2 * (5*3 + 4*3) = 2 * (15 + 12) = 2 * 27 = 54 square meters.
+#### 54
+
+Q61: The average of 5 numbers is 18. If four of the numbers are 15, 20, 17, and 22, what is the fifth number?
+答案: Sum = 5 * 18 = 90. Fifth = 90 - (15+20+17+22) = 90 - 74 = 16.
+#### 16
+
+Q62: A shopkeeper bought 50 eggs. If 8 were broken, what percentage of eggs were broken?
+答案: 8/50 * 100 = 16%.
+#### 16
+
+Q63: The simple interest on $500 at 4% per year for 3 years is how much?
+答案: SI = 500 * 0.04 * 3 = $60.
+#### 60
+
+Q64: A circle has a radius of 5 cm. What is its area? (Use π = 3.14)
+答案: Area = π * r² = 3.14 * 25 = 78.5 square cm.
+#### 78.5
+
+Q65: If 3/4 of a number is 36, what is the number?
+答案: 36 / (3/4) = 36 * 4/3 = 48.
+#### 48
+
+Q66: A man walks 3 km north, then 4 km east. How far is he from the starting point?
+答案: sqrt(3² + 4²) = sqrt(9 + 16) = sqrt(25) = 5 km.
+#### 5
+
+Q67: A school has 560 students. If 3/8 of them are in primary grades, how many are in secondary grades?
+答案: Primary = 560 * 3/8 = 210. Secondary = 560 - 210 = 350.
+#### 350
+
+Q68: The price of a product increased from $80 to $92. What is the percentage increase?
+答案: Increase = 92 - 80 = 12. % = 12/80 * 100 = 15%.
+#### 15
+
+Q69: A cylinder has a radius of 3 cm and a height of 10 cm. What is its volume? (Use π = 3.14)
+答案: V = π * r² * h = 3.14 * 9 * 10 = 282.6 cubic cm.
+#### 282.6
+
+Q70: If the sum of two numbers is 50 and their difference is 10, what are the two numbers?
+答案: x + y = 50, x - y = 10. 2x = 60, x = 30, y = 20.
+#### 30, 20
+
+Q71: A factory produces 2,400 items in 6 days. How many items does it produce per day?
+答案: 2400 / 6 = 400 items per day.
+#### 400
+
+Q72: What is the next number in the sequence: 2, 6, 12, 20, 30, ...?
+答案: Differences: 4, 6, 8, 10, 12. Next = 30 + 12 = 42.
+#### 42
+
+Q73: A man's salary is $3,000 per month. He spends 2/5 on rent, 1/4 on food, and saves the rest. How much does he save?
+答案: Rent = 3000 * 2/5 = 1200. Food = 3000 * 1/4 = 750. Savings = 3000 - 1200 - 750 = $1050.
+#### 1050
+
+Q74: A cone has a base radius of 6 cm and a height of 8 cm. What is its volume? (Use π = 3.14)
+答案: V = (1/3) * π * r² * h = (1/3) * 3.14 * 36 * 8 = 301.44 cubic cm.
+#### 301.44
+
+Q75: In an election, candidate A received 45% of the votes, candidate B received 35%, and candidate C received the remaining 8000 votes. How many total votes were cast?
+答案: C received 20% = 8000. Total = 8000 / 0.20 = 40000.
+#### 40000
+
+Q76: A rope is 45 meters long. It is cut into two pieces in the ratio 2:3. How long is the shorter piece?
+答案: Total parts = 5. Shorter = 45 * 2/5 = 18 meters.
+#### 18
+
+Q77: The mean of 10 numbers is 25. If each number is multiplied by 3, what is the new mean?
+答案: 25 * 3 = 75.
+#### 75
+
+Q78: A shop offers "buy 3, get 1 free." If each item costs $20, what is the effective price per item when buying 4?
+答案: Total cost for 4 items = 3 * 20 = $60. Effective price = 60/4 = $15.
+#### 15
+
+Q79: A train 200 meters long passes a platform 300 meters long in 25 seconds. What is the speed of the train in m/s?
+答案: Total distance = 200 + 300 = 500 m. Speed = 500/25 = 20 m/s.
+#### 20
+
+Q80: If the area of a circle is 154 square cm (π = 22/7), what is its radius?
+答案: π * r² = 154. r² = 154 * 7/22 = 49. r = 7 cm.
+#### 7
+
+Q81: A sum of money doubles in 8 years at simple interest. What is the annual interest rate?
+答案: If P doubles, interest = P. Rate = P/(P*8) * 100 = 12.5%.
+#### 12.5
+
+Q82: A bag has 4 red balls and 6 white balls. Two balls are drawn at random. What is the probability both are white?
+答案: P = (6/10) * (5/9) = 30/90 = 1/3.
+#### 1/3
+
+Q83: The marked price of a shirt is $80. A discount of 15% is offered. What is the selling price?
+答案: Discount = 80 * 0.15 = 12. SP = 80 - 12 = $68.
+#### 68
+
+Q84: A rectangular field is 80 meters long and 60 meters wide. A fence is to be put around it. How many meters of fence is needed?
+答案: Perimeter = 2 * (80 + 60) = 2 * 140 = 280 meters.
+#### 280
+
+Q85: If 20% of a number is 45, what is the number?
+答案: 45 / 0.20 = 225.
+#### 225
+
+Q86: A car's value depreciates by 10% each year. If it's worth $20,000 now, what will it be worth after 2 years?
+答案: Year 1: 20000 * 0.9 = 18000. Year 2: 18000 * 0.9 = $16,200.
+#### 16200
+
+Q87: A mixture contains 30 liters of milk and 10 liters of water. What is the ratio of milk to water?
+答案: 30:10 = 3:1.
+#### 3:1
+
+Q88: The LCM of two numbers is 60 and their GCD is 4. If one number is 12, what is the other?
+答案: LCM * GCD = product of numbers. 60 * 4 = 12 * x. x = 240/12 = 20.
+#### 20
+
+Q89: A tap fills a tank in 6 hours, another tap empties it in 8 hours. If both are open, how long to fill the tank?
+答案: Net rate = 1/6 - 1/8 = 4/24 - 3/24 = 1/24. Time = 24 hours.
+#### 24
+
+Q90: What is the compound interest on $5,000 at 10% per year for 2 years?
+答案: A = 5000 * (1.1)² = 5000 * 1.21 = 6050. CI = 6050 - 5000 = $1050.
+#### 1050
+
+Q91: A pole casts a shadow 15 meters long when the angle of elevation of the sun is 45°. What is the height of the pole?
+答案: tan(45°) = height/shadow = h/15. h = 15 meters.
+#### 15
+
+Q92: In how many ways can 5 books be arranged on a shelf?
+答案: 5! = 120.
+#### 120
+
+Q93: A man bought an item for $120 and sold it at a loss of 15%. What was the selling price?
+答案: Loss = 120 * 0.15 = 18. SP = 120 - 18 = $102.
+#### 102
+
+Q94: The ages of A and B are in the ratio 3:5. If A is 24 years old, how old is B?
+答案: 3k = 24, k = 8. B = 5 * 8 = 40.
+#### 40
+
+Q95: A sphere has a radius of 3 cm. What is its volume? (Use π = 3.14)
+答案: V = (4/3) * π * r³ = (4/3) * 3.14 * 27 = 113.04 cubic cm.
+#### 113.04
+
+Q96: A sum of $2,400 is divided among A, B, and C in the ratio 3:4:5. How much does B receive?
+答案: Total parts = 12. B's share = 2400 * 4/12 = $800.
+#### 800
+
+Q97: The diagonal of a square is 10 cm. What is the area of the square?
+答案: Side = 10/√2. Area = side² = 100/2 = 50 square cm.
+#### 50
+
+Q98: A boat can travel 15 km/h in still water. If the current speed is 3 km/h, how long will it take to travel 72 km downstream?
+答案: Downstream speed = 15 + 3 = 18 km/h. Time = 72/18 = 4 hours.
+#### 4
+
+Q99: What is 0.25 as a fraction in lowest terms?
+答案: 1/4.
+#### 1/4
+
+Q100: A man can do a piece of work in 15 days. How much work can he do in 3 days?
+答案: 3/15 = 1/5 of the work.
+#### 1/5
+
+Q101: The circumference of a circle is 44 cm (π = 22/7). What is its area?
+答案: 2πr = 44, r = 7. Area = π * 49 = (22/7) * 49 = 154 square cm.
+#### 154
+
+Q102: A vendor bought 120 oranges at 3 for $1 and sold them at 2 for $1. What is his profit or loss?
+答案: Cost = 120/3 = $40. Revenue = 120/2 = $60. Profit = $20.
+#### 20
+
+Q103: If the average of 6 numbers is 12, and the average of 4 of them is 10, what is the average of the other 2?
+答案: Sum of 6 = 72. Sum of 4 = 40. Sum of other 2 = 32. Average = 32/2 = 16.
+#### 16
+
+Q104: A square and a rectangle have the same perimeter. The rectangle is 8 cm by 6 cm. What is the area of the square?
+答案: Perimeter = 2*(8+6) = 28. Square side = 7. Area = 49.
+#### 49
+
+Q105: Two trains are moving towards each other at 60 km/h and 40 km/h. They are 200 km apart. After how many hours will they meet?
+答案: Relative speed = 60 + 40 = 100 km/h. Time = 200/100 = 2 hours.
+#### 2
+
+Q106: A clock loses 5 minutes every hour. If it is set correctly at 8:00 AM, what time will it show at 8:00 PM?
+答案: 12 hours * 5 min = 60 minutes lost. Shows 7:00 PM.
+#### 7:00 PM
+
+Q107: The population of a town increases by 10% each year. If the current population is 10,000, what will it be after 2 years?
+答案: 10000 * 1.1 * 1.1 = 10000 * 1.21 = 12100.
+#### 12100
+
+Q108: A die is rolled once. What is the probability of getting a number greater than 4?
+答案: Favorable: 5, 6 (2 outcomes). Total: 6. P = 2/6 = 1/3.
+#### 1/3
+
+Q109: A man spends 30% of his income on food, 20% on rent, and saves the remaining $2,500. What is his total income?
+答案: Remaining = 50% = 2500. Total = 2500/0.50 = $5,000.
+#### 5000
+
+Q110: What is the value of 2³ + 3²?
+答案: 8 + 9 = 17.
+#### 17
+
+Q111: A pipe can fill a tank in 12 hours. Due to a leak, it takes 15 hours. How long will the leak take to empty a full tank?
+答案: Leak rate = 1/12 - 1/15 = 5/60 - 4/60 = 1/60. Time = 60 hours.
+#### 60
+
+Q112: The sides of a triangle are 5 cm, 12 cm, and 13 cm. What type of triangle is it?
+答案: 5² + 12² = 25 + 144 = 169 = 13². It is a right-angled triangle.
+#### right-angled
+
+Q113: A man walks at 5 km/h. How many meters does he walk in 3 minutes?
+答案: 5 km/h = 5000m/60min. In 3 min: 5000 * 3/60 = 250 meters.
+#### 250
+
+Q114: If 8 men can build a wall in 15 days, how many men are needed to build it in 10 days?
+答案: 8 * 15 = 120 man-days. 120/10 = 12 men.
+#### 12
+
+Q115: A shopkeeper marks up his goods by 40% and gives a 10% discount. What is his profit percentage?
+答案: Let cost = 100. MP = 140. SP = 140 * 0.9 = 126. Profit = 26%.
+#### 26
+
+Q116: The radius of a wheel is 0.35 meters. How many revolutions will it make to travel 1.1 km? (π = 22/7)
+答案: Circumference = 2 * 22/7 * 0.35 = 2.2 m. Distance = 1100 m. Revolutions = 1100/2.2 = 500.
+#### 500
+
+Q117: Find the median of: 3, 7, 9, 11, 15, 18, 21.
+答案: Middle value (4th of 7) = 11.
+#### 11
+
+Q118: A and B start from the same point. A walks 5 km north, B walks 12 km east. How far apart are they?
+答案: sqrt(5² + 12²) = sqrt(25 + 144) = sqrt(169) = 13 km.
+#### 13
+
+Q119: If x² = 144, what is the value of x? (x > 0)
+答案: x = 12.
+#### 12
+
+Q120: A tank has two pipes. Pipe A fills it in 4 hours, pipe B fills it in 6 hours. How long if both are open?
+答案: Rate = 1/4 + 1/6 = 3/12 + 2/12 = 5/12. Time = 12/5 = 2.4 hours.
+#### 2.4
+
+Q121: What is 7! / 5! ?
+答案: 7! / 5! = 7 * 6 = 42.
+#### 42
+
+Q122: A man bought a horse for $800 and sold it for $1000. What is his profit percentage?
+答案: Profit = 200. % = 200/800 * 100 = 25%.
+#### 25
+
+Q123: The volume of a cube is 64 cubic cm. What is its total surface area?
+答案: Side = 4 cm. SA = 6 * 16 = 96 square cm.
+#### 96
+
+Q124: A card is drawn from a standard deck of 52 cards. What is the probability of drawing a king?
+答案: 4 kings / 52 cards = 1/13.
+#### 1/13
+
+Q125: Two numbers are in the ratio 5:7. If their sum is 84, what is the larger number?
+答案: 12k = 84, k = 7. Larger = 7 * 7 = 49.
+#### 49
