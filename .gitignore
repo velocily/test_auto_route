@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Model cache
+models/
+models/sentence_transformers/
+
+# Router cache files (auto-generated, re-train on first run)
+whoengine.pt
+smart_router.pt
+ir3de_router.pt
+
+# Test results
+results/
+
+# Test output logs
+*.log
+test_output.txt
+
+# Utility scripts (personal paths - use only locally)
+copy_benchmarks.py
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Excel temp files
+~$*
