@@ -34,7 +34,7 @@ except Exception:
 EMBEDDER_NAME     = _ROUTE_CONF.get("embedder", "BAAI/bge-small-zh-v1.5")
 LAMBDA            = _ROUTE_CONF.get("lambda", 1e-2)
 TOP_K_ENTROPY     = _ROUTE_CONF.get("top_k_entropy", 10)
-# 默认路由策略：knn_prior（实验测得准确率最高 96.8%，比纯 KNN 83.9% 提升 12.9%）
+# 默认路由策略：knn_prior（实验测得准确率最高）
 # 可选: average, majority_voting, ensemble, knn, knn_prior, ensemble_v2
 ROUTING_STRATEGY  = _ROUTE_CONF.get("routing_strategy", "knn_prior")
 ROUTING_MODE      = _ROUTE_CONF.get("routing_mode", "token")
@@ -64,7 +64,7 @@ KNN_SIM_TEMP       = _ROUTE_CONF.get("knn_sim_temp", 10.0)
 USE_KNN_ROUTER     = _ROUTE_CONF.get("use_knn_router", True)
 
 # ========== 关键词先验配置（新增：KNN + 关键词先验混合路由）==========
-# 实验测得：alpha=0.5 时准确率从 83.9% 提升到 96.8%（+12.9%），原题准确率达 100%
+# 实验测得：alpha=0.5 时准确率显著提升，原题准确率达 100%
 # 原理：KNN 对语义混淆的样本容易误判（如 "chemical formula" 误分到 gsm8k），
 #       关键词先验提供强信号偏置，纠正嵌入空间中的混淆。
 # alpha=1.0 退化为纯 KNN，alpha=0.0 退化为纯关键词先验
@@ -727,7 +727,7 @@ class WhoEngine:
           - "majority_voting":  Token 级 → entropy top-k → 投票（精度较高）
           - "ensemble":         句级 + token 级加权融合
           - "knn":              KNN 近邻软投票（准确率 83.9%）
-          - "knn_prior":        KNN + 关键词先验混合（推荐，准确率 96.8%）
+          - "knn_prior":        KNN + 关键词先验混合（推荐，准确率高）
           - "ensemble_v2":      岭回归句级 + KNN 加权融合
           - None:              使用全局 ROUTING_STRATEGY 配置
 
@@ -1008,8 +1008,7 @@ class WhoEngine:
         """
         KNN + 关键词先验混合路由（推荐策略，准确率最高）
 
-        实验测得：在 31 题测试集上准确率 96.8%（纯 KNN 83.9%，提升 +12.9%）
-        原题准确率达 100%，边界题准确率 90%。
+        实验测得：在测试集上准确率显著提升，原题准确率达 100%。
 
         原理：
           - KNN 基于嵌入相似度，对语义混淆的样本容易误判

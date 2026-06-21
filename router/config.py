@@ -103,7 +103,7 @@ WHOENGINE_CONFIG = {
     "lambda": 1e-2,
 
     # 路由策略
-    #   "knn_prior":        KNN + 关键词先验混合（推荐，准确率 96.8%）
+    #   "knn_prior":        KNN + 关键词先验混合（推荐，准确率高）
     #   "knn":              KNN 近邻软投票（准确率 83.9%）
     #   "majority_voting": Token 级路由 + entropy top-k + 多数投票（精度最高）
     #   "average":         句级 embedding → 单次 argmax（快速，基线）
@@ -127,7 +127,7 @@ WHOENGINE_CONFIG = {
 
     # KNN + 关键词先验混合系数 alpha
     # 最终概率 = alpha × KNN + (1-alpha) × 关键词先验
-    # 实验测得 alpha=0.5 时准确率从 83.9% 提升到 96.8%（+12.9%）
+    # 实验测得 alpha=0.5 时准确率显著提升（+12.9%）
     # alpha=1.0 退化为纯 KNN，alpha=0.0 退化为纯关键词先验
     "knn_prior_alpha": 0.5,
 

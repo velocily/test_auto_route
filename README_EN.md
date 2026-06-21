@@ -24,7 +24,7 @@
 These two functions are connected through `model_benchmarks.json`: the evaluation system produces model capability data, and the routing system consumes this data for intelligent model selection.
 
 **Key Features:**
-- **KNN + Keyword Prior Routing** — Domain classification accuracy **96.8%**, original test accuracy **100%**
+- **KNN + Keyword Prior Routing** — High domain classification accuracy, corrects embedding confusion
 - **8 Benchmark Suites** — From multiple-choice and math reasoning to long-context and workplace subjective questions
 - **6 Routing Strategies** — Average, Majority Voting, KNN, KNN+Prior, Ensemble, etc.
 - **OpenAI-Compatible API** — Standard `/v1/chat/completions`, works with any OpenAI client out of the box
@@ -120,23 +120,7 @@ The service runs at `http://0.0.0.0:8000` by default.
 
 ## Workflow
 
-```
-┌──────────────────┐     ┌──────────────────┐
-│  autotest module │     │  router module   │
-│  Model Evaluation│ ──> │  Intelligent     │
-│                  │     │  Routing Service │
-│  • Benchmark     │     │  • WhoEngine     │
-│    parsing       │     │    classification│
-│  • API calls     │     │  • Model         │
-│  • Auto scoring  │     │    selection     │
-│  • Efficiency    │     │  • Remote calls  │
-│    testing       │     │  • OpenAI API    │
-└────────┬─────────┘     └────────┬──────────┘
-         │                        │
-         ▼                        ▼
-   model_benchmarks.json ──── Routing decision basis
-   (capability data bridge)
-```
+![Workflow](./workflow.svg)
 
 ---
 
@@ -192,7 +176,7 @@ test_auto_route/
 | Ridge Regression (baseline) | 71.0% | Linear decision boundary |
 | Token-level Voting | 67.7% | Per-token classification + voting |
 | KNN (k=20) | 83.9% | Non-parametric, fits non-linear boundaries |
-| **KNN + Keyword Prior (recommended)** | **96.8%** | **KNN + keyword bias, corrects embedding confusion** |
+| **KNN + Keyword Prior (recommended)** | **High** | **KNN + keyword bias, corrects embedding confusion** |
 
 ### Core Principle
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#5B9BD5">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+    <marker id="arrow-down" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="#7F7F7F">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+    <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E75B6"/>
+      <stop offset="100%" stop-color="#1F4E79"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5B9BD5"/>
+      <stop offset="100%" stop-color="#2E75B6"/>
+    </linearGradient>
+    <linearGradient id="grad3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#70AD47"/>
+      <stop offset="100%" stop-color="#548235"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect x="0" y="0" width="800" height="500" rx="12" fill="#F8F9FA"/>
+
+  <!-- autotest 模块框 -->
+  <rect x="40" y="50" width="320" height="260" rx="10" fill="white" stroke="#2E75B6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="40" y="50" width="320" height="40" rx="10" fill="url(#grad1)"/>
+  <rect x="40" y="72" width="320" height="18" fill="url(#grad1)"/>
+  <text x="200" y="76" text-anchor="middle" fill="white" font-family="Microsoft YaHei, sans-serif" font-size="16" font-weight="bold">autotest 模块 · 模型自动评测</text>
+
+  <text x="60" y="120" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● 题库解析（8种格式）</text>
+  <text x="60" y="150" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● 并发 API 调用 + 自动评分</text>
+  <text x="60" y="180" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● 效率测试（TTFT / 吞吐 / 并发）</text>
+  <text x="60" y="210" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● XLSX 结果导出</text>
+  <text x="60" y="240" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● 更新 model_benchmarks.json</text>
+
+  <!-- router 模块框 -->
+  <rect x="440" y="50" width="320" height="260" rx="10" fill="white" stroke="#5B9BD5" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="440" y="50" width="320" height="40" rx="10" fill="url(#grad2)"/>
+  <rect x="440" y="72" width="320" height="18" fill="url(#grad2)"/>
+  <text x="600" y="76" text-anchor="middle" fill="white" font-family="Microsoft YaHei, sans-serif" font-size="16" font-weight="bold">router 模块 · 智能路由服务</text>
+
+  <text x="460" y="120" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● WhoEngine KNN + 关键词先验分类</text>
+  <text x="460" y="150" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● 路由引擎决策（6 种策略可选）</text>
+  <text x="460" y="180" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● 模型选型 + 远程模型调用</text>
+  <text x="460" y="210" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● OpenAI 兼容接口（流式支持）</text>
+  <text x="460" y="240" fill="#333" font-family="Microsoft YaHei, sans-serif" font-size="13">● @模型名 指定模型（跳过路由）</text>
+
+  <!-- 产出箭头 -->
+  <line x1="360" y1="180" x2="435" y2="180" stroke="#5B9BD5" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="390" y="170" text-anchor="middle" fill="#5B9BD5" font-family="Microsoft YaHei, sans-serif" font-size="12" font-weight="bold">产出</text>
+
+  <!-- 数据桥梁框 -->
+  <rect x="225" y="340" width="350" height="60" rx="8" fill="white" stroke="#70AD47" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="225" y="340" width="350" height="60" rx="8" fill="url(#grad3)" opacity="0.95"/>
+  <text x="400" y="366" text-anchor="middle" fill="white" font-family="Microsoft YaHei, sans-serif" font-size="15" font-weight="bold">model_benchmarks.json</text>
+  <text x="400" y="388" text-anchor="middle" fill="white" font-family="Microsoft YaHei, sans-serif" font-size="12">模型能力数据桥梁 ── 评测产出 → 路由消费</text>
+
+  <!-- 向下箭头 -->
+  <line x1="200" y1="310" x2="200" y2="340" stroke="#7F7F7F" stroke-width="2" marker-end="url(#arrow-down)"/>
+  <line x1="600" y1="310" x2="600" y2="340" stroke="#7F7F7F" stroke-width="2" marker-end="url(#arrow-down)"/>
+
+  <!-- 数据写入 -->
+  <text x="200" y="348" text-anchor="middle" fill="#666" font-family="Microsoft YaHei, sans-serif" font-size="11">数据写入</text>
+  <text x="600" y="348" text-anchor="middle" fill="#666" font-family="Microsoft YaHei, sans-serif" font-size="11">路由依据</text>
+
+  <!-- 底部说明 -->
+  <text x="400" y="470" text-anchor="middle" fill="#999" font-family="Microsoft YaHei, sans-serif" font-size="11">两个模块独立运行，通过 JSON 文件解耦</text>
+</svg>
