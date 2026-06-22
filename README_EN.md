@@ -27,6 +27,8 @@ These two functions are connected through `model_benchmarks.json`: the evaluatio
 - **KNN + Keyword Prior Routing** — High domain classification accuracy, corrects embedding confusion
 - **8 Benchmark Suites** — From multiple-choice and math reasoning to long-context and workplace subjective questions
 - **6 Routing Strategies** — Average, Majority Voting, KNN, KNN+Prior, Ensemble, etc.
+- **Efficiency-First Selection** — 80% of low-difficulty tasks auto-select efficient models; only hard tasks use expert models
+- **Visual Tuning Dashboard** — Web UI with sliders to adjust routing weights in real-time, no restart needed
 - **OpenAI-Compatible API** — Standard `/v1/chat/completions`, works with any OpenAI client out of the box
 - **`@model-name` Override** — Use `@model-name` at the start of a message to bypass routing and specify a model directly
 - **GPU Acceleration** — Auto-detects GPU, embedding inference ~10ms
@@ -39,6 +41,8 @@ These two functions are connected through `model_benchmarks.json`: the evaluatio
 - [Workflow](#workflow)
 - [Project Structure](#project-structure)
 - [Routing Algorithm](#routing-algorithm)
+- [Model Selection Formula](#model-selection-formula)
+- [Visual Tuning Dashboard](#visual-tuning-dashboard)
 - [Supported Benchmarks](#supported-benchmarks)
 - [API Endpoints](#api-endpoints)
 - [Configuration Guide](#configuration-guide)
@@ -184,7 +188,7 @@ test_auto_route/
 
 1. **KNN Soft Voting**: Encode the query into a multi-pooled sentence vector (mean+max+cls), compute cosine similarity with all training samples, take top-k neighbors for softmax soft voting
 2. **Keyword Prior Bias**: Maintain a strong-signal keyword table for each domain; generate a prior probability distribution when keywords are detected
-3. **Hybrid Decision**: Final probability = α × KNN probability + (1-α) × keyword prior (α=0.5 works best)
+3. **Hybrid Decision**: Final probability = α × KNN probability + (1-α) × keyword prior (α=0.7 by default, biased toward KNN)
 
 > Why keyword priors? Error analysis revealed that the embedding model misclassifies "chemical formula" as a math question (because the training data contains many English math problems). Keyword priors provide strong signals to correct such systematic confusion without breaking the pure ML capability.
 
@@ -248,15 +252,17 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 |------|---------|
 | `autotest/config.py` | API keys, model names, benchmark paths |
 | `router/config.py` | Routing strategy, remote model server URLs, WhoEngine config |
+| `router/routing_params.py` | **Centralized parameter management** (34 params + 3 presets + change log) |
+| `router/static/dashboard.html` | **Visual tuning dashboard frontend** |
 
 ### WhoEngine Configuration Example
 
 ```python
 WHOENGINE_CONFIG = {
-    "embedder": "BAAI/bge-large-zh-v1.5",  # Embedding model
+    "embedder": "BAAI/bge-small-zh-v1.5",  # Embedding model (Chinese-optimized)
     "routing_strategy": "knn_prior",       # Recommended strategy
     "knn_k": 20,                           # KNN neighbors
-    "knn_prior_alpha": 0.5,                # Prior mixing coefficient
+    "knn_prior_alpha": 0.7,                # Prior mixing coefficient (KNN-biased)
     "knn_sim_temp": 10.0,                  # Similarity temperature
 }
 ```

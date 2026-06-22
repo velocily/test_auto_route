@@ -6,19 +6,35 @@
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse, FileResponse, HTMLResponse
 from pydantic import BaseModel
 from typing import Any, Dict, List, Optional
+import os
+
+# 优先使用本地 HF 缓存，避免联网检查更新导致启动失败/超时
+os.environ.setdefault("HF_HUB_OFFLINE", "1")
+os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 from router_engine import route
 from model_client import call_remote_model, get_model_url, stream_remote_model, close_http_clients
 from config import ROUTER_CONFIG, REMOTE_SERVER_CONFIG
+
+# 集中式路由参数管理
+try:
+    import routing_params
+    _HAS_PARAMS = True
+except Exception as e:
+    _HAS_PARAMS = False
 
 import time
 import uuid
 import re
 import json
 import logging
+
+# 项目根目录（用于定位文档文件）
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_ROUTER_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ---------- 日志配置 ----------
 logging.basicConfig(
@@ -537,13 +553,172 @@ def health():
 
 
 # ============================================================
+# 路由参数调控台（可视化界面 + REST API）
+# ============================================================
+
+@app.get("/dashboard", response_class=HTMLResponse)
+def dashboard():
+    """路由参数可视化调控台 HTML 页面"""
+    html_path = os.path.join(_ROUTER_DIR, "static", "dashboard.html")
+    if not os.path.exists(html_path):
+        raise HTTPException(status_code=404, detail="dashboard.html 不存在")
+    with open(html_path, "r", encoding="utf-8") as f:
+        return HTMLResponse(content=f.read())
+
+
+@app.get("/api/params")
+def api_get_params():
+    """获取所有路由参数当前值"""
+    if not _HAS_PARAMS:
+        raise HTTPException(status_code=500, detail="routing_params 模块未加载")
+    return routing_params.get_all_params()
+
+
+@app.get("/api/params/meta")
+def api_get_params_meta():
+    """获取所有参数的元数据（含范围、默认值、说明），供前端渲染滑块"""
+    if not _HAS_PARAMS:
+        raise HTTPException(status_code=500, detail="routing_params 模块未加载")
+    return routing_params.get_param_meta()
+
+
+@app.post("/api/params")
+def api_set_params(updates: Dict[str, Any]):
+    """批量更新路由参数（即时生效，并记录到 params_changes.log）"""
+    if not _HAS_PARAMS:
+        raise HTTPException(status_code=500, detail="routing_params 模块未加载")
+    try:
+        routing_params.set_params(updates)
+        logger.info("路由参数已更新并记录日志：%s", list(updates.keys()))
+        return {"ok": True, "updated": list(updates.keys()), "current": routing_params.get_all_params(), "logged": True}
+    except KeyError as e:
+        return {"ok": False, "error": f"未知参数: {e}"}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+@app.get("/api/params/preset")
+def api_get_preset():
+    """获取当前预设方案名"""
+    if not _HAS_PARAMS:
+        raise HTTPException(status_code=500, detail="routing_params 模块未加载")
+    return {"current": routing_params.current_preset(), "available": list(routing_params.get_presets().keys())}
+
+
+@app.post("/api/params/preset")
+def api_apply_preset(body: Dict[str, Any]):
+    """应用预设方案"""
+    if not _HAS_PARAMS:
+        raise HTTPException(status_code=500, detail="routing_params 模块未加载")
+    preset = body.get("preset")
+    if not preset:
+        return {"ok": False, "error": "缺少 preset 字段"}
+    try:
+        routing_params.apply_preset(preset)
+        logger.info("已应用预设方案：%s", preset)
+        return {"ok": True, "preset": preset, "current": routing_params.get_all_params()}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+@app.post("/api/params/reset")
+def api_reset_params():
+    """重置为默认预设"""
+    if not _HAS_PARAMS:
+        raise HTTPException(status_code=500, detail="routing_params 模块未加载")
+    routing_params.reset_params()
+    logger.info("路由参数已重置为默认预设")
+    return {"ok": True, "current": routing_params.get_all_params()}
+
+
+# ============================================================
+# 文档查看接口（在 Dashboard 内嵌查看，无需跳转）
+# ============================================================
+
+@app.get("/api/docs/markdown")
+def api_docs_markdown():
+    """返回项目说明文档.md 的纯文本内容"""
+    path = os.path.join(_PROJECT_ROOT, "项目说明文档.md")
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail="项目说明文档.md 不存在")
+    with open(path, "r", encoding="utf-8") as f:
+        return JSONResponse(content={"content": f.read(), "format": "markdown"})
+
+
+@app.get("/api/docs/readme")
+def api_docs_readme():
+    """返回 README.md 的纯文本内容"""
+    path = os.path.join(_PROJECT_ROOT, "README.md")
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail="README.md 不存在")
+    with open(path, "r", encoding="utf-8") as f:
+        return JSONResponse(content={"content": f.read(), "format": "markdown"})
+
+
+@app.get("/api/docs/docx/download")
+def api_docs_docx_download():
+    """下载项目说明文档.docx"""
+    # 优先返回项目内的副本
+    inner_path = os.path.join(_PROJECT_ROOT, "docs", "项目说明文档.docx")
+    outer_path = os.path.join(os.path.dirname(_PROJECT_ROOT), "test_auto_route项目说明文档.docx")
+    path = inner_path if os.path.exists(inner_path) else outer_path
+    if not os.path.exists(path):
+        raise HTTPException(status_code=404, detail="项目说明文档.docx 不存在")
+    return FileResponse(path, filename="项目说明文档.docx",
+                        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+
+
+# ============================================================
 # 启动入口
 # ============================================================
 
+def _open_browser_when_ready(dashboard_url: str, health_url: str, max_wait: float = 120.0):
+    """轮询服务是否就绪，就绪后再打开浏览器（避免在模型加载期间打开导致无法访问）"""
+    import threading
+    import time
+    import urllib.request
+    import webbrowser
+
+    def _wait_and_open():
+        poll_interval = 1.0
+        waited = 0.0
+        while waited < max_wait:
+            try:
+                req = urllib.request.Request(health_url, method="GET")
+                with urllib.request.urlopen(req, timeout=2):
+                    webbrowser.open(dashboard_url)
+                    logger.info("服务已就绪，已在浏览器中打开可视化调参台：%s", dashboard_url)
+                    return
+            except Exception:
+                pass
+            time.sleep(poll_interval)
+            waited += poll_interval
+            if int(waited) % 10 == 0 and int(waited) > 0:
+                logger.info("正在加载模型，等待服务就绪... (%ds)", int(waited))
+        logger.warning("等待服务就绪超时（%ss），请手动访问：%s", int(max_wait), dashboard_url)
+
+    threading.Thread(target=_wait_and_open, daemon=True).start()
+
+
 if __name__ == "__main__":
     import uvicorn
+
+    host = "0.0.0.0"
+    port = 8000
+    dashboard_url = f"http://localhost:{port}/dashboard"
+    health_url = f"http://localhost:{port}/api/params"
+
+    # 服务就绪后自动打开可视化调参台
+    _open_browser_when_ready(dashboard_url, health_url, max_wait=120.0)
+
+    logger.info("=" * 60)
+    logger.info("智能路由服务启动中...")
+    logger.info("可视化调参台: %s（服务就绪后自动打开）", dashboard_url)
+    logger.info("API 文档:      http://localhost:%d/docs", port)
+    logger.info("=" * 60)
+
     uvicorn.run(
         "app:app",
-        host="0.0.0.0",
-        port=8000,
+        host=host,
+        port=port,
     )

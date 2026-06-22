@@ -95,7 +95,7 @@ WHOENGINE_CONFIG = {
     #   例: r"D:\Qwen2.5-3B\base"（指向包含 config.json 的目录）
     #   注意：因果语言模型（如 Qwen、GPT）的 hidden states 未经过对比学习优化，
     #   语义聚类能力远弱于专门的 sentence-transformers 模型，不建议使用。
-    "embedder": "BAAI/bge-large-zh-v1.5",
+    "embedder": "BAAI/bge-small-zh-v1.5",
 
     # 岭回归正则化系数 λ，默认 1e-2
     # 若过拟合（训练 domain 内准确但泛化差）→ 增大 λ

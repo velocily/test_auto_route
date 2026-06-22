@@ -68,7 +68,21 @@ USE_KNN_ROUTER     = _ROUTE_CONF.get("use_knn_router", True)
 # 原理：KNN 对语义混淆的样本容易误判（如 "chemical formula" 误分到 gsm8k），
 #       关键词先验提供强信号偏置，纠正嵌入空间中的混淆。
 # alpha=1.0 退化为纯 KNN，alpha=0.0 退化为纯关键词先验
+# 注意：实际值优先从 routing_params 模块读取（支持运行时调参）
 KNN_PRIOR_ALPHA    = _ROUTE_CONF.get("knn_prior_alpha", 0.5)
+
+# ========== 集中式可调参数（运行时可修改）==========
+# 从 routing_params 模块导入，所有影响路由决策的可调参数统一管理
+try:
+    from routing_params import (
+        get_domain_alpha, get_difficulty_adjust_params,
+        get_efficiency_params, get_knn_params, get_prior_alpha,
+        get_difficulty_base, get_difficulty_confidence_params,
+    )
+    _USE_CENTRAL_PARAMS = True
+except Exception as e:
+    logger.warning("routing_params 模块加载失败 (%s)，使用本地默认值", e)
+    _USE_CENTRAL_PARAMS = False
 
 # Domain 关键词先验表：每个 domain 的强信号关键词
 # 命中关键词时，该 domain 获得先验加分；长关键词权重更高
@@ -1034,8 +1048,8 @@ class WhoEngine:
         # 关键词先验概率
         prior_probs = self._compute_keyword_prior(query)
 
-        # 混合
-        alpha = KNN_PRIOR_ALPHA
+        # 混合（α 从 routing_params 动态读取，支持运行时调参）
+        alpha = get_prior_alpha() if _USE_CENTRAL_PARAMS else KNN_PRIOR_ALPHA
         combined_probs = alpha * knn_probs + (1.0 - alpha) * prior_probs
 
         predicted_id = int(torch.argmax(combined_probs).item())
@@ -1163,6 +1177,13 @@ class WhoEngine:
         self.bias = ckpt["bias"]
         self.hidden_size = ckpt.get("hidden_size", self.W.shape[0])
         self.embedder_name = ckpt.get("embedder_name", EMBEDDER_NAME)
+        # 优先使用当前配置中的 embedder，避免 checkpoint 中保存的旧模型名导致加载失败
+        if EMBEDDER_NAME and EMBEDDER_NAME != self.embedder_name:
+            logger.warning(
+                "Checkpoint 中 embedder_name='%s' 与当前配置 '%s' 不一致，使用当前配置。",
+                self.embedder_name, EMBEDDER_NAME,
+            )
+            self.embedder_name = EMBEDDER_NAME
         self.A = ckpt.get("A", None)
         self.b_matrix = ckpt.get("b_matrix", None)
         self._N_per_domain = ckpt.get("N_per_domain", [0] * len(self.domains))
@@ -1281,13 +1302,22 @@ def whoengine_route(query: str, strategy: str = None, return_detail: bool = Fals
     task = DOMAIN_TO_TASK.get(predicted_domain, "chat")
 
     confidence = float(probs.max().cpu())
-    BASE_DIFFICULTY = {
-        "mmlu": 5, "gsm8k": 7, "hellaswag": 3,
-        "bbh_semantic": 6, "bbh_math": 8, "longbench": 6,
-        "project_manager": 5, "secretary": 3,
-    }
-    base = BASE_DIFFICULTY.get(predicted_domain, 5)
-    delta = int((0.5 - confidence) * 4)
+    # 基础难度从 routing_params 读取（支持运行时调参）
+    if _USE_CENTRAL_PARAMS:
+        base = get_difficulty_base(predicted_domain)
+        conf_params = get_difficulty_confidence_params()
+        conf_base = conf_params["confidence_base"]
+        conf_factor = conf_params["confidence_factor"]
+    else:
+        BASE_DIFFICULTY = {
+            "mmlu": 5, "gsm8k": 7, "hellaswag": 3,
+            "bbh_semantic": 6, "bbh_math": 8, "longbench": 6,
+            "project_manager": 5, "secretary": 3,
+        }
+        base = BASE_DIFFICULTY.get(predicted_domain, 5)
+        conf_base = 0.5
+        conf_factor = 4
+    delta = int((conf_base - confidence) * conf_factor)
     difficulty = max(1, min(10, base + delta))
 
     result = {
@@ -1309,36 +1339,90 @@ def whoengine_route(query: str, strategy: str = None, return_detail: bool = Fals
 # ========== 模型选择 ==========
 
 def _normalize_efficiency(eff: dict) -> float:
+    """
+    将效率指标归一化为 [0, 1] 分数。
+    公式：efficiency = w_tps × norm(tps) + w_lat × norm(latency) + w_con × norm(concurrency)
+    所有参数（权重、饱和点、默认分）均从 routing_params 读取，支持运行时调参。
+    """
+    if _USE_CENTRAL_PARAMS:
+        p = get_efficiency_params()
+        w_tps, w_lat, w_con = p["w_tps"], p["w_latency"], p["w_concurrency"]
+        tps_max, lat_max, con_max = p["tps_max"], p["latency_max"], p["concurrency_max"]
+        default_score = p["default_score"]
+    else:
+        w_tps, w_lat, w_con = 0.4, 0.3, 0.3
+        tps_max, lat_max, con_max = 60.0, 3.0, 20.0
+        default_score = 0.5
+
     if not eff:
-        return 0.5
-    tps_s = min(eff.get("tps", 0) / 60, 1.0)
-    lat_s = max(0, 1 - eff.get("latency", 1.0) / 3)
-    con_s = min(eff.get("concurrency", 0) / 20, 1.0)
-    return 0.4 * tps_s + 0.3 * lat_s + 0.3 * con_s
+        return default_score
+    tps_s = min(eff.get("tps", 0) / tps_max, 1.0) if tps_max > 0 else 0.0
+    lat_s = max(0, 1 - eff.get("latency", lat_max) / lat_max) if lat_max > 0 else 0.0
+    con_s = min(eff.get("concurrency", 0) / con_max, 1.0) if con_max > 0 else 0.0
+    return w_tps * tps_s + w_lat * lat_s + w_con * con_s
 
 
-DOMAIN_ALPHA = {
-    "mmlu": 0.60, "gsm8k": 0.80, "hellaswag": 0.50,
-    "bbh_semantic": 0.85, "bbh_math": 0.85, "longbench": 0.70,
-    "project_manager": 0.65, "secretary": 0.50,
-}
+# 旧的静态 DOMAIN_ALPHA 字典已废弃，改为从 routing_params 动态读取
+# 保留作为注释参考：
+# DOMAIN_ALPHA = {
+#     "mmlu": 0.60, "gsm8k": 0.80, "hellaswag": 0.50,
+#     "bbh_semantic": 0.85, "bbh_math": 0.85, "longbench": 0.70,
+#     "project_manager": 0.65, "secretary": 0.50,
+# }
 
 
 def _get_adaptive_alpha(domain: str, difficulty: int) -> float:
-    a = DOMAIN_ALPHA.get(domain, 0.65)
+    """
+    根据难度自适应调整 α（能力/效率权重）。
+    所有参数从 routing_params 读取，支持运行时调参。
+
+    调整规则：
+        difficulty >= 8  →  α += boost_high     （难题，更看重能力）
+        difficulty >= 6  →  α += boost_medium   （中难题，略加能力权重）
+        difficulty <= 5  →  α -= reduce_mid_low （简单题，更看重效率）
+        difficulty <= 3  →  α -= reduce_low     （极简题，效率优先）
+    最后裁剪到 [alpha_min, alpha_max] 范围内。
+    """
+    if _USE_CENTRAL_PARAMS:
+        a = get_domain_alpha(domain)
+        p = get_difficulty_adjust_params()
+        boost_high = p["boost_high"]
+        boost_medium = p["boost_medium"]
+        reduce_mid_low = p["reduce_mid_low"]
+        reduce_low = p["reduce_low"]
+        alpha_min = p["alpha_min"]
+        alpha_max = p["alpha_max"]
+    else:
+        # 本地默认值（与 routing_params 默认值保持一致）
+        local_alpha = {
+            "mmlu": 0.45, "gsm8k": 0.80, "hellaswag": 0.30,
+            "bbh_semantic": 0.75, "bbh_math": 0.85, "longbench": 0.65,
+            "project_manager": 0.40, "secretary": 0.30,
+        }
+        a = local_alpha.get(domain, 0.5)
+        boost_high, boost_medium = 0.15, 0.08
+        reduce_mid_low, reduce_low = 0.10, 0.20
+        alpha_min, alpha_max = 0.15, 0.95
+
     if difficulty >= 8:
-        a = min(0.95, a + 0.15)
+        a = a + boost_high
     elif difficulty >= 6:
-        a = min(0.90, a + 0.08)
+        a = a + boost_medium
     elif difficulty <= 3:
-        a = max(0.35, a - 0.12)
+        a = a - reduce_low
     elif difficulty <= 5:
-        a = max(0.40, a - 0.05)
-    return a
+        a = a - reduce_mid_low
+
+    return max(alpha_min, min(alpha_max, a))
 
 
 def select_expert_by_domain(domain: str, benchmark_data: dict,
                            difficulty: int = 5) -> Tuple[str, float]:
+    """
+    根据 domain 和难度选择最佳模型。
+    公式：combined = α × benchmark[domain] + (1-α) × efficiency
+    其中 α 由 _get_adaptive_alpha 动态计算（受 routing_params 控制）。
+    """
     alpha = _get_adaptive_alpha(domain, difficulty)
     best_model, best_combined = None, -1.0
 

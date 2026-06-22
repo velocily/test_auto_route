@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>路由参数调控台 · 智能路由系统</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8edf3 100%);
+    color: #2c3e50;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+  /* ---------- 顶部标题栏 ---------- */
+  .header {
+    background: linear-gradient(135deg, #1F4E79 0%, #2E75B6 100%);
+    color: #fff;
+    padding: 24px 32px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(31, 78, 121, 0.18);
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .header h1 { font-size: 22px; font-weight: 600; letter-spacing: 0.5px; }
+  .header .subtitle { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { background: rgba(255,255,255,0.25); transform: translateY(-1px); }
+  .btn-primary {
+    background: #fff;
+    color: #1F4E79;
+    border-color: #fff;
+    font-weight: 600;
+  }
+  .btn-primary:hover { background: #f0f7ff; }
+  .btn-danger {
+    background: rgba(231, 76, 60, 0.85);
+    border-color: rgba(231, 76, 60, 1);
+  }
+  .btn-danger:hover { background: rgba(192, 57, 43, 1); }
+
+  /* ---------- 预设栏 ---------- */
+  .preset-bar {
+    background: #fff;
+    padding: 16px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .preset-bar label { font-weight: 600; color: #1F4E79; font-size: 14px; }
+  .preset-btn {
+    background: #f5f7fa;
+    color: #2c3e50;
+    border: 1px solid #dce4eb;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .preset-btn:hover { background: #e8f1fb; border-color: #2E75B6; }
+  .preset-btn.active {
+    background: #2E75B6;
+    color: #fff;
+    border-color: #2E75B6;
+  }
+  .preset-status {
+    margin-left: auto;
+    font-size: 12px;
+    color: #7f8c8d;
+  }
+  .preset-status .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: #ecf0f1;
+    color: #34495e;
+    font-weight: 600;
+  }
+  .preset-status .badge.custom { background: #fff3cd; color: #856404; }
+  .preset-status .badge.efficiency_first { background: #d4edda; color: #155724; }
+  .preset-status .badge.balanced { background: #d1ecf1; color: #0c5460; }
+  .preset-status .badge.accuracy_first { background: #f8d7da; color: #721c24; }
+
+  /* ---------- 参数分组卡片 ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+    border: 1px solid #ecf0f1;
+  }
+  .card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #eaf2f8 100%);
+    padding: 14px 20px;
+    border-bottom: 1px solid #dce4eb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-header .icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+  }
+  .card-header h2 { font-size: 15px; color: #1F4E79; font-weight: 600; }
+  .card-header .count {
+    margin-left: auto;
+    font-size: 12px;
+    color: #95a5a6;
+    background: #ecf0f1;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .card-body { padding: 18px 20px; }
+
+  /* ---------- 滑块行 ---------- */
+  .slider-row { margin-bottom: 16px; }
+  .slider-row:last-child { margin-bottom: 0; }
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .slider-label .name {
+    font-size: 13px;
+    color: #34495e;
+    font-weight: 500;
+  }
+  .slider-label .desc {
+    font-size: 11px;
+    color: #95a5a6;
+    margin-left: 6px;
+  }
+  .slider-label .value {
+    font-family: "Consolas", "Monaco", monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #2E75B6;
+    background: #eaf2f8;
+    padding: 2px 10px;
+    border-radius: 4px;
+    min-width: 60px;
+    text-align: center;
+  }
+  .slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .slider-wrap .bound {
+    font-size: 11px;
+    color: #95a5a6;
+    font-family: "Consolas", monospace;
+    min-width: 36px;
+    text-align: center;
+  }
+  input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: #ecf0f1;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #2E75B6;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(46, 117, 182, 0.4);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  input[type="range"]::-moz-range-thumb {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #2E75B6;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(46, 117, 182, 0.4);
+    cursor: pointer;
+  }
+  input[type="range"].changed::-webkit-slider-thumb {
+    background: #f39c12;
+    box-shadow: 0 2px 6px rgba(243, 156, 18, 0.5);
+  }
+  input[type="range"].changed::-moz-range-thumb {
+    background: #f39c12;
+  }
+  .slider-row.changed .value {
+    color: #f39c12;
+    background: #fff4e0;
+  }
+
+  /* ---------- 底部操作栏 ---------- */
+  .footer-bar {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 14px 20px;
+    border-radius: 10px;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .footer-bar .info { font-size: 12px; color: #7f8c8d; }
+  .footer-bar .actions { display: flex; gap: 8px; }
+
+  /* ---------- 文档查看器模态框 ---------- */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    overflow: hidden;
+  }
+  .modal.show { display: flex; }
+  .modal-content {
+    background: #fff;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal-header {
+    padding: 14px 20px;
+    background: #1F4E79;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-header h3 { font-size: 16px; font-weight: 600; }
+  .modal-close {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.3); }
+  .modal-body {
+    flex: 1;
+    overflow: auto;
+    padding: 20px;
+  }
+  .modal-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .doc-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 8px 16px;
+    background: #f5f7fa;
+    border-bottom: 1px solid #dce4eb;
+  }
+  .doc-tab {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    font-size: 13px;
+    color: #5f6d7e;
+  }
+  .doc-tab.active {
+    background: #fff;
+    color: #1F4E79;
+    border-color: #dce4eb;
+    border-bottom-color: #fff;
+    font-weight: 600;
+  }
+
+  /* ---------- Toast ---------- */
+  .toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    background: #2ecc71;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s;
+    font-size: 14px;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.error { background: #e74c3c; }
+  .toast.warn { background: #f39c12; }
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width: 640px) {
+    .header { padding: 16px 20px; }
+    .header h1 { font-size: 18px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== 顶部标题栏 ===== -->
+  <div class="header">
+    <div>
+      <h1>智能路由系统 · 路由参数调控台</h1>
+      <div class="subtitle">实时调节路由权重，观察模型选型变化 · WhoEngine Routing Dashboard</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="openDocs()">📄 查看项目文档</button>
+      <button class="btn btn-primary" onclick="saveAndApply()">💾 保存并应用</button>
+    </div>
+  </div>
+
+  <!-- ===== 预设栏 ===== -->
+  <div class="preset-bar">
+    <label>预设方案：</label>
+    <button class="preset-btn" data-preset="efficiency_first" onclick="applyPreset('efficiency_first')">⚡ 效率优先（80% 任务用高效模型）</button>
+    <button class="preset-btn" data-preset="balanced" onclick="applyPreset('balanced')">⚖️ 平衡</button>
+    <button class="preset-btn" data-preset="accuracy_first" onclick="applyPreset('accuracy_first')">🎯 能力优先</button>
+    <button class="preset-btn" onclick="resetParams()">↺ 重置默认</button>
+    <div class="preset-status">
+      当前方案：<span id="presetBadge" class="badge">-</span>
+    </div>
+  </div>
+
+  <!-- ===== 参数分组卡片 ===== -->
+  <div class="grid" id="paramsGrid">
+    <!-- 由 JS 动态渲染 -->
+  </div>
+
+  <!-- ===== 底部操作栏 ===== -->
+  <div class="footer-bar">
+    <div class="info">
+      <span id="changeInfo">未做修改</span> ·
+      调节滑块后点击「保存并应用」即时生效 ·
+      修改将记录到 params_changes.log · 重启后恢复默认预设
+    </div>
+    <div class="actions">
+      <button class="btn btn-danger" onclick="discardChanges()">↺ 放弃修改</button>
+      <button class="btn btn-primary" onclick="saveAndApply()">💾 保存并应用</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 文档查看器模态框 ===== -->
+<div class="modal" id="docsModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>📄 项目文档</h3>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <a class="btn" href="/api/docs/docx/download" target="_blank" style="font-size:12px;padding:6px 12px;">⬇ 下载 DOCX</a>
+        <button class="modal-close" onclick="closeDocs()">×</button>
+      </div>
+    </div>
+    <div class="doc-tabs">
+      <button class="doc-tab active" data-doc="markdown" onclick="switchDoc('markdown')">项目说明文档（Markdown）</button>
+      <button class="doc-tab" data-doc="readme" onclick="switchDoc('readme')">README</button>
+    </div>
+    <div class="modal-body" id="docBody">
+      <!-- 由 JS 动态加载 -->
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// 全局状态
+// ============================================================
+let paramMeta = {};        // 参数元数据
+let originalValues = {};   // 服务器上的值（保存后更新）
+let currentValues = {};    // 当前界面上的值（未保存）
+let currentPreset = '';    // 当前预设
+
+const CATEGORY_INFO = {
+  '选型权重':   { icon: '⚖', color: '#2E75B6', order: 1 },
+  '难度评估':   { icon: '📊', color: '#8e44ad', order: 2 },
+  '难度自适应': { icon: '📈', color: '#9b59b6', order: 3 },
+  '效率归一化': { icon: '⚡', color: '#e67e22', order: 4 },
+  'KNN 路由':   { icon: '🎯', color: '#27ae60', order: 5 },
+  '关键词先验': { icon: '🔑', color: '#16a085', order: 6 },
+};
+
+// ============================================================
+// 初始化
+// ============================================================
+async function init() {
+  await loadParams();
+  renderParams();
+  updatePresetBadge();
+}
+
+async function loadParams() {
+  try {
+    const resp = await fetch('/api/params/meta');
+    const data = await resp.json();
+    paramMeta = data;
+    // 初始化 currentValues 和 originalValues
+    currentValues = {};
+    originalValues = {};
+    for (const key in paramMeta) {
+      currentValues[key] = paramMeta[key].current;
+      originalValues[key] = paramMeta[key].current;
+    }
+    const presetResp = await fetch('/api/params/preset');
+    const presetData = await presetResp.json();
+    currentPreset = presetData.current;
+  } catch (e) {
+    showToast('加载参数失败：' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// 渲染参数卡片
+// ============================================================
+function renderParams() {
+  const grid = document.getElementById('paramsGrid');
+  // 按分类分组
+  const groups = {};
+  for (const key in paramMeta) {
+    const cat = paramMeta[key].category;
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push({ key, ...paramMeta[key] });
+  }
+  // 按 CATEGORY_INFO 的 order 排序
+  const sortedCats = Object.keys(groups).sort((a, b) => {
+    const oa = CATEGORY_INFO[a]?.order || 99;
+    const ob = CATEGORY_INFO[b]?.order || 99;
+    return oa - ob;
+  });
+
+  grid.innerHTML = sortedCats.map(cat => {
+    const info = CATEGORY_INFO[cat] || { icon: '?', color: '#7f8c8d' };
+    const params = groups[cat];
+    return `
+      <div class="card">
+        <div class="card-header">
+          <span class="icon" style="background:${info.color}">${info.icon}</span>
+          <h2>${cat}</h2>
+          <span class="count">${params.length} 项</span>
+        </div>
+        <div class="card-body">
+          ${params.map(p => renderSlider(p)).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 绑定滑块事件
+  document.querySelectorAll('input[type="range"]').forEach(input => {
+    input.addEventListener('input', e => onSliderChange(e.target));
+  });
+}
+
+function renderSlider(p) {
+  const val = currentValues[p.key];
+  const valStr = formatValue(val, p.step);
+  const minStr = formatValue(p.min, p.step);
+  const maxStr = formatValue(p.max, p.step);
+  return `
+    <div class="slider-row" data-key="${p.key}">
+      <div class="slider-label">
+        <div>
+          <span class="name">${p.key.split('.').pop()}</span>
+          <span class="desc">${p.description}</span>
+        </div>
+        <span class="value" id="val-${p.key}">${valStr}</span>
+      </div>
+      <div class="slider-wrap">
+        <span class="bound">${minStr}</span>
+        <input type="range"
+               id="slider-${p.key}"
+               min="${p.min}" max="${p.max}" step="${p.step}"
+               value="${val}"
+               oninput="onSliderChange(this)"
+               data-key="${p.key}">
+        <span class="bound">${maxStr}</span>
+      </div>
+    </div>
+  `;
+}
+
+function formatValue(v, step) {
+  if (step >= 1) return Math.round(v).toString();
+  if (step >= 0.1) return Number(v).toFixed(1);
+  return Number(v).toFixed(2);
+}
+
+// ============================================================
+// 滑块事件
+// ============================================================
+function onSliderChange(input) {
+  const key = input.dataset.key;
+  const newVal = parseFloat(input.value);
+  currentValues[key] = newVal;
+  // 更新数值显示
+  const valEl = document.getElementById('val-' + key);
+  const meta = paramMeta[key];
+  valEl.textContent = formatValue(newVal, meta.step);
+  // 标记是否已修改
+  const row = input.closest('.slider-row');
+  if (newVal !== originalValues[key]) {
+    row.classList.add('changed');
+    input.classList.add('changed');
+  } else {
+    row.classList.remove('changed');
+    input.classList.remove('changed');
+  }
+  // 更新底部状态
+  updateChangeInfo();
+  // 标记预设为 custom
+  setCurrentPreset('custom');
+}
+
+function updateChangeInfo() {
+  let changed = 0;
+  for (const key in currentValues) {
+    if (currentValues[key] !== originalValues[key]) changed++;
+  }
+  const el = document.getElementById('changeInfo');
+  if (changed === 0) {
+    el.textContent = '未做修改';
+    el.style.color = '#7f8c8d';
+  } else {
+    el.textContent = `已修改 ${changed} 项参数（未保存）`;
+    el.style.color = '#f39c12';
+    el.style.fontWeight = '600';
+  }
+}
+
+// ============================================================
+// 预设方案
+// ============================================================
+async function applyPreset(name) {
+  if (!confirm(`确定应用预设「${name}」？当前未保存的修改将丢失。`)) return;
+  try {
+    const resp = await fetch('/api/params/preset', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({preset: name})
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      await loadParams();
+      renderParams();
+      setCurrentPreset(name);
+      updateChangeInfo();
+      showToast(`已应用预设：${name}`, 'success');
+    } else {
+      showToast('应用预设失败：' + data.error, 'error');
+    }
+  } catch (e) {
+    showToast('应用预设失败：' + e.message, 'error');
+  }
+}
+
+async function resetParams() {
+  if (!confirm('确定重置所有参数为默认值？')) return;
+  await applyPreset('efficiency_first');
+}
+
+function setCurrentPreset(name) {
+  currentPreset = name;
+  updatePresetBadge();
+  // 更新预设按钮高亮
+  document.querySelectorAll('.preset-btn[data-preset]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.preset === name);
+  });
+}
+
+function updatePresetBadge() {
+  const badge = document.getElementById('presetBadge');
+  const labels = {
+    'efficiency_first': '⚡ 效率优先',
+    'balanced': '⚖️ 平衡',
+    'accuracy_first': '🎯 能力优先',
+    'custom': '✏️ 自定义',
+  };
+  badge.textContent = labels[currentPreset] || currentPreset;
+  badge.className = 'badge ' + currentPreset;
+}
+
+// ============================================================
+// 保存 / 放弃
+// ============================================================
+async function saveAndApply() {
+  // 收集已修改的参数
+  const changes = {};
+  for (const key in currentValues) {
+    if (currentValues[key] !== originalValues[key]) {
+      changes[key] = currentValues[key];
+    }
+  }
+  if (Object.keys(changes).length === 0) {
+    showToast('没有需要保存的修改', 'warn');
+    return;
+  }
+  try {
+    const resp = await fetch('/api/params', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(changes)
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      // 更新 originalValues
+      for (const key in changes) originalValues[key] = changes[key];
+      // 清除 changed 标记
+      document.querySelectorAll('.slider-row.changed').forEach(r => r.classList.remove('changed'));
+      document.querySelectorAll('input[type="range"].changed').forEach(r => r.classList.remove('changed'));
+      setCurrentPreset('custom');
+      updateChangeInfo();
+      const logMsg = data.logged ? '（已记录到日志）' : '';
+      showToast(`已保存 ${Object.keys(changes).length} 项修改并即时生效${logMsg}`, 'success');
+    } else {
+      showToast('保存失败：' + data.error, 'error');
+    }
+  } catch (e) {
+    showToast('保存失败：' + e.message, 'error');
+  }
+}
+
+function discardChanges() {
+  let changed = 0;
+  for (const key in currentValues) {
+    if (currentValues[key] !== originalValues[key]) {
+      currentValues[key] = originalValues[key];
+      changed++;
+      // 更新滑块
+      const slider = document.getElementById('slider-' + key);
+      if (slider) slider.value = currentValues[key];
+      const valEl = document.getElementById('val-' + key);
+      if (valEl) valEl.textContent = formatValue(currentValues[key], paramMeta[key].step);
+      const row = slider?.closest('.slider-row');
+      row?.classList.remove('changed');
+      slider?.classList.remove('changed');
+    }
+  }
+  updateChangeInfo();
+  if (changed > 0) showToast(`已放弃 ${changed} 项修改`, 'warn');
+  else showToast('没有需要放弃的修改', 'warn');
+}
+
+// ============================================================
+// 文档查看器
+// ============================================================
+let currentDoc = 'markdown';
+
+async function openDocs() {
+  document.getElementById('docsModal').classList.add('show');
+  await switchDoc(currentDoc);
+}
+
+function closeDocs() {
+  document.getElementById('docsModal').classList.remove('show');
+}
+
+async function switchDoc(name) {
+  currentDoc = name;
+  // 更新 tab 高亮
+  document.querySelectorAll('.doc-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.doc === name);
+  });
+  const body = document.getElementById('docBody');
+  body.innerHTML = '<div style="text-align:center;padding:40px;color:#95a5a6;">加载中...</div>';
+  try {
+    const url = name === 'markdown' ? '/api/docs/markdown' : '/api/docs/readme';
+    const resp = await fetch(url);
+    const data = await resp.json();
+    const text = data.content || '';
+    body.innerHTML = `<pre style="white-space:pre-wrap;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.6;color:#2c3e50;padding:8px;">${escapeHtml(text)}</pre>`;
+  } catch (e) {
+    body.innerHTML = '<div style="color:#e74c3c;padding:20px;">加载失败：' + e.message + '</div>';
+  }
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ============================================================
+// Toast
+// ============================================================
+let toastTimer = null;
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type === 'error' ? 'error' : type === 'warn' ? 'warn' : '');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// 点击模态框外部关闭
+document.getElementById('docsModal').addEventListener('click', e => {
+  if (e.target.id === 'docsModal') closeDocs();
+});
+
+// ESC 关闭模态框
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDocs();
+});
+
+// 启动
+init();
+</script>
+</body>
+</html>
