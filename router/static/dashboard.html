@@ -359,6 +359,261 @@
     .header h1 { font-size: 18px; }
     .grid { grid-template-columns: 1fr; }
   }
+
+  /* ---------- 路由服务配置卡片 ---------- */
+  .route-config-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid #ecf0f1;
+  }
+  .route-config-card .card-header {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e6f3ff 100%);
+    padding: 14px 20px;
+    border-bottom: 1px solid #dce4eb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .route-config-card .card-header .icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+    background: #1F4E79;
+  }
+  .route-config-card .card-header h2 { font-size: 15px; color: #1F4E79; font-weight: 600; }
+  .route-config-card .card-body { padding: 18px 20px; }
+
+  .route-mode-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8f9fb;
+    border-radius: 8px;
+    margin-bottom: 14px;
+  }
+  .route-mode-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .route-mode-badge.test { background: #fff3cd; color: #856404; }
+  .route-mode-badge.normal { background: #d4edda; color: #155724; }
+
+  .route-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    margin-bottom: 12px;
+  }
+  .route-form-group { display: flex; flex-direction: column; gap: 4px; }
+  .route-form-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #34495e;
+  }
+  .route-form-group input[type="text"],
+  .route-form-group input[type="number"] {
+    border: 1px solid #dce1e8;
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .route-form-group input:focus {
+    outline: none;
+    border-color: #2E75B6;
+    box-shadow: 0 0 0 2px rgba(46,117,182,0.12);
+  }
+
+  /* 模型路由表 */
+  .model-routes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .model-routes-table th {
+    background: #eaf2f8;
+    color: #1F4E79;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .model-routes-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .model-routes-table input[type="text"] {
+    width: 100%;
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 5px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .model-routes-table input[type="text"]:focus {
+    outline: none;
+    border-color: #2E75B6;
+    background: #fff;
+  }
+  .model-routes-table .del-btn {
+    background: #fff;
+    color: #e74c3c;
+    border: 1px solid #f5d0cd;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .model-routes-table .del-btn:hover { background: #fdecea; }
+  .route-add-btn {
+    margin-top: 8px;
+    background: #fff;
+    color: #2E75B6;
+    border: 1px dashed #2E75B6;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .route-add-btn:hover { background: #eaf2f8; }
+  .route-save-btn {
+    background: linear-gradient(135deg, #1F4E79, #2E75B6);
+    color: #fff;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+  .route-save-btn:hover { box-shadow: 0 4px 12px rgba(31,78,121,0.4); }
+
+  /* 模型信息 */
+  .model-info-list { display:flex; flex-direction:column; gap:6px; }
+  .model-info-item {
+    padding:6px 10px;
+    background:#f8f9fb;
+    border-radius:6px;
+    border-left:3px solid #2E75B6;
+  }
+  .model-info-item.untested { border-left-color:#f39c12; }
+  .model-info-header {
+    display:flex; align-items:center; gap:8px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .model-info-header:hover { background:#eef3f9; border-radius:6px; }
+  .model-info-name { font-size:13px; font-weight:600; color:#34495e; flex:1; }
+  .model-info-time { font-size:11px; color:#95a5a6; }
+  .model-info-arrow {
+    font-size:10px; color:#95a5a6;
+    transition:transform 0.2s;
+    display:inline-block;
+  }
+  .model-info-item.expanded .model-info-arrow { transform:rotate(90deg); }
+  .cap-badge {
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:10px;
+    font-size:11px;
+    font-weight:600;
+  }
+  .cap-badge.lang { background:#e8f5e9; color:#2e7d32; }
+  .cap-badge.vision { background:#e3f2fd; color:#1565c0; }
+  .cap-badge.gen { background:#fce4ec; color:#c62828; }
+  .cap-badge.untested { background:#fff3cd; color:#856404; }
+
+  /* 强制路由勾选框 */
+  .force-route-cb {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    accent-color: #2E75B6;
+    flex-shrink: 0;
+    margin-left: 2px;
+  }
+  .force-route-cb:checked { accent-color: #e74c3c; }
+  .model-info-item.forced {
+    background: #fff3cd !important;
+    border-left-color: #e74c3c !important;
+  }
+  .force-route-cb-label {
+    font-size: 10px;
+    color: #95a5a6;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  /* 模型详情面板（点击展开） */
+  .model-detail-panel {
+    margin-top:8px;
+    padding:10px 12px;
+    background:#fff;
+    border:1px solid #e8edf3;
+    border-radius:6px;
+    font-size:12px;
+  }
+  .model-detail-panel .detail-empty {
+    color:#f39c12; font-style:italic; text-align:center; padding:8px 0;
+  }
+  .model-detail-panel .detail-section {
+    margin-bottom:10px;
+  }
+  .model-detail-panel .detail-section:last-child { margin-bottom:0; }
+  .model-detail-panel .detail-section-title {
+    font-size:11px; font-weight:700; color:#1F4E79;
+    margin-bottom:5px; padding-bottom:3px;
+    border-bottom:1px solid #ecf0f1;
+  }
+  /* 紧凑的得分 tag 列表（横向 wrap） */
+  .score-tags {
+    display:flex; flex-wrap:wrap; gap:5px;
+  }
+  .score-tag {
+    display:inline-flex; align-items:center; gap:4px;
+    padding:3px 8px;
+    border-radius:4px;
+    font-size:11px;
+    background:#f5f7fa;
+    border:1px solid #e8edf3;
+  }
+  .score-tag .tag-name { color:#34495e; }
+  .score-tag .tag-val { font-weight:700; }
+  .score-tag.high { background:#e8f5e9; border-color:#c8e6c9; }
+  .score-tag.high .tag-val { color:#2e7d32; }
+  .score-tag.mid { background:#fff8e1; border-color:#ffe082; }
+  .score-tag.mid .tag-val { color:#f57c00; }
+  .score-tag.low { background:#fbe9e7; border-color:#ffab91; }
+  .score-tag.low .tag-val { color:#c62828; }
+  /* 效率指标紧凑列表 */
+  .eff-tags {
+    display:flex; flex-wrap:wrap; gap:5px;
+  }
+  .eff-tag {
+    padding:3px 8px;
+    border-radius:4px;
+    font-size:11px;
+    background:#f5f7fa;
+    border:1px solid #e8edf3;
+  }
+  .eff-tag .k { color:#7f8c8d; }
+  .eff-tag .v { color:#1F4E79; font-weight:600; margin-left:4px; }
 </style>
 </head>
 <body>
@@ -371,6 +626,8 @@
       <div class="subtitle">实时调节路由权重，观察模型选型变化 · WhoEngine Routing Dashboard</div>
     </div>
     <div class="header-actions">
+      <a class="btn" href="/home">&#8962; 首页</a>
+      <a class="btn" href="/test">&#128221; 模型评测</a>
       <button class="btn" onclick="openDocs()">📄 查看项目文档</button>
       <button class="btn btn-primary" onclick="saveAndApply()">💾 保存并应用</button>
     </div>
@@ -385,6 +642,149 @@
     <button class="preset-btn" onclick="resetParams()">↺ 重置默认</button>
     <div class="preset-status">
       当前方案：<span id="presetBadge" class="badge">-</span>
+    </div>
+  </div>
+
+  <!-- ===== 路由服务配置卡片（测试开关 + 模型路由表） ===== -->
+  <div class="route-config-card">
+    <div class="card-header">
+      <span class="icon">⚡</span>
+      <h2>路由服务配置</h2>
+      <span style="margin-left:auto;font-size:12px;color:#95a5a6;">
+        切换测试/正常模式、配置模型 API 地址，即时生效（重启后恢复 config.py）
+      </span>
+    </div>
+    <div class="card-body">
+      <!-- 对外接入地址 -->
+      <div style="margin-bottom:14px;padding:10px 14px;background:#f0f7ff;border-radius:8px;border:1px solid #dce4eb;">
+        <div style="font-size:12px;font-weight:600;color:#1F4E79;margin-bottom:4px;">📡 路由服务对外接入地址</div>
+        <div style="font-size:13px;color:#34495e;">
+          外部应用（如 CherryStudio、OpenAI 客户端等）请配置以下地址接入本路由程序：
+        </div>
+        <div style="margin-top:6px;display:flex;gap:12px;flex-wrap:wrap;">
+          <div style="background:#fff;padding:4px 10px;border-radius:4px;border:1px solid #dce1e8;font-size:12px;">
+            <span style="color:#95a5a6;">API Base:</span>
+            <code id="routeServiceUrl" style="color:#1F4E79;font-weight:600;">http://localhost:8000/v1</code>
+          </div>
+          <div style="background:#fff;padding:4px 10px;border-radius:4px;border:1px solid #dce1e8;font-size:12px;">
+            <span style="color:#95a5a6;">Chat:</span>
+            <code style="color:#1F4E79;">/v1/chat/completions</code>
+          </div>
+          <div style="background:#fff;padding:4px 10px;border-radius:4px;border:1px solid #dce1e8;font-size:12px;">
+            <span style="color:#95a5a6;">API Key:</span>
+            <code style="color:#1F4E79;">任意值</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- 运行模式开关：左边"正常模式"，右边"测试模式"，勾选=测试模式 -->
+      <div class="route-mode-row">
+        <span style="font-size:13px;font-weight:600;color:#34495e;">运行模式：</span>
+        <span id="routeModeBadgeNormal" style="font-size:12px;font-weight:600;color:#27ae60;">正常模式</span>
+        <label class="switch" style="margin:0 4px;">
+          <input type="checkbox" id="routeTestMode" onchange="onRouteModeChange()">
+          <span class="slider"></span>
+        </label>
+        <span id="routeModeBadgeTest" style="font-size:12px;font-weight:600;color:#f39c12;">测试模式</span>
+        <span id="routeModeDesc" style="margin-left:auto;font-size:12px;color:#7f8c8d;"></span>
+      </div>
+
+      <!-- 正常模式才显示的配置（超时/SSL/路由表/保存按钮） -->
+      <div id="routeNormalConfig">
+        <!-- SSL / 超时 -->
+        <div class="route-form-row">
+          <div class="route-form-group">
+            <label>请求超时（秒）</label>
+            <input type="number" id="routeTimeout" min="5" max="600" value="120">
+          </div>
+          <div class="route-form-group">
+            <label>SSL 证书校验</label>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:4px;">
+              <label class="switch">
+                <input type="checkbox" id="routeVerifySsl">
+                <span class="slider"></span>
+              </label>
+              <span id="routeSslLabel" style="font-size:12px;color:#7f8c8d;">启用（自签名证书需关闭）</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 远程端点（自动发现模型，推荐） -->
+        <div style="margin-top:16px;padding:12px 14px;background:#f0f7ff;border-radius:8px;border:1px solid #dce4eb;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:13px;font-weight:600;color:#1F4E79;">🔍 远程端点（URL + Key，自动发现模型）</span>
+            <span id="discoveredCountBadge" style="font-size:11px;color:#7f8c8d;background:#fff;padding:2px 8px;border-radius:10px;border:1px solid #dce1e8;">未发现</span>
+          </div>
+          <div style="font-size:12px;color:#95a5a6;margin-bottom:10px;">
+            给出 URL 和 API Key，程序会调用 <code>{url}/models</code> 自动检测该端点上正在运行的模型，无需手动填写模型名。URL 可以是基础地址（如 <code>https://xxx/v1</code>）或完整 chat 地址。
+          </div>
+          <table class="model-routes-table" id="remoteEndpointsTable">
+            <thead>
+              <tr>
+                <th>API 地址（如 https://xxx/v1）</th>
+                <th style="width:30%;">API Key</th>
+                <th style="width:60px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="remoteEndpointsBody">
+              <!-- 由 JS 动态渲染 -->
+            </tbody>
+          </table>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="route-add-btn" onclick="addEndpointRow()">＋ 添加端点</button>
+            <button class="route-save-btn" onclick="discoverModels()" style="background:#27ae60;padding:6px 14px;">🔍 保存并检测模型</button>
+            <span id="discoverResult" style="font-size:12px;color:#7f8c8d;"></span>
+          </div>
+        </div>
+
+        <!-- 手动模型路由（高级，可折叠，向后兼容） -->
+        <details style="margin-top:12px;">
+          <summary style="font-size:12px;font-weight:600;color:#7f8c8d;cursor:pointer;padding:6px 0;user-select:none;">
+            ⚙ 手动模型路由映射（高级选项，向后兼容）
+          </summary>
+          <div style="margin-top:8px;">
+            <div style="font-size:12px;color:#95a5a6;margin-bottom:8px;">
+              手动指定模型名 → API URL 映射。配置了远程端点后通常无需手动填写，此处保留用于手动覆盖或无需鉴权的场景。
+            </div>
+            <table class="model-routes-table" id="modelRoutesTable">
+              <thead>
+                <tr>
+                  <th style="width:30%;">模型名</th>
+                  <th>API 地址（OpenAI 兼容，如 https://xxx/v1/chat/completions）</th>
+                  <th style="width:60px;">操作</th>
+                </tr>
+              </thead>
+              <tbody id="modelRoutesBody">
+                <!-- 由 JS 动态渲染 -->
+              </tbody>
+            </table>
+            <button class="route-add-btn" onclick="addRouteRow()">＋ 添加模型路由</button>
+          </div>
+        </details>
+
+        <button class="route-save-btn" onclick="saveRouteConfig()" style="margin-top:12px;">💾 保存并应用路由配置</button>
+        <div style="margin-top:8px;font-size:12px;color:#95a5a6;">
+          提示：「保存并发现模型」会先保存端点配置再自动检测；「保存并应用路由配置」保存全部配置（含手动路由）。重启后恢复 config.py 原值。
+        </div>
+      </div>
+
+      <!-- 测试模式提示 -->
+      <div id="routeTestHint" style="display:none;margin-top:8px;padding:10px 14px;background:#fff3cd;border-radius:6px;font-size:12px;color:#856404;">
+        测试模式下不连接远程服务器，仅验证路由逻辑。下方模型信息来自已有测试结果。切换到正常模式可配置模型 API 地址。
+      </div>
+
+      <!-- 模型信息展示 -->
+      <div style="margin-top:18px;border-top:1px solid #ecf0f1;padding-top:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:600;color:#1F4E79;">📋 模型信息</span>
+          <button class="route-add-btn" onclick="loadRouteModels()" style="padding:4px 12px;">🔄 刷新</button>
+        </div>
+        <!-- 强制路由状态横幅 -->
+        <div id="forcedModelBanner" style="display:none;margin-bottom:8px;padding:8px 12px;background:#fff3cd;border-radius:6px;border:1px solid #ffeaa7;font-size:12px;color:#856404;align-items:center;flex-wrap:wrap;"></div>
+        <div id="routeModelsContainer" style="font-size:12px;color:#95a5a6;">
+          点击「刷新」加载模型信息...
+        </div>
+      </div>
     </div>
   </div>
 
@@ -455,6 +855,8 @@ async function init() {
   await loadParams();
   renderParams();
   updatePresetBadge();
+  await loadRouteConfig();   // 加载路由服务配置
+  loadRouteModels();          // 加载模型信息
 }
 
 async function loadParams() {
@@ -475,6 +877,515 @@ async function loadParams() {
   } catch (e) {
     showToast('加载参数失败：' + e.message, 'error');
   }
+}
+
+// ============================================================
+// 路由服务配置（test_mode / model_routes / verify_ssl / timeout）
+// ============================================================
+async function loadRouteConfig() {
+  try {
+    const resp = await fetch('/api/route/config');
+    const cfg = await resp.json();
+    // 测试模式开关（勾选=测试模式）
+    document.getElementById('routeTestMode').checked = cfg.test_mode;
+    document.getElementById('routeTimeout').value = cfg.request_timeout;
+    document.getElementById('routeVerifySsl').checked = cfg.verify_ssl;
+    updateRouteModeUI(cfg.test_mode);
+    updateSslLabel(cfg.verify_ssl);
+    // 渲染远程端点表
+    renderRemoteEndpoints(cfg.remote_endpoints || []);
+    // 渲染模型路由表（手动，高级）
+    renderModelRoutes(cfg.model_routes || {});
+    // 加载对外接入地址
+    try {
+      const sresp = await fetch('/api/route/status');
+      const sdata = await sresp.json();
+      const host = sdata.service_host || 'localhost';
+      const port = sdata.service_port || 8000;
+      const displayHost = (host === '0.0.0.0') ? 'localhost' : host;
+      document.getElementById('routeServiceUrl').textContent = `http://${displayHost}:${port}/v1`;
+      // 更新已发现模型数徽章
+      updateDiscoveredBadge(sdata.discovered_models_count || 0);
+      // 加载强制路由模型状态
+      _currentForcedModel = sdata.forced_model || '';
+      updateForcedModelUI();
+    } catch (e) { /* 用默认值 */ }
+  } catch (e) {
+    showToast('加载路由配置失败：' + e.message, 'error');
+  }
+}
+
+// 更新已发现模型数徽章
+function updateDiscoveredBadge(count) {
+  const badge = document.getElementById('discoveredCountBadge');
+  if (!badge) return;
+  if (count > 0) {
+    badge.textContent = `已发现 ${count} 个模型`;
+    badge.style.color = '#155724';
+    badge.style.background = '#d4edda';
+    badge.style.borderColor = '#c3e6cb';
+  } else {
+    badge.textContent = '未发现';
+    badge.style.color = '#7f8c8d';
+    badge.style.background = '#fff';
+    badge.style.borderColor = '#dce1e8';
+  }
+}
+
+// ============================================================
+// 强制路由模型（勾选某个模型，所有请求都路由到它）
+// ============================================================
+let _currentForcedModel = '';
+
+// 更新强制路由 UI（徽章 + 勾选状态）
+function updateForcedModelUI() {
+  const banner = document.getElementById('forcedModelBanner');
+  if (_currentForcedModel) {
+    if (banner) {
+      banner.style.display = 'flex';
+      banner.innerHTML = `📌 强制路由已启用：所有请求将路由到 <code style="margin:0 4px;background:#fff;padding:1px 6px;border-radius:3px;">${escapeHtml(_currentForcedModel)}</code> <button onclick="clearForcedModel()" style="margin-left:8px;background:#fff;border:1px solid #e74c3c;color:#e74c3c;padding:2px 8px;border-radius:4px;cursor:pointer;font-size:11px;">取消</button>`;
+    }
+  } else {
+    if (banner) banner.style.display = 'none';
+  }
+  // 同步模型列表中的勾选状态和高亮
+  document.querySelectorAll('.force-route-cb').forEach(cb => {
+    const isForced = (cb.dataset.model === _currentForcedModel);
+    cb.checked = isForced;
+    const item = cb.closest('.model-info-item');
+    if (item) {
+      if (isForced) item.classList.add('forced');
+      else item.classList.remove('forced');
+    }
+  });
+}
+
+// 设置强制路由模型
+async function setForcedModel(modelName) {
+  if (modelName && modelName === _currentForcedModel) {
+    // 再次点击同一个 → 取消
+    modelName = '';
+  }
+  try {
+    const resp = await fetch('/api/route/forced-model', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ model: modelName })
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      _currentForcedModel = data.forced_model || '';
+      updateForcedModelUI();
+      if (_currentForcedModel) {
+        showToast(`已设置强制路由到: ${_currentForcedModel}`, 'success');
+      } else {
+        showToast('已取消强制路由，恢复自动路由', 'info');
+      }
+    } else {
+      showToast('设置失败：' + (data.detail || '未知错误'), 'error');
+    }
+  } catch (e) {
+    showToast('设置强制路由失败：' + e.message, 'error');
+  }
+}
+
+// 清除强制路由
+async function clearForcedModel() {
+  await setForcedModel('');
+}
+
+function updateRouteModeUI(testMode, skipModelReload = false) {
+  // 左右标签高亮：勾选=测试模式，未勾选=正常模式
+  const normalBadge = document.getElementById('routeModeBadgeNormal');
+  const testBadge = document.getElementById('routeModeBadgeTest');
+  const desc = document.getElementById('routeModeDesc');
+  const normalConfig = document.getElementById('routeNormalConfig');
+  const testHint = document.getElementById('routeTestHint');
+
+  if (testMode) {
+    // 测试模式：高亮"测试模式"，灰掉"正常模式"
+    normalBadge.style.opacity = '0.4';
+    testBadge.style.opacity = '1';
+    desc.textContent = '当前：测试模式（不连接远程服务器，仅验证路由逻辑）';
+    desc.style.color = '#f39c12';
+    // 隐藏路由配置，显示测试提示
+    normalConfig.style.display = 'none';
+    testHint.style.display = 'block';
+  } else {
+    // 正常模式：高亮"正常模式"，灰掉"测试模式"
+    normalBadge.style.opacity = '1';
+    testBadge.style.opacity = '0.4';
+    desc.textContent = '当前：正常模式（实际调用远程模型 API）';
+    desc.style.color = '#27ae60';
+    // 显示路由配置，隐藏测试提示
+    normalConfig.style.display = 'block';
+    testHint.style.display = 'none';
+  }
+  // 切换模式后重新加载模型信息（onRouteModeChange 中会延后到后端模式更新后再刷新）
+  if (!skipModelReload) {
+    loadRouteModels();
+  }
+}
+
+async function onRouteModeChange() {
+  const testMode = document.getElementById('routeTestMode').checked;
+  // 先更新 UI（跳过早刷新模型信息，等后端模式保存成功后再刷新）
+  updateRouteModeUI(testMode, true);
+  // 切换模式后自动保存 test_mode（即时生效）
+  await applyTestModeChange(testMode);
+  // 后端模式已更新，刷新模型信息以匹配新模式
+  loadRouteModels();
+}
+
+async function applyTestModeChange(testMode) {
+  try {
+    const resp = await fetch('/api/route/config', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ test_mode: testMode })
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      showToast(testMode ? '已切换到测试模式' : '已切换到正常模式，请配置模型路由', 'success');
+    }
+  } catch (e) { /* 静默 */ }
+}
+
+function updateSslLabel(verify) {
+  document.getElementById('routeSslLabel').textContent =
+    verify ? '启用（自签名证书需关闭）' : '已关闭（不校验证书）';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // SSL 开关文案
+  const sslCb = document.getElementById('routeVerifySsl');
+  if (sslCb) {
+    sslCb.addEventListener('change', () => updateSslLabel(sslCb.checked));
+  }
+});
+
+// 渲染远程端点表
+function renderRemoteEndpoints(endpoints) {
+  const tbody = document.getElementById('remoteEndpointsBody');
+  tbody.innerHTML = '';
+  const eps = Array.isArray(endpoints) ? endpoints : [];
+  if (eps.length === 0) {
+    addEndpointRow('', '');
+  } else {
+    eps.forEach(ep => addEndpointRow(ep.url || '', ep.api_key || ''));
+  }
+}
+
+function addEndpointRow(url = '', api_key = '') {
+  const tbody = document.getElementById('remoteEndpointsBody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" class="endpoint-url" value="${escapeHtml(url)}" placeholder="https://xxx/v1 或 https://xxx/v1/chat/completions"></td>
+    <td><input type="password" class="endpoint-key" value="${escapeHtml(api_key)}" placeholder="sk-xxxx（无鉴权留空）" style="font-family:monospace;"></td>
+    <td><button class="del-btn" onclick="this.closest('tr').remove()">删除</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+// 收集远程端点
+function collectRemoteEndpoints() {
+  const endpoints = [];
+  document.querySelectorAll('#remoteEndpointsBody tr').forEach(tr => {
+    const url = (tr.querySelector('.endpoint-url')?.value || '').trim();
+    const api_key = (tr.querySelector('.endpoint-key')?.value || '').trim();
+    if (url) endpoints.push({ url, api_key });
+  });
+  return endpoints;
+}
+
+// 保存端点并触发自动检测
+async function discoverModels() {
+  const endpoints = collectRemoteEndpoints();
+  if (endpoints.length === 0) {
+    showToast('请先添加至少一个远程端点（URL）', 'error');
+    return;
+  }
+  const resultEl = document.getElementById('discoverResult');
+  resultEl.textContent = '⏳ 正在保存并检测...';
+  resultEl.style.color = '#2E75B6';
+
+  // 先保存端点配置 + 切换到正常模式（确保模型列表显示检测结果而非测试数据）
+  try {
+    const saveResp = await fetch('/api/route/config', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ remote_endpoints: endpoints, test_mode: false })
+    });
+    const saveData = await saveResp.json();
+    if (!saveData.ok) {
+      resultEl.textContent = '保存失败：' + (saveData.detail || '未知错误');
+      resultEl.style.color = '#e74c3c';
+      return;
+    }
+    // 同步前端 UI 到正常模式
+    document.getElementById('routeTestMode').checked = false;
+    updateRouteModeUI(false);
+  } catch (e) {
+    resultEl.textContent = '保存失败：' + e.message;
+    resultEl.style.color = '#e74c3c';
+    return;
+  }
+
+  // 再触发检测
+  try {
+    const resp = await fetch('/api/route/discover', { method: 'POST' });
+    const data = await resp.json();
+    if (data.ok) {
+      const count = data.models.length;
+      updateDiscoveredBadge(count);
+      if (count > 0) {
+        resultEl.innerHTML = `✅ 检测到 <b>${count}</b> 个模型：${data.models.map(m => `<code style="margin:0 2px;">${escapeHtml(m)}</code>`).join('')}`;
+        resultEl.style.color = '#155724';
+        showToast(`自动检测完成：检测到 ${count} 个模型`, 'success');
+      } else {
+        resultEl.textContent = '⚠ 未检测到任何模型，请检查 URL/Key 是否正确';
+        resultEl.style.color = '#856404';
+      }
+      if (data.errors && data.errors.length > 0) {
+        resultEl.innerHTML += `<br><span style="color:#e74c3c;font-size:11px;">${data.errors.map(e => '· ' + escapeHtml(e)).join('<br>')}</span>`;
+      }
+      // 无论是否检测到模型，都刷新模型信息列表
+      loadRouteModels();
+    } else {
+      resultEl.textContent = '检测失败：' + (data.detail || '未知错误');
+      resultEl.style.color = '#e74c3c';
+    }
+  } catch (e) {
+    resultEl.textContent = '检测失败：' + e.message;
+    resultEl.style.color = '#e74c3c';
+  }
+}
+
+// 渲染模型路由表
+function renderModelRoutes(routes) {
+  const tbody = document.getElementById('modelRoutesBody');
+  tbody.innerHTML = '';
+  const entries = Object.entries(routes || {});
+  if (entries.length === 0) {
+    addRouteRow('', '');
+  } else {
+    entries.forEach(([name, url]) => addRouteRow(name, url));
+  }
+}
+
+function addRouteRow(name = '', url = '') {
+  const tbody = document.getElementById('modelRoutesBody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" class="route-model-name" value="${escapeHtml(name)}" placeholder="如 qwen36-35b-a3b"></td>
+    <td><input type="text" class="route-model-url" value="${escapeHtml(url)}" placeholder="https://xxx/v1/chat/completions"></td>
+    <td><button class="del-btn" onclick="this.closest('tr').remove()">删除</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+// 保存路由配置（全部：端点 + 手动路由 + 模式 + SSL + 超时）
+async function saveRouteConfig() {
+  const testMode = document.getElementById('routeTestMode').checked;
+  const verifySsl = document.getElementById('routeVerifySsl').checked;
+  const timeout = parseInt(document.getElementById('routeTimeout').value) || 120;
+
+  // 收集远程端点
+  const remoteEndpoints = collectRemoteEndpoints();
+  // 收集模型路由（手动）
+  const modelRoutes = {};
+  document.querySelectorAll('#modelRoutesBody tr').forEach(tr => {
+    const name = tr.querySelector('.route-model-name').value.trim();
+    const url = tr.querySelector('.route-model-url').value.trim();
+    if (name && url) modelRoutes[name] = url;
+  });
+
+  // 非测试模式下，若既无端点也无手动路由，提示
+  if (!testMode && remoteEndpoints.length === 0 && Object.keys(modelRoutes).length === 0) {
+    if (!confirm('正常模式下未配置任何远程端点或模型路由，路由请求将无法调用模型。是否仍要保存？')) return;
+  }
+
+  try {
+    const resp = await fetch('/api/route/config', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        test_mode: testMode,
+        verify_ssl: verifySsl,
+        request_timeout: timeout,
+        remote_endpoints: remoteEndpoints,
+        model_routes: modelRoutes,
+      })
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      updateRouteModeUI(data.current.test_mode);
+      renderRemoteEndpoints(data.current.remote_endpoints || []);
+      renderModelRoutes(data.current.model_routes);
+      const epCount = (data.current.remote_endpoints || []).length;
+      const mrCount = Object.keys(data.current.model_routes || {}).length;
+      showToast(`路由配置已保存并即时生效（端点 ${epCount} 个，手动路由 ${mrCount} 个）`, 'success');
+    } else {
+      showToast('保存失败：' + (data.detail || '未知错误'), 'error');
+    }
+  } catch (e) {
+    showToast('保存路由配置失败：' + e.message, 'error');
+  }
+}
+
+// ============================================================
+// 模型信息展示
+// ============================================================
+let _routeModelsData = []; // 缓存模型列表数据
+
+async function loadRouteModels() {
+  const container = document.getElementById('routeModelsContainer');
+  container.innerHTML = '<span style="color:#2E75B6;">⏳ 正在加载...</span>';
+  try {
+    const resp = await fetch('/api/route/models');
+    const data = await resp.json();
+    const models = data.models || [];
+    _routeModelsData = models;
+    if (models.length === 0) {
+      container.innerHTML = data.mode === 'test'
+        ? '暂无已测试模型（model_benchmarks.json 为空）'
+        : '未检测到可用模型（请检查路由配置中的 API 地址是否可达）';
+      return;
+    }
+
+    let html = `<div style="margin-bottom:6px;font-size:11px;color:#95a5a6;">
+      ${data.mode === 'test' ? '测试模式：显示已测试模型' : '正常模式：远程检测到的模型'}（共 ${models.length} 个，点击模型展开查看测试详情）
+    </div>`;
+    html += '<div class="model-info-list">';
+    models.forEach((m, idx) => {
+      const caps = m.capabilities || [];
+      let badges = caps.map(c => {
+        const cls = c === '语言' ? 'lang' : c === '识图' ? 'vision' : c === '生图' ? 'gen' : 'lang';
+        return `<span class="cap-badge ${cls}">${c}</span>`;
+      }).join('');
+      if (!m.tested) {
+        badges = '<span class="cap-badge untested">未测试</span>';
+      }
+      const time = m.last_updated ? `<span class="model-info-time">${m.last_updated}</span>` : '';
+      const isForced = (_currentForcedModel === m.name);
+      html += `<div class="model-info-item${m.tested ? '' : ' untested'}${isForced ? ' forced' : ''}" id="modelItem_${idx}">
+        <div class="model-info-header" onclick="toggleModelDetail(${idx})">
+          <span class="model-info-arrow">▶</span>
+          <span class="model-info-name">${escapeHtml(m.name)}</span>
+          ${badges}
+          ${time}
+          <label class="force-route-cb-label" title="勾选后所有请求将强制路由到此模型（优先级仅次于 @模型名 指令）" onclick="event.stopPropagation();">
+            <input type="checkbox" class="force-route-cb" data-model="${escapeHtml(m.name)}" ${isForced ? 'checked' : ''} onclick="event.stopPropagation(); setForcedModel(this.dataset.model);" />
+            强制
+          </label>
+        </div>
+        <div class="model-detail-panel" id="modelDetail_${idx}" style="display:none;"></div>
+      </div>`;
+    });
+    html += '</div>';
+
+    if (data.errors && data.errors.length > 0) {
+      html += `<div style="margin-top:8px;font-size:11px;color:#e74c3c;">
+        ⚠ 部分地址检测失败：<br>${data.errors.map(e => '· ' + escapeHtml(e)).join('<br>')}
+      </div>`;
+    }
+    container.innerHTML = html;
+  } catch (e) {
+    container.innerHTML = '<span style="color:#e74c3c;">加载失败：' + escapeHtml(e.message) + '</span>';
+  }
+}
+
+function toggleModelDetail(idx) {
+  const item = document.getElementById('modelItem_' + idx);
+  const panel = document.getElementById('modelDetail_' + idx);
+  if (!item || !panel) return;
+  const isExpanded = item.classList.contains('expanded');
+  if (isExpanded) {
+    // 收起
+    item.classList.remove('expanded');
+    panel.style.display = 'none';
+  } else {
+    // 展开
+    item.classList.add('expanded');
+    panel.style.display = 'block';
+    // 渲染详情（如果还没渲染）
+    if (!panel.dataset.rendered) {
+      const m = _routeModelsData[idx];
+      panel.innerHTML = renderModelDetail(m);
+      panel.dataset.rendered = '1';
+    }
+  }
+}
+
+function renderModelDetail(m) {
+  if (!m.tested || !m.details) {
+    return '<div class="detail-empty">该模型尚未进行测试，暂无测试数据。<br>可在「模型评测」页面对该模型进行测试。</div>';
+  }
+  const d = m.details;
+  let html = '';
+
+  // 各题库测试结果（题库名 + 正确率，横向 tag 紧凑排列）
+  if (d.tests && d.tests.length > 0) {
+    html += '<div class="detail-section">';
+    html += '<div class="detail-section-title">各题库正确率</div>';
+    html += '<div class="score-tags">';
+    d.tests.forEach(t => {
+      const acc = t.accuracy || 0;
+      const pct = (acc * 100).toFixed(1) + '%';
+      const cls = acc >= 0.8 ? 'high' : acc >= 0.5 ? 'mid' : 'low';
+      // 题库名去掉括号内的题数
+      const name = t.name.replace(/\(\d+\)/, '').trim();
+      html += `<span class="score-tag ${cls}"><span class="tag-name">${escapeHtml(name)}</span><span class="tag-val">${pct}</span></span>`;
+    });
+    html += '</div>';
+    html += '</div>';
+  }
+
+  // 多模态视觉识别（如有，统一为正确率）
+  if (d.multimodal && d.multimodal.vision_recognition) {
+    const vr = d.multimodal.vision_recognition;
+    const keys = Object.keys(vr);
+    if (keys.length > 0) {
+      html += '<div class="detail-section">';
+      html += '<div class="detail-section-title">多模态视觉识别</div>';
+      html += '<div class="score-tags">';
+      keys.forEach(k => {
+        const v = vr[k];
+        const pct = (v * 100).toFixed(1) + '%';
+        const cls = v >= 0.8 ? 'high' : v >= 0.5 ? 'mid' : 'low';
+        html += `<span class="score-tag ${cls}"><span class="tag-name">${escapeHtml(k)}</span><span class="tag-val">${pct}</span></span>`;
+      });
+      html += '</div>';
+      html += '</div>';
+    }
+  }
+
+  // 效率指标（横向 tag）
+  if (d.efficiency_test) {
+    const et = d.efficiency_test;
+    html += '<div class="detail-section">';
+    html += '<div class="detail-section-title">效率指标</div>';
+    html += '<div class="eff-tags">';
+    if (et.single_ttft_ms !== undefined) {
+      html += `<span class="eff-tag"><span class="k">单请求TTFT</span><span class="v">${(et.single_ttft_ms/1000).toFixed(2)}s</span></span>`;
+    }
+    if (et.single_throughput_tok_s !== undefined) {
+      html += `<span class="eff-tag"><span class="k">单请求吞吐</span><span class="v">${et.single_throughput_tok_s.toFixed(1)} tok/s</span></span>`;
+    }
+    if (et.stable_concurrency !== undefined && et.stable_concurrency !== null) {
+      html += `<span class="eff-tag"><span class="k">稳定并发</span><span class="v">${et.stable_concurrency}</span></span>`;
+    }
+    if (et.stable_ttft_ms !== undefined && et.stable_ttft_ms !== null) {
+      html += `<span class="eff-tag"><span class="k">并发TTFT</span><span class="v">${(et.stable_ttft_ms/1000).toFixed(2)}s</span></span>`;
+    }
+    if (et.stable_throughput_tok_s !== undefined && et.stable_throughput_tok_s !== null) {
+      html += `<span class="eff-tag"><span class="k">每通道吞吐</span><span class="v">${et.stable_throughput_tok_s.toFixed(2)} tok/s</span></span>`;
+    }
+    html += '</div>';
+    html += '</div>';
+  }
+
+  return html || '<div class="detail-empty">暂无详细测试数据。</div>';
 }
 
 // ============================================================

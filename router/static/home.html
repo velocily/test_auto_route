@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能路由系统 · 首页</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #1F4E79 0%, #2E75B6 100%);
+    color: #2c3e50;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .container {
+    width: 100%;
+    max-width: 880px;
+    padding: 24px;
+  }
+  .title-bar {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 40px;
+  }
+  .title-bar h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .title-bar p {
+    font-size: 15px;
+    opacity: 0.85;
+  }
+  .cards {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px 32px;
+    width: 340px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    text-decoration: none;
+    color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
+  .card-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+  }
+  .card.test .card-icon { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+  .card.route .card-icon { background: linear-gradient(135deg, #11998e, #38ef7d); color: #fff; }
+  .card h2 {
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .card p {
+    font-size: 14px;
+    color: #7f8c8d;
+    line-height: 1.6;
+  }
+  .card .tag {
+    font-size: 12px;
+    color: #95a5a6;
+    margin-top: 4px;
+  }
+  .footer {
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    margin-top: 40px;
+  }
+  .footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="title-bar">
+      <h1>智能路由系统</h1>
+      <p>模型自动评测 · 智能路由调度 · 可视化调参</p>
+    </div>
+    <div class="cards">
+      <a class="card test" href="/test">
+        <div class="card-icon">&#128221;</div>
+        <h2>模型评测</h2>
+        <p>填写 API 信息，选择测试模块（通用语言 / 视觉识图 / 文生图 / 效率），运行测试并查看实时日志</p>
+        <div class="tag">结果增量写入 model_benchmarks.json</div>
+      </a>
+      <a class="card route" href="/dashboard">
+        <div class="card-icon">&#9881;</div>
+        <h2>路由调参</h2>
+        <p>可视化调节路由参数（选型权重 / 难度自适应 / 效率归一化 / KNN / 关键词先验），3 套预设方案</p>
+        <div class="tag">修改即时生效</div>
+      </a>
+    </div>
+    <div class="footer">
+      <a href="/docs">API 文档</a> &nbsp;|&nbsp;
+      <a href="/api/docs/markdown">项目说明</a> &nbsp;|&nbsp;
+      <a href="/health">健康检查</a>
+    </div>
+  </div>
+</body>
+</html>

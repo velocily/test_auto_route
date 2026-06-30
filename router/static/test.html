@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模型评测 · 智能路由系统</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8edf3 100%);
+    color: #2c3e50;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .app { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
+  /* 顶部栏 */
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 20px 28px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(102,126,234,0.25);
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header h1 { font-size: 20px; font-weight: 600; }
+  .header .subtitle { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+  .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.25); }
+  /* 卡片 */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    font-size: 16px;
+    color: #1F4E79;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eef2f7;
+  }
+  /* 表单 */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #34495e;
+  }
+  .form-group label .hint { font-weight: 400; color: #95a5a6; font-size: 12px; }
+  .form-group input[type="text"],
+  .form-group input[type="number"] {
+    border: 1px solid #dce1e8;
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  .form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.12);
+  }
+  /* 模块复选框 */
+  .modules {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .module-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #dce1e8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fafbfc;
+  }
+  .module-item:hover { border-color: #667eea; background: #f0f3ff; }
+  .module-item input { width: 16px; height: 16px; cursor: pointer; }
+  .module-item .mod-name { font-size: 14px; font-weight: 600; }
+  .module-item .mod-desc { font-size: 12px; color: #7f8c8d; }
+  .module-item.checked { border-color: #667eea; background: #eef0ff; }
+  /* 开关 */
+  .switch-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+  }
+  .switch { position: relative; width: 42px; height: 22px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background: #ccc; border-radius: 22px; transition: 0.3s;
+  }
+  .slider:before {
+    content: ""; position: absolute; height: 16px; width: 16px;
+    left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.3s;
+  }
+  .switch input:checked + .slider { background: #667eea; }
+  .switch input:checked + .slider:before { transform: translateX(20px); }
+  /* 操作按钮 */
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .btn-run {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-run:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(102,126,234,0.4); }
+  .btn-run:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-stop {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .btn-stop:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-clear {
+    background: #fff;
+    color: #7f8c8d;
+    border: 1px solid #dce1e8;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .btn-export {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-export:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(17,153,142,0.4); }
+  .btn-export:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  /* 导出弹窗 */
+  .modal-mask {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .modal-box {
+    background: #fff; border-radius: 12px; padding: 28px 32px;
+    width: 520px; max-width: 92vw; box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+  .modal-box h3 { margin: 0 0 16px 0; color: #2c3e50; }
+  .modal-box input[type=text] {
+    width: 100%; padding: 10px 12px; border: 1px solid #dce1e8;
+    border-radius: 6px; font-size: 14px; box-sizing: border-box;
+  }
+  .modal-box .modal-tip { font-size: 12px; color: #95a5a6; margin-top: 6px; }
+  .modal-box .modal-actions { margin-top: 18px; text-align: right; }
+  .modal-box .modal-actions button { margin-left: 8px; }
+  .modal-box .file-list { max-height: 180px; overflow-y: auto; margin: 10px 0;
+    background: #f8f9fa; border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #34495e; }
+  .modal-box .file-list div { padding: 2px 0; }
+  /* 状态条 */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #f0f3ff;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .status-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #bdc3c7;
+  }
+  .status-dot.running { background: #2ecc71; animation: pulse 1.5s infinite; }
+  .status-dot.done { background: #3498db; }
+  .status-dot.error { background: #e74c3c; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  /* 日志区 */
+  .log-container {
+    background: #1e1e2e;
+    border-radius: 10px;
+    padding: 16px;
+    max-height: 520px;
+    overflow-y: auto;
+    font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .log-container::-webkit-scrollbar { width: 8px; }
+  .log-container::-webkit-scrollbar-track { background: #1e1e2e; }
+  .log-container::-webkit-scrollbar-thumb { background: #45475a; border-radius: 4px; }
+  .log-line { white-space: pre-wrap; word-break: break-all; color: #cdd6f4; }
+  .log-line.error { color: #f38ba8; }
+  .log-line.success { color: #a6e3a1; }
+  .log-line.warn { color: #f9e2af; }
+  .log-line.info { color: #89b4fa; }
+  .log-empty { color: #6c7086; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- 顶部栏 -->
+  <div class="header">
+    <div>
+      <h1>模型评测</h1>
+      <div class="subtitle">填写 API 信息，选择测试模块，运行后查看实时日志</div>
+    </div>
+    <div class="header-actions">
+      <a class="btn" href="/home">&#8962; 首页</a>
+      <a class="btn" href="/dashboard">&#9881; 路由调参</a>
+    </div>
+  </div>
+
+  <!-- 配置表单 -->
+  <div class="card">
+    <h2>待测模型配置</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>模型名称 <span class="hint">（必填，如 qwen36-35b-a3b）</span></label>
+        <input type="text" id="model" placeholder="qwen36-35b-a3b">
+      </div>
+      <div class="form-group">
+        <label>API 密钥</label>
+        <input type="text" id="api_key" placeholder="sk-xxx">
+      </div>
+      <div class="form-group full">
+        <label>API 地址 <span class="hint">（OpenAI 兼容，如 https://xxx/v1/chat/completions）</span></label>
+        <input type="text" id="base_url" placeholder="https://xxx/v1/chat/completions">
+      </div>
+    </div>
+  </div>
+
+  <!-- 模块选择 -->
+  <div class="card">
+    <h2>测试模块选择 <span class="hint" style="font-weight:400;color:#95a5a6;font-size:12px;">（可多选，结果增量合并到 model_benchmarks.json）</span></h2>
+    <div class="modules" id="modules">
+      <label class="module-item">
+        <input type="checkbox" value="text" checked>
+        <div><div class="mod-name">通用语言</div><div class="mod-desc">纯文本 8 类题库</div></div>
+      </label>
+      <label class="module-item">
+        <input type="checkbox" value="vision_recognition">
+        <div><div class="mod-name">视觉识图</div><div class="mod-desc">理解已有图片</div></div>
+      </label>
+      <label class="module-item">
+        <input type="checkbox" value="image_generation">
+        <div><div class="mod-name">视觉生图</div><div class="mod-desc">文生图</div></div>
+      </label>
+      <label class="module-item">
+        <input type="checkbox" value="efficiency">
+        <div><div class="mod-name">效率测试</div><div class="mod-desc">吞吐/延迟/并发</div></div>
+      </label>
+    </div>
+    <div class="form-grid" style="margin-top:16px;">
+      <div class="form-group">
+        <label>全局采样题数 <span class="hint">（留空=按各题库默认值；填数字则对所有题库统一生效，除非下方分题库单独设置）</span></label>
+        <input type="number" id="num_samples" min="1" placeholder="留空=默认">
+      </div>
+      <div class="form-group">
+        <label>能力探测</label>
+        <div class="switch-row">
+          <label class="switch">
+            <input type="checkbox" id="skip_probe">
+            <span class="slider"></span>
+          </label>
+          <span id="probe_label" style="font-size:13px;color:#7f8c8d;">启用（测试前自动探测多模态能力）</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 分题库采样配置（折叠面板，仅对勾选的模块+有题库的模块显示） -->
+    <div id="per_bench_panel" style="margin-top:14px;border:1px solid #eef2f7;border-radius:8px;overflow:hidden;display:none;">
+      <div id="per_bench_toggle" style="padding:10px 14px;background:#f8f9fb;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;">
+        <span style="font-size:13px;font-weight:600;color:#34495e;">⚙ 分题库采样设置（可选）</span>
+        <span id="per_bench_arrow" style="font-size:12px;color:#95a5a6;">展开 ▾</span>
+      </div>
+      <div id="per_bench_body" style="padding:14px 18px;display:none;">
+        <div style="font-size:12px;color:#95a5a6;margin-bottom:10px;">
+          为每个题库单独设置采样题数（留空=使用该题库默认值或全局值）。仅显示当前已勾选的模块对应的题库。
+        </div>
+        <div id="per_bench_list"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn-run" id="btn_run">&#9654; 开始测试</button>
+      <button class="btn-stop" id="btn_stop" disabled>&#9632; 停止</button>
+      <button class="btn-clear" id="btn_clear">清空日志</button>
+      <button class="btn-export" id="btn_export">&#128190; 导出测试文档</button>
+    </div>
+  </div>
+
+  <!-- 运行状态 + 日志 -->
+  <div class="card">
+    <h2>运行日志</h2>
+    <div class="status-bar">
+      <span class="status-dot" id="status_dot"></span>
+      <span id="status_text">就绪</span>
+      <span style="margin-left:auto;color:#95a5a6;" id="log_count"></span>
+    </div>
+    <div class="log-container" id="log_container">
+      <div class="log-empty">点击"开始测试"后，日志将在此实时显示...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+// 加载默认配置
+async function loadConfig() {
+  try {
+    const res = await fetch('/api/test/config');
+    const cfg = await res.json();
+    if (cfg.model_name) $('model').value = cfg.model_name;
+    if (cfg.api_key) $('api_key').value = cfg.api_key;
+    if (cfg.base_url) $('base_url').value = cfg.base_url;
+  } catch (e) { console.warn('加载默认配置失败', e); }
+}
+loadConfig();
+
+// ===== 分题库采样配置 =====
+let _benchMeta = {};   // {module: [{key, name, default_samples}, ...]}
+
+// 加载题库元信息
+async function loadBenchmarks() {
+  try {
+    const res = await fetch('/api/test/benchmarks');
+    _benchMeta = await res.json();
+    renderPerBench();
+  } catch (e) { console.warn('加载题库列表失败', e); }
+}
+loadBenchmarks();
+
+// 根据当前勾选的模块渲染分题库输入框
+function renderPerBench() {
+  const checkedModules = Array.from(document.querySelectorAll('.module-item input:checked')).map(c => c.value);
+  const hasBench = checkedModules.some(m => _benchMeta[m] && _benchMeta[m].length > 0);
+  $('per_bench_panel').style.display = hasBench ? 'block' : 'none';
+
+  const listEl = $('per_bench_list');
+  listEl.innerHTML = '';
+  checkedModules.forEach(m => {
+    const benches = _benchMeta[m] || [];
+    if (benches.length === 0) return;
+    // 模块标题
+    const modLabel = {text:'通用语言', vision_recognition:'视觉识图', image_generation:'视觉生图', efficiency:'效率测试'}[m] || m;
+    const group = document.createElement('div');
+    group.style.marginBottom = '12px';
+    group.innerHTML = `<div style="font-size:12px;font-weight:600;color:#1F4E79;margin-bottom:6px;border-left:3px solid #667eea;padding-left:8px;">${modLabel}</div>`;
+    // 各题库输入框
+    const grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;';
+    benches.forEach(b => {
+      const dispName = b.name.replace(/\.[^.]+$/, '').replace(/\(\d+\)/, '').trim() || b.key;
+      const def = b.default_samples || '-';
+      const item = document.createElement('div');
+      item.style.cssText = 'display:flex;align-items:center;gap:6px;';
+      item.innerHTML = `
+        <label style="font-size:12px;color:#34495e;min-width:120px;flex:1;" title="${b.key}">${dispName}</label>
+        <input type="number" min="1" data-bench-key="${b.key}" placeholder="默认${def}"
+          style="width:80px;padding:5px 8px;border:1px solid #dce1e8;border-radius:4px;font-size:12px;">
+      `;
+      grid.appendChild(item);
+    });
+    group.appendChild(grid);
+    listEl.appendChild(group);
+  });
+}
+
+// 折叠面板展开/收起
+$('per_bench_toggle').addEventListener('click', () => {
+  const body = $('per_bench_body');
+  const arrow = $('per_bench_arrow');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? '展开 ▾' : '收起 ▴';
+});
+
+// 模块复选框样式联动
+document.querySelectorAll('.module-item').forEach(item => {
+  const cb = item.querySelector('input');
+  const update = () => {
+    item.classList.toggle('checked', cb.checked);
+    renderPerBench();   // 勾选变化时重新渲染分题库面板
+  };
+  cb.addEventListener('change', update);
+  update();
+});
+
+// 能力探测开关文案
+$('skip_probe').addEventListener('change', (e) => {
+  $('probe_label').textContent = e.target.checked
+    ? '已跳过（直接测试，不探测能力）'
+    : '启用（测试前自动探测多模态能力）';
+});
+
+// 运行测试
+let polling = null;
+let logOffset = 0;
+
+$('btn_run').addEventListener('click', async () => {
+  const model = $('model').value.trim();
+  if (!model) { alert('请填写模型名称'); return; }
+
+  const modules = Array.from(document.querySelectorAll('.module-item input:checked')).map(c => c.value);
+  if (modules.length === 0) { alert('请至少选择一个测试模块'); return; }
+
+  // 收集分题库采样配置（仅取有值的）
+  const num_samples_map = {};
+  document.querySelectorAll('#per_bench_list input[data-bench-key]').forEach(inp => {
+    const key = inp.dataset.benchKey;
+    const val = (inp.value || '').trim();
+    if (val) {
+      const n = parseInt(val);
+      if (n > 0) num_samples_map[key] = n;
+    }
+  });
+
+  const body = {
+    model,
+    api_key: $('api_key').value.trim(),
+    base_url: $('base_url').value.trim(),
+    modules,
+    num_samples: $('num_samples').value ? parseInt($('num_samples').value) : null,
+    num_samples_map,
+    skip_probe: $('skip_probe').checked,
+  };
+
+  $('btn_run').disabled = true;
+  $('btn_stop').disabled = false;
+  $('log_container').innerHTML = '';
+  logOffset = 0;
+
+  try {
+    const res = await fetch('/api/test/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      alert('启动失败: ' + (err.detail || JSON.stringify(err)));
+      $('btn_run').disabled = false;
+      $('btn_stop').disabled = true;
+      return;
+    }
+    const data = await res.json();
+    appendLog('info', `[启动] ${data.command}`);
+    startPolling();
+  } catch (e) {
+    alert('请求失败: ' + e.message);
+    $('btn_run').disabled = false;
+    $('btn_stop').disabled = true;
+  }
+});
+
+// 停止测试
+$('btn_stop').addEventListener('click', async () => {
+  if (!confirm('确定要停止测试吗？')) return;
+  try {
+    await fetch('/api/test/stop', { method: 'POST' });
+    appendLog('warn', '[停止] 已发送终止信号');
+  } catch (e) { alert('停止失败: ' + e.message); }
+});
+
+// 清空日志
+$('btn_clear').addEventListener('click', () => {
+  $('log_container').innerHTML = '<div class="log-empty">日志已清空</div>';
+  logOffset = 0;
+});
+
+// ===== 导出测试文档 =====
+// 弹窗辅助函数
+function showModal(html) {
+  const mask = document.createElement('div');
+  mask.className = 'modal-mask';
+  mask.innerHTML = `<div class="modal-box">${html}</div>`;
+  document.body.appendChild(mask);
+  return mask;
+}
+function closeModal(mask) { if (mask && mask.parentNode) mask.parentNode.removeChild(mask); }
+
+$('btn_export').addEventListener('click', async () => {
+  // 先查询是否有可导出的结果
+  let info;
+  try {
+    const res = await fetch('/api/test/export/list');
+    info = await res.json();
+  } catch (e) {
+    alert('查询测试结果失败：' + e.message);
+    return;
+  }
+
+  // 未测试 / 无结果
+  if (!info.has_results) {
+    showModal(`
+      <h3>无法导出</h3>
+      <p style="color:#7f8c8d;font-size:14px;">${info.message || '当前没有可导出的测试文档。'}</p>
+      <div class="modal-actions">
+        <button class="btn-clear" onclick="this.closest('.modal-mask').remove()">关闭</button>
+      </div>
+    `);
+    return;
+  }
+
+  // 有结果：展示文件列表 + 保存路径输入框 + 下载按钮
+  const fileListHtml = info.files.map(f =>
+    `<div>📄 ${f.name} <span style="color:#95a5a6;">(${(f.size/1024).toFixed(1)} KB)</span></div>`
+  ).join('');
+
+  const mask = showModal(`
+    <h3>导出测试文档</h3>
+    <div style="font-size:13px;color:#7f8c8d;margin-bottom:6px;">
+      模型：<b style="color:#2c3e50;">${info.model}</b> &nbsp;|&nbsp; 来源：${info.results_dir}
+    </div>
+    <div class="file-list">${fileListHtml}</div>
+    <label style="font-size:13px;color:#2c3e50;display:block;margin-top:10px;">保存到目录（服务器路径）：</label>
+    <input type="text" id="export_save_dir" placeholder="例如 D:\\reports 或 /home/user/reports">
+    <div class="modal-tip">输入服务器上的目录路径，测试文档将复制到该目录。留空则使用下方"下载 ZIP"按钮通过浏览器下载。</div>
+    <div class="modal-actions">
+      <button class="btn-clear" id="btn_export_cancel">取消</button>
+      <button class="btn-export" id="btn_export_download">⬇ 下载 ZIP</button>
+      <button class="btn-run" id="btn_export_save"> 导出到指定目录</button>
+    </div>
+  `);
+
+  $('btn_export_cancel').onclick = () => closeModal(mask);
+  $('btn_export_download').onclick = () => {
+    // 浏览器下载 zip（会弹出系统下载对话框让用户选保存位置）
+    window.location.href = '/api/test/export/download';
+    closeModal(mask);
+  };
+  $('btn_export_save').onclick = async () => {
+    const saveDir = $('export_save_dir').value.trim();
+    if (!saveDir) {
+      alert('请填写保存目录路径，或改用"下载 ZIP"按钮');
+      return;
+    }
+    await doExportToDir(saveDir, false, mask);
+  };
+});
+
+// 导出到指定目录（处理文件已存在 / 被占用）
+async function doExportToDir(saveDir, overwrite, mask) {
+  try {
+    const res = await fetch('/api/test/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ save_dir: saveDir, overwrite: overwrite }),
+    });
+    const data = await res.json();
+    if (res.status === 409) {
+      // 文件已存在：询问是否覆盖
+      const ok = confirm(data.message + '\n\n点击"确定"覆盖，点击"取消"返回。');
+      if (ok) {
+        await doExportToDir(saveDir, true, mask);
+      }
+      return;
+    }
+    if (!res.ok) {
+      alert(data.detail || '导出失败');
+      return;
+    }
+    // 成功
+    let msg = data.message;
+    if (data.failed && data.failed.length > 0) {
+      msg += '\n\n失败文件：\n' + data.failed.map(f => `• ${f.file}：${f.reason}`).join('\n');
+    }
+    alert(msg);
+    closeModal(mask);
+  } catch (e) {
+    alert('导出请求失败：' + e.message);
+  }
+}
+
+// 轮询状态
+function startPolling() {
+  if (polling) clearInterval(polling);
+  polling = setInterval(fetchStatus, 800);
+  fetchStatus();
+}
+
+async function fetchStatus() {
+  try {
+    const res = await fetch(`/api/test/status?since=${logOffset}`);
+    const data = await res.json();
+    // 追加新日志
+    if (data.logs && data.logs.length > 0) {
+      data.logs.forEach(line => {
+        const cls = classifyLine(line);
+        appendLog(cls, line);
+      });
+    }
+    logOffset = data.total_logs;
+    $('log_count').textContent = `共 ${data.total_logs} 行`;
+
+    // 更新状态
+    if (data.running) {
+      $('status_dot').className = 'status-dot running';
+      $('status_text').textContent = '运行中...';
+    } else {
+      $('btn_run').disabled = false;
+      $('btn_stop').disabled = true;
+      clearInterval(polling);
+      polling = null;
+      if (data.exit_code === 0) {
+        $('status_dot').className = 'status-dot done';
+        $('status_text').textContent = '测试完成（退出码 0）';
+        appendLog('success', '[完成] 测试已结束，结果已写入 model_benchmarks.json');
+      } else if (data.exit_code !== null) {
+        $('status_dot').className = 'status-dot error';
+        $('status_text').textContent = `测试结束（退出码 ${data.exit_code}）`;
+        appendLog('error', `[结束] 退出码 ${data.exit_code}`);
+      } else {
+        $('status_dot').className = 'status-dot';
+        $('status_text').textContent = '已停止';
+      }
+    }
+  } catch (e) { console.warn('轮询失败', e); }
+}
+
+function classifyLine(line) {
+  const l = line.toLowerCase();
+  if (l.includes('[错误]') || l.includes('error') || l.includes('traceback')) return 'error';
+  if (l.includes('[警告]') || l.includes('warn')) return 'warn';
+  if (l.includes('完成') || l.includes('成功') || l.includes('汇总')) return 'success';
+  if (l.includes('===') || l.includes('---')) return 'info';
+  return '';
+}
+
+function appendLog(cls, text) {
+  const container = $('log_container');
+  // 移除空提示
+  const empty = container.querySelector('.log-empty');
+  if (empty) empty.remove();
+  const div = document.createElement('div');
+  div.className = 'log-line ' + cls;
+  div.textContent = text;
+  container.appendChild(div);
+  // 自动滚动到底部
+  container.scrollTop = container.scrollHeight;
+}
+
+// 页面加载时检查是否有正在运行的测试
+fetchStatus();
+</script>
+</body>
+</html>
