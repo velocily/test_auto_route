@@ -1309,14 +1309,16 @@ def whoengine_route(query: str, strategy: str = None, return_detail: bool = Fals
         conf_base = conf_params["confidence_base"]
         conf_factor = conf_params["confidence_factor"]
     else:
+        # 本地默认值（与 routing_params 默认值保持一致）
+        # 基础难度仅作为该类任务的中等参考值，实际难度由置信度动态调整
         BASE_DIFFICULTY = {
-            "mmlu": 5, "gsm8k": 7, "hellaswag": 3,
-            "bbh_semantic": 6, "bbh_math": 8, "longbench": 6,
-            "project_manager": 5, "secretary": 3,
+            "mmlu": 3, "gsm8k": 4, "hellaswag": 2,
+            "bbh_semantic": 4, "bbh_math": 5, "longbench": 4,
+            "project_manager": 3, "secretary": 2,
         }
-        base = BASE_DIFFICULTY.get(predicted_domain, 5)
+        base = BASE_DIFFICULTY.get(predicted_domain, 3)
         conf_base = 0.5
-        conf_factor = 4
+        conf_factor = 6
     delta = int((conf_base - confidence) * conf_factor)
     difficulty = max(1, min(10, base + delta))
 
@@ -1417,16 +1419,24 @@ def _get_adaptive_alpha(domain: str, difficulty: int) -> float:
 
 
 def select_expert_by_domain(domain: str, benchmark_data: dict,
-                           difficulty: int = 5) -> Tuple[str, float]:
+                           difficulty: int = 5,
+                           running_models: Optional[set] = None) -> Tuple[str, float]:
     """
     根据 domain 和难度选择最佳模型。
     公式：combined = α × benchmark[domain] + (1-α) × efficiency
     其中 α 由 _get_adaptive_alpha 动态计算（受 routing_params 控制）。
+
+    参数:
+        running_models : 当前正在运行（已在 model_routes 注册）的模型名集合。
+                        提供时仅在这些模型中选择；None 表示不限制（兼容旧行为）。
     """
     alpha = _get_adaptive_alpha(domain, difficulty)
     best_model, best_combined = None, -1.0
 
     for model_name, data in benchmark_data.items():
+        # 仅选运行中且有该模块测试结果的模型
+        if running_models is not None and model_name not in running_models:
+            continue
         cap = data.get("benchmarks", {}).get(domain, 0.0)
         eff = _normalize_efficiency(data.get("efficiency", {}))
         combined = alpha * cap + (1 - alpha) * eff
@@ -1435,16 +1445,23 @@ def select_expert_by_domain(domain: str, benchmark_data: dict,
             best_model = model_name
 
     if best_model is None:
-        logger.warning("[WhoEngine] domain '%s' 未匹配到任何模型，回退到平均分最高", domain)
-        best_model, best_combined = _fallback_best_overall(benchmark_data)
+        if running_models is not None:
+            logger.warning("[WhoEngine] domain '%s' 在运行中的模型内未匹配，回退到整体最优", domain)
+        else:
+            logger.warning("[WhoEngine] domain '%s' 未匹配到任何模型，回退到平均分最高", domain)
+        best_model, best_combined = _fallback_best_overall(benchmark_data, running_models)
 
     return best_model, best_combined
 
 
-def _fallback_best_overall(benchmark_data: dict) -> tuple:
+def _fallback_best_overall(benchmark_data: dict,
+                           running_models: Optional[set] = None) -> tuple:
+    """回退：选 benchmarks 平均分最高的模型（可限定运行中的模型）"""
     best_model = None
     best_avg = -1.0
     for model_name, data in benchmark_data.items():
+        if running_models is not None and model_name not in running_models:
+            continue
         scores = list(data.get("benchmarks", {}).values())
         avg = sum(scores) / len(scores) if scores else 0
         if avg > best_avg:
@@ -1453,12 +1470,282 @@ def _fallback_best_overall(benchmark_data: dict) -> tuple:
     return best_model, best_avg
 
 
-def classify_and_select(query: str, benchmark_data: dict) -> dict:
+# ========== 多模态任务识别 ==========
+
+# 多模态视觉关键词：命中任一即判定为多模态任务
+# 用于检测用户请求中是否包含图片/视觉理解需求
+MULTIMODAL_KEYWORDS: List[str] = [
+    # 中文关键词
+    "图片", "图像", "看图", "识图", "图表", "柱状图", "折线图", "饼图",
+    "截图", "照片", "识别图中", "图中的", "这张图", "这张照片",
+    "OCR", "文字识别", "招牌", "路牌", "发票", "票据",
+    "视觉", "视觉问答", "看懂图", "图理解",
+    "几何图", "函数图", "坐标系", "图形",
+    # 英文关键词
+    "image", "picture", "photo", "chart", "graph", "plot",
+    "diagram", "figure", "screenshot", "visual", "vision",
+    "ocr", "read the text", "in the image", "in this image",
+    "look at", "describe the image", "what is shown",
+]
+
+# 文生图（text-to-image）关键词：命中任一即判定为生图任务
+# 用于检测用户请求是否为图像生成需求（区别于识图理解）
+IMAGE_GENERATION_KEYWORDS: List[str] = [
+    # 中文关键词
+    "画一张", "画一幅", "画一个", "画一只", "画一匹", "画一棵", "画一座",
+    "生成图片", "生成图像", "生成一张", "生成一幅",
+    "画图", "作画", "绘制图片", "绘制图像", "绘制一幅", "绘制一张",
+    "帮我画", "请画", "给我画", "给我生成",
+    "文生图", "图生成", "图像生成", "图片生成",
+    "创作一幅", "创作一张",
+    # 英文关键词
+    "generate an image", "generate a picture", "generate a photo",
+    "create an image", "create a picture",
+    "draw a", "draw an", "draw the",
+    "paint a", "paint an",
+    "text to image", "text-to-image", "t2i",
+    "image generation", "image synthesis",
+    "make an image", "make a picture",
+    "produce an image",
+]
+
+# 多模态消息内容类型标记
+# OpenAI Vision 格式：messages 中 content 为 list，含 type=image_url
+_MULTIMODAL_CONTENT_TYPES = {"image_url", "image", "video"}
+
+
+def is_multimodal_message(messages: List[dict]) -> bool:
+    """
+    判断请求是否为多模态任务。
+    判定规则（满足任一即为多模态）：
+      1. messages 中存在 content 为 list 且含 image_url/image 类型项
+      2. 任一文本内容中命中多模态视觉关键词
+      3. 文本中包含 base64 图片数据 URL（data:image/）
+    """
+    if not messages:
+        return False
+
+    for msg in messages:
+        content = msg.get("content", "")
+        # 情况 1：content 是 list（OpenAI Vision 多模态格式）
+        if isinstance(content, list):
+            for item in content:
+                if isinstance(item, dict):
+                    item_type = item.get("type", "")
+                    if item_type in _MULTIMODAL_CONTENT_TYPES:
+                        return True
+                    # 文本项中也可能含关键词
+                    if item_type == "text":
+                        text = item.get("text", "")
+                        if _text_has_multimodal_keyword(text):
+                            return True
+        # 情况 2：content 是字符串
+        elif isinstance(content, str):
+            if _text_has_multimodal_keyword(content):
+                return True
+
+    return False
+
+
+def _text_has_multimodal_keyword(text: str) -> bool:
+    """检查文本中是否包含多模态视觉关键词或 base64 图片数据 URL。"""
+    if not text:
+        return False
+    text_lower = text.lower()
+    # 检查 base64 图片数据 URL
+    if "data:image/" in text_lower or "data:image" in text_lower:
+        return True
+    # 检查关键词
+    for kw in MULTIMODAL_KEYWORDS:
+        if kw.lower() in text_lower:
+            return True
+    return False
+
+
+def _text_has_image_generation_keyword(text: str) -> bool:
+    """检查文本中是否包含文生图关键词（图像生成需求）。
+
+    注意：文生图关键词优先于识图关键词判定。
+    例如 "画一张图片" 同时命中 "画一张"（生图）和 "图片"（识图），
+    应判定为生图任务。
+    """
+    if not text:
+        return False
+    text_lower = text.lower()
+    for kw in IMAGE_GENERATION_KEYWORDS:
+        if kw.lower() in text_lower:
+            return True
+    return False
+
+
+def is_image_generation_message(messages: List[dict]) -> bool:
+    """
+    判断请求是否为文生图（text-to-image）任务。
+    判定规则：任一文本内容中命中文生图关键词即为生图任务。
+
+    生图任务的特征：
+      - 用户请求生成新图片（而非理解已有图片）
+      - 不包含 image_url 输入（生图任务通常只有文本提示词）
+    """
+    if not messages:
+        return False
+
+    for msg in messages:
+        content = msg.get("content", "")
+        if isinstance(content, list):
+            for item in content:
+                if isinstance(item, dict) and item.get("type") == "text":
+                    if _text_has_image_generation_keyword(item.get("text", "")):
+                        return True
+        elif isinstance(content, str):
+            if _text_has_image_generation_keyword(content):
+                return True
+
+    return False
+
+
+# ========== 多模态能力类型常量 ==========
+# 多模态能力按类型分组，与 model_benchmarks.json 的 multimodal 子结构对应：
+#   multimodal: {
+#       "vision_recognition": { chart_qa, text_vqa, math_vista, vqa, mmmu },  # 视觉识图
+#       "image_generation":   { t2i },                                        # 视觉生图
+#   }
+# 未来可扩展：audio_recognition / audio_generation / video_recognition 等
+CAPABILITY_VISION_RECOGNITION = "vision_recognition"
+CAPABILITY_IMAGE_GENERATION = "image_generation"
+
+# 各能力类型下的 domain 列表（用于计算能力平均分）
+_CAPABILITY_DOMAINS = {
+    CAPABILITY_VISION_RECOGNITION: ["chart_qa", "text_vqa", "math_vista", "vqa", "mmmu"],
+    CAPABILITY_IMAGE_GENERATION: ["t2i"],
+}
+
+
+def _get_capability_scores(mm_sub: dict, capability: str) -> Optional[Dict[str, float]]:
+    """从模型的 multimodal 子结构中提取指定能力类型的 domain 得分。
+
+    支持两种数据格式（向后兼容）：
+      1. 新分组格式（推荐）：
+         multimodal: { "vision_recognition": {chart_qa: 0.8, ...}, "image_generation": {t2i: 0.7} }
+      2. 旧扁平格式（自动迁移）：
+         multimodal: { chart_qa: 0.8, ..., image_generation: 0.7 }
+         识图 domain（chart_qa 等）归入 vision_recognition，
+         image_generation/t2i 归入 image_generation。
+
+    参数:
+        mm_sub     : 模型的 multimodal 子结构（dict）
+        capability : 能力类型（vision_recognition / image_generation）
+
+    返回:
+        该能力类型下的 {domain: score} 字典；若无该能力返回 None
+    """
+    if not mm_sub:
+        return None
+
+    # 新分组格式：直接读取子分组
+    if capability in mm_sub:
+        sub = mm_sub[capability]
+        if isinstance(sub, dict) and sub:
+            return sub
+        # 若值不是 dict（旧格式中能力类型名被用作 domain 键，值为 float），
+        # 继续走旧格式兼容逻辑
+    # 旧扁平格式兼容：按 domain 归类
+    expected_domains = set(_CAPABILITY_DOMAINS.get(capability, []))
+    # 旧格式中能力类型名本身也可能作为 domain 键（如 image_generation: 0.7）
+    expected_domains.add(capability)
+    found = {k: v for k, v in mm_sub.items() if k in expected_domains}
+    return found if found else None
+
+
+def select_multimodal_model(benchmark_data: dict,
+                            difficulty: int = 5,
+                            task_kind: str = "image_recognition",
+                            running_models: Optional[set] = None) -> Tuple[str, float]:
+    """
+    多模态任务路由：仅在具备指定能力类型且正在运行的模型中选择。
+    综合考虑能力得分 + 效率，公式与 select_expert_by_domain 一致：
+        combined = α × capability_avg + (1-α) × efficiency
+
+    能力类型与 task_kind 映射：
+      - task_kind="image_recognition" → 查询 multimodal.vision_recognition（视觉识图能力）
+      - task_kind="image_generation"  → 查询 multimodal.image_generation（视觉生图能力）
+
+    参数:
+        task_kind       : "image_recognition"（识图）或 "image_generation"（生图）
+        running_models  : 当前正在运行（已在 model_routes 注册）的模型名集合。
+                         提供时仅在这些模型中选择；None 表示不限制（兼容旧行为）。
+
+    能力判定（避免"误判具备/不具备"）：
+      - capability_status[cap] == "unsupported" → 明确不支持，跳过
+      - capability_status[cap] == "supported"  且有得分 → 可选
+      - capability_status[cap] 缺失/"not_tested" → 回退到检查 multimodal 子结构是否有得分
+    """
+    alpha = _get_adaptive_alpha("multimodal", difficulty)
+    best_model, best_combined = None, -1.0
+
+    # task_kind → 能力类型
+    capability = (CAPABILITY_IMAGE_GENERATION
+                  if task_kind == "image_generation"
+                  else CAPABILITY_VISION_RECOGNITION)
+    mm_domains = _CAPABILITY_DOMAINS.get(capability, [])
+
+    for model_name, data in benchmark_data.items():
+        # 仅选运行中的模型
+        if running_models is not None and model_name not in running_models:
+            continue
+
+        # 能力状态检查：明确标记为 unsupported 的模型直接跳过
+        cap_status = data.get("capability_status", {}).get(capability)
+        if cap_status == "unsupported":
+            continue  # 已探测确认不支持，跳过
+
+        mm_sub = data.get("multimodal", {})
+        if not mm_sub:
+            # 无 multimodal 子结构：若 capability_status 明确为 supported 则继续（兼容），
+            # 否则跳过（未测试或无能力）
+            if cap_status != "supported":
+                continue
+
+        # 提取该能力类型的 domain 得分（兼容新旧格式）
+        cap_scores = _get_capability_scores(mm_sub, capability)
+        if not cap_scores:
+            # 无得分：若 capability_status 明确为 supported，视为 0 分但可选；
+            # 否则跳过
+            if cap_status != "supported":
+                continue
+            cap_scores = {}
+
+        # 计算能力平均分
+        # 优先按预定义 domain 列表查询（新格式），缺失的 domain 视为 0
+        # 若预定义 domain 全部缺失（旧格式用能力类型名作 domain），则用实际得分平均
+        scores = [cap_scores.get(d, 0.0) for d in mm_domains]
+        if sum(scores) == 0 and cap_scores:
+            # 旧格式兼容：用实际存在的得分计算
+            scores = list(cap_scores.values())
+        mm_avg = sum(scores) / len(scores) if scores else 0.0
+
+        eff = _normalize_efficiency(data.get("efficiency", {}))
+        combined = alpha * mm_avg + (1 - alpha) * eff
+        if combined > best_combined:
+            best_combined = combined
+            best_model = model_name
+
+    if best_model is None:
+        logger.warning("[WhoEngine] 未找到具备 %s 能力且正在运行的模型，回退到整体最优", capability)
+        best_model, best_combined = _fallback_best_overall(benchmark_data, running_models)
+
+    return best_model, best_combined
+
+
+def classify_and_select(query: str, benchmark_data: dict,
+                        running_models: Optional[set] = None) -> dict:
     route_result = whoengine_route(query)
     domain = route_result["route_domain"]
     difficulty = route_result["difficulty"]
 
-    selected_model, score = select_expert_by_domain(domain, benchmark_data, difficulty)
+    selected_model, score = select_expert_by_domain(
+        domain, benchmark_data, difficulty, running_models=running_models,
+    )
 
     alpha = _get_adaptive_alpha(domain, difficulty)
 
@@ -1468,3 +1755,100 @@ def classify_and_select(query: str, benchmark_data: dict) -> dict:
         "task_analysis": route_result,
         "selection_alpha": round(alpha, 2),
     }
+
+
+def classify_and_select_multimodal(messages: List[dict], benchmark_data: dict,
+                                   running_models: Optional[set] = None) -> dict:
+    """
+    多模态任务路由入口：
+      1. 先用 is_image_generation_message 判定是否为文生图任务
+      2. 若为文生图：调用 select_multimodal_model(task_kind="image_generation")
+      3. 否则用 is_multimodal_message 判定是否识图多模态任务
+      4. 若识图多模态：调用 select_multimodal_model(task_kind="image_recognition")
+      5. 若非多模态：回退到 classify_and_select（纯文本路由）
+
+    参数:
+        messages       : OpenAI 格式的消息列表
+        benchmark_data : model_benchmarks.json 内容
+        running_models : 当前正在运行的模型名集合（来自 model_routes）；
+                        提供时仅在这些模型中选择，None 表示不限制
+
+    返回:
+        {
+            "is_multimodal": bool,        # 是否为多模态任务（识图或生图）
+            "task_kind": str,              # "image_recognition" / "image_generation" / "text"
+            "selected_model": str,
+            "score": float,
+            "task_analysis": dict,
+            "selection_alpha": float,
+        }
+    """
+    # 从 messages 提取文本（用于难度评估和路由）
+    query_text = ""
+    for msg in messages:
+        content = msg.get("content", "")
+        if isinstance(content, str):
+            query_text += content + " "
+        elif isinstance(content, list):
+            for item in content:
+                if isinstance(item, dict) and item.get("type") == "text":
+                    query_text += item.get("text", "") + " "
+    query_text = query_text.strip()
+
+    # 优先判定文生图任务（生图关键词优先于识图关键词）
+    is_t2i = is_image_generation_message(messages)
+
+    if is_t2i:
+        # 文生图任务：仅对具备 image_generation 能力的模型路由
+        route_result = whoengine_route(query_text or "图像生成任务")
+        difficulty = route_result["difficulty"]
+        route_result["is_multimodal"] = True
+        route_result["task_kind"] = "image_generation"
+
+        selected_model, score = select_multimodal_model(
+            benchmark_data, difficulty, task_kind="image_generation",
+            running_models=running_models,
+        )
+        alpha = _get_adaptive_alpha("multimodal", difficulty)
+
+        return {
+            "is_multimodal": True,
+            "task_kind": "image_generation",
+            "selected_model": selected_model,
+            "score": round(score, 4),
+            "task_analysis": route_result,
+            "selection_alpha": round(alpha, 2),
+        }
+
+    # 非文生图：检查是否为识图多模态任务
+    is_mm = is_multimodal_message(messages)
+
+    if is_mm:
+        # 识图多模态任务：仅对多模态模型路由
+        route_result = whoengine_route(query_text or "图片理解任务")
+        difficulty = route_result["difficulty"]
+        route_result["is_multimodal"] = True
+        route_result["task_kind"] = "image_recognition"
+
+        selected_model, score = select_multimodal_model(
+            benchmark_data, difficulty, task_kind="image_recognition",
+            running_models=running_models,
+        )
+        alpha = _get_adaptive_alpha("multimodal", difficulty)
+
+        return {
+            "is_multimodal": True,
+            "task_kind": "image_recognition",
+            "selected_model": selected_model,
+            "score": round(score, 4),
+            "task_analysis": route_result,
+            "selection_alpha": round(alpha, 2),
+        }
+    else:
+        # 非多模态：走原有纯文本路由
+        result = classify_and_select(query_text, benchmark_data, running_models=running_models)
+        result["is_multimodal"] = False
+        result["task_kind"] = "text"
+        result["task_analysis"]["is_multimodal"] = False
+        result["task_analysis"]["task_kind"] = "text"
+        return result

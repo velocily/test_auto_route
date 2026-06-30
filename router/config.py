@@ -34,6 +34,11 @@ ROUTER_CONFIG = {
     #         （任务分类、模型选型、路由 URL 等全部正常执行并输出日志）
     # False = 正常模式，实际调用远程服务器上的模型
     "test_mode": True,
+
+    # 强制路由模型（由前端勾选设置，留空=自动路由）
+    # 设置后所有请求都路由到该模型，跳过 WhoEngine 路由决策
+    # 优先级低于用户 @model-name 指令
+    "forced_model": "",
 }
 
 # ============================================================
@@ -64,7 +69,19 @@ REMOTE_SERVER_CONFIG = {
     # 自签名证书服务器需设为 False 跳过校验
     "verify_ssl": False,
 
-    # ---------- 模型路由映射 ----------
+    # ---------- 远程端点（自动发现模型，推荐）----------
+    # 给出 URL 和 API Key，程序会调用 GET {url}/models 自动检测该端点上正在运行的模型，
+    # 无需手动填写 model_routes。
+    #
+    # URL 可以是基础地址（如 https://your-server:8443/v1），
+    # 也可以是完整的 chat completions 地址，程序会自动规范化。
+    # api_key 为空字符串表示不携带 Authorization 头（适用于无需鉴权的内网服务）。
+    "remote_endpoints": [
+        # {"url": "https://your-server:8443/v1", "api_key": "sk-xxxx"},
+        # {"url": "https://your-server:8443/v1/chat/completions", "api_key": "sk-yyyy"},
+    ],
+
+    # ---------- 模型路由映射（手动配置，向后兼容）----------
     # 键（key）  ：程序内部模型名称，必须与 model_profiles.py 中的名称一致
     #               同时也是发送给服务器的 "model" 字段值
     # 值（value）：该模型的 OpenAI 兼容 API 完整地址
@@ -72,6 +89,9 @@ REMOTE_SERVER_CONFIG = {
     # 所有模型共用同一个 URL，服务器通过 body 中的 model 字段区分。
     # 如果某个模型暂未部署，注释掉对应行即可。
     # 程序会在日志中提示"模型不存在"，不会报错崩溃。
+    #
+    # 注意：配置了 remote_endpoints 后，通常无需再手动填写 model_routes。
+    # 此处保留用于手动覆盖或无需鉴权的场景。
     "model_routes": {
         # 在此填入你的模型 API 地址（OpenAI 兼容接口）
         # 示例：
@@ -95,7 +115,7 @@ WHOENGINE_CONFIG = {
     #   例: r"D:\Qwen2.5-3B\base"（指向包含 config.json 的目录）
     #   注意：因果语言模型（如 Qwen、GPT）的 hidden states 未经过对比学习优化，
     #   语义聚类能力远弱于专门的 sentence-transformers 模型，不建议使用。
-    "embedder": "BAAI/bge-small-zh-v1.5",
+    "embedder": "BAAI/bge-large-zh-v1.5",
 
     # 岭回归正则化系数 λ，默认 1e-2
     # 若过拟合（训练 domain 内准确但泛化差）→ 增大 λ
@@ -150,7 +170,32 @@ WHOENGINE_CONFIG = {
         "project_manager": os.path.join(_PROJECT_ROOT, "benchmarks", "bbh_longbench", "project_manager-项目管理.txt"),
         "secretary": os.path.join(_PROJECT_ROOT, "benchmarks", "bbh_longbench", "secretary-秘书工作.txt"),
         # 如需新增 domain，在此添加路径即可，WhoEngine 支持增量更新
-    }
+    },
+
+    # ---------- 多模态配置 ----------
+    # 多模态任务识别开关：True 时启用多模态任务检测和分支路由
+    # 启用后，含图片/视觉关键词的请求将路由到多模态模型
+    # 含生图关键词的请求将路由到具备 image_generation 能力的模型
+    "enable_multimodal_routing": True,
+
+    # 多模态识图 benchmark 题集文件路径（用于多模态任务难度评估参考）
+    # 注意：多模态 domain 不参与 WhoEngine KNN 训练（图片无法直接嵌入），
+    #       仅用于配置记录和未来扩展。多模态路由基于 model_benchmarks.json
+    #       中的 multimodal 子结构进行模型选型。
+    "multimodal_benchmark_files": {
+        "chart_qa":   os.path.join(_PROJECT_ROOT, "benchmarks", "multimodal", "chartqa-图表理解(20).txt"),
+        "text_vqa":   os.path.join(_PROJECT_ROOT, "benchmarks", "multimodal", "textvqa-文字识别(20).txt"),
+        "math_vista": os.path.join(_PROJECT_ROOT, "benchmarks", "multimodal", "mathvista-视觉数学(20).txt"),
+        "vqa":        os.path.join(_PROJECT_ROOT, "benchmarks", "multimodal", "vqa-视觉问答(30).txt"),
+        "mmmu":       os.path.join(_PROJECT_ROOT, "benchmarks", "multimodal", "mmmu-多模态理解(30).txt"),
+    },
+
+    # 文生图（text-to-image）benchmark 题集文件路径
+    # 文生图任务通过关键词识别（画一张/生成图片等），路由到具备
+    # image_generation 能力的模型。同样不参与 KNN 训练。
+    "t2i_benchmark_files": {
+        "image_generation": os.path.join(_PROJECT_ROOT, "benchmarks", "multimodal", "t2i-文生图(50).txt"),
+    },
 }
 
 # ============================================================

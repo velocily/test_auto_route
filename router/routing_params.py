@@ -49,6 +49,7 @@ PARAM_META = {
     "domain_alpha.longbench":        (0.60, 0.10, 0.95, 0.01, "选型权重", "LongBench 长上下文：能力/效率权重"),
     "domain_alpha.project_manager":  (0.45, 0.10, 0.95, 0.01, "选型权重", "项目经理：能力/效率权重"),
     "domain_alpha.secretary":        (0.35, 0.10, 0.95, 0.01, "选型权重", "秘书工作：能力/效率权重"),
+    "domain_alpha.multimodal":        (0.70, 0.10, 0.95, 0.01, "选型权重", "多模态视觉任务：能力/效率权重"),
 
     # ---------- B. 难度自适应 ----------
     # 根据题目难度动态调整 α：难题加 α，简单题减 α
@@ -88,19 +89,22 @@ PARAM_META = {
     "prior.alpha":                   (0.7,   0.0,  1.0,  0.01, "关键词先验", "KNN/先验混合系数（1.0=纯KNN，0.0=纯先验）"),
 
     # ---------- F. 难度评估 ----------
-    # 每个 domain 的基础难度（1-10），影响 _get_adaptive_alpha 的输入
-    # 依据各 benchmark 的实际难度设定
-    "difficulty.base.mmlu":            (5, 1, 10, 1, "难度评估", "MMLU 基础难度"),
-    "difficulty.base.gsm8k":           (7, 1, 10, 1, "难度评估", "GSM8K 基础难度"),
-    "difficulty.base.hellaswag":       (3, 1, 10, 1, "难度评估", "HellaSwag 基础难度"),
-    "difficulty.base.bbh_semantic":    (6, 1, 10, 1, "难度评估", "BBH 语义理解基础难度"),
-    "difficulty.base.bbh_math":        (8, 1, 10, 1, "难度评估", "BBH 数学推理基础难度"),
-    "difficulty.base.longbench":       (6, 1, 10, 1, "难度评估", "LongBench 基础难度"),
-    "difficulty.base.project_manager": (5, 1, 10, 1, "难度评估", "项目经理基础难度"),
-    "difficulty.base.secretary":       (3, 1, 10, 1, "难度评估", "秘书工作基础难度"),
+    # 每个 domain 的基础难度（1-10），仅作为"该类任务的中等难度参考值"
+    # 实际难度由 base + (confidence_base - confidence) × confidence_factor 动态计算
+    # 注意：分类到某类任务不等于该题就难，难度主要由置信度等动态信号决定
+    "difficulty.base.mmlu":            (3, 1, 10, 1, "难度评估", "MMLU 基础难度（中等参考值）"),
+    "difficulty.base.gsm8k":           (4, 1, 10, 1, "难度评估", "GSM8K 基础难度（中等参考值）"),
+    "difficulty.base.hellaswag":       (2, 1, 10, 1, "难度评估", "HellaSwag 基础难度（中等参考值）"),
+    "difficulty.base.bbh_semantic":    (4, 1, 10, 1, "难度评估", "BBH 语义理解基础难度（中等参考值）"),
+    "difficulty.base.bbh_math":        (5, 1, 10, 1, "难度评估", "BBH 数学推理基础难度（中等参考值）"),
+    "difficulty.base.longbench":       (4, 1, 10, 1, "难度评估", "LongBench 基础难度（中等参考值）"),
+    "difficulty.base.project_manager": (3, 1, 10, 1, "难度评估", "项目经理基础难度（中等参考值）"),
+    "difficulty.base.secretary":       (2, 1, 10, 1, "难度评估", "秘书工作基础难度（中等参考值）"),
+    "difficulty.base.multimodal":      (4, 1, 10, 1, "难度评估", "多模态视觉任务基础难度（中等参考值）"),
     # 置信度对难度的影响：delta = (confidence_base - confidence) × confidence_factor
-    "difficulty.confidence_base":      (0.5, 0.0, 1.0,  0.01, "难度评估", "置信度基准值（高于此值不加分）"),
-    "difficulty.confidence_factor":    (4,   1,    10,  1,    "难度评估", "置信度对难度的影响系数"),
+    # confidence_factor 调大 → 置信度对难度的影响更显著，动态范围更大
+    "difficulty.confidence_base":      (0.5, 0.0, 1.0,  0.01, "难度评估", "置信度基准值（高于此值降低难度）"),
+    "difficulty.confidence_factor":    (6,   1,    10,  1,    "难度评估", "置信度对难度的影响系数（越大动态调整越显著）"),
 }
 
 # ============================================================
@@ -113,6 +117,7 @@ PRESETS = {
         "domain_alpha.hellaswag": 0.20, "domain_alpha.bbh_semantic": 0.65,
         "domain_alpha.bbh_math": 0.80, "domain_alpha.longbench": 0.55,
         "domain_alpha.project_manager": 0.30, "domain_alpha.secretary": 0.20,
+        "domain_alpha.multimodal": 0.55,
         "difficulty_adjust.boost_high": 0.20, "difficulty_adjust.boost_medium": 0.10,
         "difficulty_adjust.reduce_mid_low": 0.15, "difficulty_adjust.reduce_low": 0.30,
         "difficulty_adjust.alpha_min": 0.10, "difficulty_adjust.alpha_max": 0.95,
@@ -125,14 +130,15 @@ PRESETS = {
         "domain_alpha.hellaswag": 0.65, "domain_alpha.bbh_semantic": 0.90,
         "domain_alpha.bbh_math": 0.95, "domain_alpha.longbench": 0.85,
         "domain_alpha.project_manager": 0.70, "domain_alpha.secretary": 0.65,
+        "domain_alpha.multimodal": 0.85,
         "difficulty_adjust.boost_high": 0.10, "difficulty_adjust.boost_medium": 0.05,
         "difficulty_adjust.reduce_mid_low": 0.05, "difficulty_adjust.reduce_low": 0.10,
         "difficulty_adjust.alpha_min": 0.40, "difficulty_adjust.alpha_max": 0.98,
     },
 }
 
-# 默认预设：balanced（在能力和效率间取得平衡，适合大多数场景）
-DEFAULT_PRESET = "balanced"
+# 默认预设：efficiency_first（80% 任务用高效模型，仅极难题用专家模型，适合生产环境）
+DEFAULT_PRESET = "efficiency_first"
 
 
 # ============================================================
