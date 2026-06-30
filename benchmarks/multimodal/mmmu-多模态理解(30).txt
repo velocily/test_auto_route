@@ -1,0 +1,239 @@
+Q1 [mmmu]: IMAGE: images/mmmu_01.png
+问题: 图中显示的电路元件是什么？
+A: 电阻
+B: 电容
+C: 电感
+D: 二极管
+答案: A
+
+Q2 [mmmu]: IMAGE: images/mmmu_02.png
+问题: 图中植物细胞的结构中，①号标注的是什么？
+A: 细胞壁
+B: 细胞膜
+C: 细胞核
+D: 液泡
+答案: C
+
+Q3 [mmmu]: IMAGE: images/mmmu_03.png
+问题: 图中显示的化学反应方程式配平后，系数之和是多少？
+A: 4
+B: 5
+C: 6
+D: 7
+答案: C
+
+Q4 [mmmu]: IMAGE: images/mmmu_04.png
+问题: 图中力学示意图中，物体受到的合力方向是？
+A: 向上
+B: 向下
+C: 向左
+D: 向右
+答案: B
+
+Q5 [mmmu]: IMAGE: images/mmmu_05.png
+问题: 图中DNA双螺旋结构中，碱基对的配对方式是？
+A: A-T, G-C
+B: A-G, T-C
+C: A-C, T-G
+D: A-U, G-C
+答案: A
+
+Q6 [mmmu]: IMAGE: images/mmmu_06.png
+问题: 图中地图上标注的地形是什么类型？
+A: 山地
+B: 平原
+C: 盆地
+D: 高原
+答案: A
+
+Q7 [mmmu]: IMAGE: images/mmmu_07.png
+问题: 图中显示的经济曲线表示什么关系？
+A: 供需关系
+B: 成本收益
+C: 边际效用
+D: 弹性系数
+答案: A
+
+Q8 [mmmu]: IMAGE: images/mmmu_08.png
+问题: 图中艺术作品的风格属于哪个时期？
+A: 文艺复兴
+B: 巴洛克
+C: 印象派
+D: 现代主义
+答案: A
+
+Q9 [mmmu]: IMAGE: images/mmmu_09.png
+问题: 图中显示的物理实验装置是用来测量什么的？
+A: 电流
+B: 电压
+C: 电阻
+D: 电功率
+答案: A
+
+Q10 [mmmu]: IMAGE: images/mmmu_10.png
+问题: 图中生物分类树中，人类属于哪个界？
+A: 原核生物界
+B: 原生生物界
+C: 真菌界
+D: 动物界
+答案: D
+
+Q11 [mmmu]: IMAGE: images/mmmu_11.png
+问题: 图中显示的几何证明中，角A的度数是多少？
+A: 30°
+B: 45°
+C: 60°
+D: 90°
+答案: C
+
+Q12 [mmmu]: IMAGE: images/mmmu_12.png
+问题: 图中显示的分子结构是什么化合物？
+A: 水
+B: 二氧化碳
+C: 甲烷
+D: 氨气
+答案: C
+
+Q13 [mmmu]: IMAGE: images/mmmu_13.png
+问题: 图中历史时间线上，事件B发生在哪个世纪？
+A: 15世纪
+B: 16世纪
+C: 17世纪
+D: 18世纪
+答案: B
+
+Q14 [mmmu]: IMAGE: images/mmmu_14.png
+问题: 图中显示的编程流程图是什么结构？
+A: 顺序结构
+B: 选择结构
+C: 循环结构
+D: 函数调用
+答案: C
+
+Q15 [mmmu]: IMAGE: images/mmmu_15.png
+问题: 图中地理图示中，板块运动的方向是？
+A: 张裂
+B: 挤压
+C: 平移
+D: 旋转
+答案: A
+
+Q16 [mmmu]: IMAGE: images/mmmu_16.png
+问题: 图中显示的统计图表是哪种类型？
+A: 柱状图
+B: 折线图
+C: 散点图
+D: 饼图
+答案: D
+
+Q17 [mmmu]: IMAGE: images/mmmu_17.png
+问题: 图中物理实验中，光线的折射角是多少？
+A: 30°
+B: 45°
+C: 60°
+D: 75°
+答案: A
+
+Q18 [mmmu]: IMAGE: images/mmmu_18.png
+问题: 图中显示的化学实验装置中，收集气体的方法是？
+A: 排水法
+B: 向上排空气法
+C: 向下排空气法
+D: 真空抽气法
+答案: B
+
+Q19 [mmmu]: IMAGE: images/mmmu_19.png
+问题: 图中生物图中，食物链的正确顺序是？
+A: 草→兔→鹰
+B: 草→鹰→兔
+C: 兔→草→鹰
+D: 鹰→兔→草
+答案: A
+
+Q20 [mmmu]: IMAGE: images/mmmu_20.png
+问题: 图中显示的数学函数图像是什么函数？
+A: 一次函数
+B: 二次函数
+C: 指数函数
+D: 对数函数
+答案: B
+
+Q21 [mmmu]: IMAGE: images/mmmu_21.png
+问题: 图中电路图中，总电阻是多少？(R1=2Ω, R2=3Ω, 并联)
+A: 1.2Ω
+B: 5Ω
+C: 6Ω
+D: 1.5Ω
+答案: A
+
+Q22 [mmmu]: IMAGE: images/mmmu_22.png
+问题: 图中显示的天文图中，行星的轨道形状是？
+A: 圆形
+B: 椭圆形
+C: 抛物线
+D: 双曲线
+答案: B
+
+Q23 [mmmu]: IMAGE: images/mmmu_23.png
+问题: 图中医学图中，人体的主要呼吸器官是？
+A: 心脏
+B: 肺
+C: 肝脏
+D: 肾脏
+答案: B
+
+Q24 [mmmu]: IMAGE: images/mmmu_24.png
+问题: 图中显示的计算机架构中，CPU的核心组件不包括？
+A: 运算器
+B: 控制器
+C: 存储器
+D: 显示器
+答案: D
+
+Q25 [mmmu]: IMAGE: images/mmmu_25.png
+问题: 图中化学元素周期表中，第1周期有多少种元素？
+A: 1
+B: 2
+C: 3
+D: 4
+答案: B
+
+Q26 [mmmu]: IMAGE: images/mmmu_26.png
+问题: 图中物理图中，力的单位是？
+A: 焦耳
+B: 瓦特
+C: 牛顿
+D: 帕斯卡
+答案: C
+
+Q27 [mmmu]: IMAGE: images/mmmu_27.png
+问题: 图中显示的生态系统中，生产者是？
+A: 草
+B: 兔
+C: 狼
+D: 蘑菇
+答案: A
+
+Q28 [mmmu]: IMAGE: images/mmmu_28.png
+问题: 图中数学图中，圆的周长公式是？
+A: πr²
+B: 2πr
+C: πd²
+D: 4πr
+答案: B
+
+Q29 [mmmu]: IMAGE: images/mmmu_29.png
+问题: 图中地理图中，赤道的纬度是？
+A: 0°
+B: 23.5°
+C: 45°
+D: 90°
+答案: A
+
+Q30 [mmmu]: IMAGE: images/mmmu_30.png
+问题: 图中显示的物理量符号W代表什么？
+A: 功
+B: 功率
+C: 能量
+D: 力
+答案: A

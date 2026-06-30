@@ -1,0 +1,159 @@
+Q1 [chart_qa]: IMAGE: images/chart_01.png
+问题: 图中哪个季度的销售额最高？
+A: 第一季度
+B: 第二季度
+C: 第三季度
+D: 第四季度
+答案: C
+
+Q2 [chart_qa]: IMAGE: images/chart_02.png
+问题: 2023年的增长率是多少？
+A: 10%
+B: 15%
+C: 20%
+D: 25%
+答案: C
+
+Q3 [chart_qa]: IMAGE: images/chart_03.png
+问题: 哪个产品线的利润最低？
+A: 产品A
+B: 产品B
+C: 产品C
+D: 产品D
+答案: B
+
+Q4 [chart_qa]: IMAGE: images/chart_04.png
+问题: 2022年到2023年的用户增长数量是多少？
+A: 5000
+B: 10000
+C: 15000
+D: 20000
+答案: B
+
+Q5 [chart_qa]: IMAGE: images/chart_05.png
+问题: 饼图中占比最大的类别是哪个？
+A: 类别A
+B: 类别B
+C: 类别C
+D: 类别D
+答案: A
+
+Q6 [chart_qa]: IMAGE: images/chart_06.png
+问题: 折线图中哪个月份的数据最低？
+A: 1月
+B: 4月
+C: 7月
+D: 10月
+答案: B
+
+Q7 [chart_qa]: IMAGE: images/chart_07.png
+问题: 柱状图中第二高的值是多少？
+A: 150
+B: 200
+C: 250
+D: 300
+答案: C
+
+Q8 [chart_qa]: IMAGE: images/chart_08.png
+问题: 两个产品线的总销售额是多少？
+A: 400
+B: 500
+C: 600
+D: 700
+答案: B
+
+Q9 [chart_qa]: IMAGE: images/chart_09.png
+问题: 哪个区域的增长率最高？
+A: 华北
+B: 华东
+C: 华南
+D: 西部
+答案: B
+
+Q10 [chart_qa]: IMAGE: images/chart_10.png
+问题: 2023年Q4的营收相比Q3增长了多少？
+A: 5%
+B: 10%
+C: 15%
+D: 20%
+答案: B
+
+Q11 [chart_qa]: IMAGE: images/chart_11.png
+问题: 图中显示的利润率是多少？
+A: 15%
+B: 20%
+C: 25%
+D: 30%
+答案: C
+
+Q12 [chart_qa]: IMAGE: images/chart_12.png
+问题: 哪个年份的支出最高？
+A: 2020
+B: 2021
+C: 2022
+D: 2023
+答案: D
+
+Q13 [chart_qa]: IMAGE: images/chart_13.png
+问题: 堆叠柱状图中蓝色部分代表什么？
+A: 收入
+B: 成本
+C: 利润
+D: 税费
+答案: A
+
+Q14 [chart_qa]: IMAGE: images/chart_14.png
+问题: 散点图显示两个变量之间是什么关系？
+A: 正相关
+B: 负相关
+C: 无相关
+D: 非线性相关
+答案: A
+
+Q15 [chart_qa]: IMAGE: images/chart_15.png
+问题: 饼图中三个类别的总占比是多少？
+A: 75%
+B: 85%
+C: 95%
+D: 100%
+答案: D
+
+Q16 [chart_qa]: IMAGE: images/chart_16.png
+问题: 折线图显示的趋势是什么？
+A: 持续上升
+B: 持续下降
+C: 先升后降
+D: 波动平稳
+答案: C
+
+Q17 [chart_qa]: IMAGE: images/chart_17.png
+问题: 柱状图中最高和最低的差值是多少？
+A: 100
+B: 150
+C: 200
+D: 250
+答案: C
+
+Q18 [chart_qa]: IMAGE: images/chart_18.png
+问题: 哪个部门的预算占比最小？
+A: 研发部
+B: 市场部
+C: 财务部
+D: 人事部
+答案: C
+
+Q19 [chart_qa]: IMAGE: images/chart_19.png
+问题: 图中显示的同比增长率是多少？
+A: 8.5%
+B: 12.5%
+C: 15.5%
+D: 18.5%
+答案: B
+
+Q20 [chart_qa]: IMAGE: images/chart_20.png
+问题: 哪个时间段的用户活跃度最高？
+A: 早上6-9点
+B: 中午12-14点
+C: 晚上18-21点
+D: 深夜0-3点
+答案: C

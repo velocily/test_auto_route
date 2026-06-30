@@ -1,0 +1,159 @@
+Q1 [text_vqa]: IMAGE: images/text_01.png
+问题: 图中的路牌上显示的街道名称是什么？
+A: 中山路
+B: 解放路
+C: 人民路
+D: 建设路
+答案: A
+
+Q2 [text_vqa]: IMAGE: images/text_02.png
+问题: 这张发票上的总金额是多少？
+A: 128.50
+B: 256.80
+C: 399.00
+D: 512.30
+答案: B
+
+Q3 [text_vqa]: IMAGE: images/text_03.png
+问题: 图中显示的营业时间是什么？
+A: 9:00-18:00
+B: 9:00-20:00
+C: 10:00-22:00
+D: 8:00-21:00
+答案: C
+
+Q4 [text_vqa]: IMAGE: images/text_04.png
+问题: 这本书的作者是谁？
+A: 张三
+B: 李四
+C: 王五
+D: 赵六
+答案: B
+
+Q5 [text_vqa]: IMAGE: images/text_05.png
+问题: 图中产品标签上的生产日期是？
+A: 2023-01-15
+B: 2023-03-20
+C: 2023-06-10
+D: 2023-09-05
+答案: C
+
+Q6 [text_vqa]: IMAGE: images/text_06.png
+问题: 这张海报上显示的活动日期是？
+A: 5月1日
+B: 5月15日
+C: 6月1日
+D: 6月15日
+答案: A
+
+Q7 [text_vqa]: IMAGE: images/text_07.png
+问题: 图中显示的电话号码是多少？
+A: 13800138000
+B: 13900139000
+C: 13700137000
+D: 13600136000
+答案: A
+
+Q8 [text_vqa]: IMAGE: images/text_08.png
+问题: 这张菜单上最贵的菜品是什么？
+A: 红烧肉
+B: 清蒸鱼
+C: 北京烤鸭
+D: 佛跳墙
+答案: D
+
+Q9 [text_vqa]: IMAGE: images/text_09.png
+问题: 图中显示的网站URL是什么？
+A: www.example.com
+B: www.test.com
+C: www.demo.com
+D: www.sample.com
+答案: A
+
+Q10 [text_vqa]: IMAGE: images/text_10.png
+问题: 这张机票上的目的地是哪里？
+A: 北京
+B: 上海
+C: 广州
+D: 深圳
+答案: B
+
+Q11 [text_vqa]: IMAGE: images/text_11.png
+问题: 图中显示的邮箱地址是什么？
+A: info@company.com
+B: support@company.com
+C: admin@company.com
+D: contact@company.com
+答案: A
+
+Q12 [text_vqa]: IMAGE: images/text_12.png
+问题: 这张药品说明书上的用法用量是什么？
+A: 每日一次，每次1片
+B: 每日两次，每次1片
+C: 每日三次，每次2片
+D: 每日四次，每次1片
+答案: B
+
+Q13 [text_vqa]: IMAGE: images/text_13.png
+问题: 图中显示的Wi-Fi密码是什么？
+A: 12345678
+B: 87654321
+C: password123
+D: wifi2024
+答案: A
+
+Q14 [text_vqa]: IMAGE: images/text_14.png
+问题: 这张名片上的公司名称是什么？
+A: 科技有限公司
+B: 实业有限公司
+C: 投资有限公司
+D: 控股集团
+答案: A
+
+Q15 [text_vqa]: IMAGE: images/text_15.png
+问题: 图中显示的条形码下方的数字是？
+A: 6901234567890
+B: 6901234567891
+C: 6901234567892
+D: 6901234567893
+答案: A
+
+Q16 [text_vqa]: IMAGE: images/text_16.png
+问题: 这张公告上的截止日期是？
+A: 2023年12月31日
+B: 2024年1月15日
+C: 2024年3月1日
+D: 2024年6月30日
+答案: C
+
+Q17 [text_vqa]: IMAGE: images/text_17.png
+问题: 图中显示的房间号是？
+A: 101
+B: 202
+C: 303
+D: 405
+答案: B
+
+Q18 [text_vqa]: IMAGE: images/text_18.png
+问题: 这张表格中的总人数是多少？
+A: 150
+B: 200
+C: 250
+D: 300
+答案: C
+
+Q19 [text_vqa]: IMAGE: images/text_19.png
+问题: 图中显示的银行卡尾号是？
+A: 1234
+B: 5678
+C: 9012
+D: 3456
+答案: B
+
+Q20 [text_vqa]: IMAGE: images/text_20.png
+问题: 这张说明书上的保修期是多久？
+A: 6个月
+B: 1年
+C: 2年
+D: 3年
+答案: C

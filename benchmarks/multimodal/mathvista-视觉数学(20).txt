@@ -1,0 +1,159 @@
+Q1 [math_vista]: IMAGE: images/math_01.png
+问题: 图中三角形的面积是多少？
+A: 6
+B: 12
+C: 24
+D: 48
+答案: B
+
+Q2 [math_vista]: IMAGE: images/math_02.png
+问题: 图中圆的半径是3，圆的面积是多少？(π≈3.14)
+A: 28.26
+B: 18.84
+C: 9.42
+D: 37.68
+答案: A
+
+Q3 [math_vista]: IMAGE: images/math_03.png
+问题: 图中长方形的长是8，宽是5，周长是多少？
+A: 13
+B: 26
+C: 40
+D: 56
+答案: B
+
+Q4 [math_vista]: IMAGE: images/math_04.png
+问题: 图中数轴上A点表示的数是多少？
+A: -3
+B: -2
+C: 2
+D: 3
+答案: C
+
+Q5 [math_vista]: IMAGE: images/math_05.png
+问题: 图中梯形的上底是4，下底是6，高是5，面积是多少？
+A: 25
+B: 30
+C: 50
+D: 15
+答案: A
+
+Q6 [math_vista]: IMAGE: images/math_06.png
+问题: 图中显示的方程组的解是什么？
+A: x=1, y=2
+B: x=2, y=1
+C: x=1, y=1
+D: x=2, y=2
+答案: A
+
+Q7 [math_vista]: IMAGE: images/math_07.png
+问题: 图中正方体的体积是多少？(边长为3)
+A: 9
+B: 27
+C: 81
+D: 243
+答案: B
+
+Q8 [math_vista]: IMAGE: images/math_08.png
+问题: 图中函数y=x²的图像在x=2时y的值是多少？
+A: 2
+B: 4
+C: 6
+D: 8
+答案: B
+
+Q9 [math_vista]: IMAGE: images/math_09.png
+问题: 图中显示的概率树状图，P(A∩B)的值是多少？
+A: 0.12
+B: 0.15
+C: 0.20
+D: 0.25
+答案: A
+
+Q10 [math_vista]: IMAGE: images/math_10.png
+问题: 图中扇形的圆心角是90°，半径是4，扇形面积是多少？(π≈3.14)
+A: 12.56
+B: 25.12
+C: 50.24
+D: 6.28
+答案: A
+
+Q11 [math_vista]: IMAGE: images/math_11.png
+问题: 图中直角三角形的斜边长是多少？(两直角边为3和4)
+A: 5
+B: 6
+C: 7
+D: 8
+答案: A
+
+Q12 [math_vista]: IMAGE: images/math_12.png
+问题: 图中柱状图显示的数据集的平均值是多少？
+A: 15
+B: 20
+C: 25
+D: 30
+答案: B
+
+Q13 [math_vista]: IMAGE: images/math_13.png
+问题: 图中显示的几何体的表面积是多少？(长方体，长2宽3高4)
+A: 26
+B: 52
+C: 24
+D: 12
+答案: B
+
+Q14 [math_vista]: IMAGE: images/math_14.png
+问题: 图中坐标系的第二象限的点是什么？
+A: (1, 1)
+B: (-1, 1)
+C: (-1, -1)
+D: (1, -1)
+答案: B
+
+Q15 [math_vista]: IMAGE: images/math_15.png
+问题: 图中显示的百分比是75%，对应的分数是？
+A: 1/2
+B: 2/3
+C: 3/4
+D: 4/5
+答案: C
+
+Q16 [math_vista]: IMAGE: images/math_16.png
+问题: 图中平行四边形的底是10，高是6，面积是多少？
+A: 30
+B: 60
+C: 16
+D: 120
+答案: B
+
+Q17 [math_vista]: IMAGE: images/math_17.png
+问题: 图中显示的数列2,4,8,16,...的第5项是多少？
+A: 24
+B: 32
+C: 64
+D: 128
+答案: B
+
+Q18 [math_vista]: IMAGE: images/math_18.png
+问题: 图中圆锥的底面半径是3，高是4，体积是多少？(π≈3.14)
+A: 37.68
+B: 12.56
+C: 113.04
+D: 25.12
+答案: A
+
+Q19 [math_vista]: IMAGE: images/math_19.png
+问题: 图中显示的韦恩图中，A∪B的元素个数是多少？
+A: 5
+B: 7
+C: 9
+D: 12
+答案: B
+
+Q20 [math_vista]: IMAGE: images/math_20.png
+问题: 图中折线图显示5个数据点，中位数是多少？
+A: 10
+B: 15
+C: 20
+D: 25
+答案: B
