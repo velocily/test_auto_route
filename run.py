@@ -26,13 +26,28 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, "router"))
 def main():
     if len(sys.argv) < 2:
         print("用法:")
-        print("  python run.py test   -- 运行自动测试")
-        print("  python run.py route  -- 启动路由服务")
+        print("  python run.py test [选项]   -- 运行自动测试")
+        print("  python run.py route        -- 启动路由服务")
+        print()
+        print("测试选项（常用）:")
+        print("  --model NAME               指定待测模型名")
+        print("  --modules a,b,c            选择测试模块: text,vision_recognition,image_generation,efficiency")
+        print("  --num-samples N            每题集最多测试 N 题（采样）")
+        print("  --api-key KEY              指定 API 密钥")
+        print("  --base-url URL             指定 API 地址")
+        print("  --skip-probe               跳过能力探测")
+        print()
+        print("示例:")
+        print("  python run.py test --model qwen36-35b-a3b --modules vision_recognition")
+        print("  python run.py test --modules text,efficiency --num-samples 5")
         sys.exit(1)
 
     command = sys.argv[1].lower()
 
     if command == "test":
+        # 移除 "test" 子命令，使 autotest/main.py 的 argparse 仅解析测试参数
+        # （如 --model / --modules / --num-samples 等）
+        sys.argv = [sys.argv[0]] + sys.argv[2:]
         from autotest.main import main as run_test
         run_test()
 
@@ -47,7 +62,7 @@ def main():
         host = SERVICE_CONFIG["host"]
         port = SERVICE_CONFIG["port"]
         # 使用 localhost 而非 0.0.0.0 作为浏览器访问地址
-        dashboard_url = f"http://localhost:{port}/dashboard"
+        dashboard_url = f"http://localhost:{port}/home"
         health_url = f"http://localhost:{port}/api/params"
 
         def _wait_and_open_browser():
