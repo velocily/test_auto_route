@@ -41,7 +41,7 @@ def _call_stream(api_key, base_url, model_name, prompt, timeout=120):
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.7,
         "stream": True,
-        "max_tokens": 512,
+        "max_tokens": 2048,
     }
 
     start_time = time.perf_counter()
@@ -190,8 +190,21 @@ def _concurrent_test(api_key, base_url, model_name, concurrency, timeout=120):
     avg_throughput = statistics.mean([r["throughput"] for r in success_results])
     avg_tokens = statistics.mean([r["tokens"] for r in success_results])
 
+    # 每通道平均吞吐：单位时间内每个通道实际产出的 token 数
+    # 公式：总 tokens / (并发数 × 总耗时)
+    # 这与 avg_throughput（每请求视角吞吐）不同：
+    #   - avg_throughput = mean(tokens_i / generation_time_i)，并发时会被并行加速放大
+    #   - per_channel_throughput = 总 tokens / (并发数 × 总耗时)，反映每通道真实产出
+    total_tokens = sum(r["tokens"] for r in success_results)
+    success_count = len(success_results)
+    per_channel_throughput = (
+        total_tokens / (success_count * total_time)
+        if total_time > 0 and success_count > 0 else 0
+    )
+
     print(f"    成功{len(success_results)}/{concurrency} (失败{failed}), "
-          f"平均TTFT={avg_ttft:.0f}ms, 平均吞吐={avg_throughput:.2f}tok/s, "
+          f"平均TTFT={avg_ttft:.0f}ms, 每请求吞吐={avg_throughput:.2f}tok/s, "
+          f"每通道吞吐={per_channel_throughput:.2f}tok/s, "
           f"总耗时={total_time:.1f}s")
 
     return {
@@ -199,7 +212,10 @@ def _concurrent_test(api_key, base_url, model_name, concurrency, timeout=120):
         "concurrency": concurrency,
         "avg_ttft_ms": avg_ttft,
         "avg_throughput": avg_throughput,
+        "per_channel_throughput": per_channel_throughput,
         "avg_tokens": avg_tokens,
+        "total_tokens": total_tokens,
+        "total_time_s": total_time,
         "failed": failed,
         "raw_results": success_results,
     }
@@ -308,7 +324,7 @@ def run_efficiency_benchmark(api_key, base_url, model_name,
     print(f"  稳定并发数: {stable_concurrency}")
     if stable_result:
         print(f"  该并发下平均TTFT: {stable_result['avg_ttft_ms']:.0f} ms")
-        print(f"  该并发下平均吞吐: {stable_result['avg_throughput']:.2f} tok/s")
+        print(f"  该并发下每通道吞吐: {stable_result.get('per_channel_throughput', 0):.2f} tok/s")
 
     return {
         "benchmark_name": "efficiency",

@@ -166,19 +166,22 @@ def export_one_benchmark(bench_data, model_name, output_dir):
 
     if is_long_context:
         avg_score = total_score / total_count if total_count > 0 else 0
+        acc = avg_score / 10 if total_count > 0 else 0  # 统一为正确率（0~1）
         ws.cell(row=summary_row, column=3, value="").alignment = center_align
         ws.merge_cells(start_row=summary_row, start_column=3, end_row=summary_row, end_column=4)
-        ws.cell(row=summary_row, column=5, value="").alignment = center_align
+        ws.cell(row=summary_row, column=5,
+                value=f"正确率: {acc:.2%}").alignment = center_align
         ws.cell(row=summary_row, column=6,
                 value=f"均分: {avg_score:.2f}/10").alignment = center_align
         ws.cell(row=summary_row, column=7,
                 value=f"总分: {total_score}/{total_count * 10}").alignment = center_align
     elif is_subjective:
         avg_score = total_score / total_count if total_count > 0 else 0
+        acc = avg_score / 10 if total_count > 0 else 0  # 统一为正确率（0~1）
         ws.cell(row=summary_row, column=3, value="").alignment = center_align
         ws.merge_cells(start_row=summary_row, start_column=3, end_row=summary_row, end_column=4)
         ws.cell(row=summary_row, column=5,
-                value=f"均分: {avg_score:.2f}/10").alignment = center_align
+                value=f"均分: {avg_score:.2f}/10  正确率: {acc:.2%}").alignment = center_align
         ws.cell(row=summary_row, column=6,
                 value=f"总分: {total_score}/{total_count * 10}").alignment = center_align
     else:

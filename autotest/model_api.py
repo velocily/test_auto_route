@@ -4,10 +4,17 @@
 ============================================================================
 提供统一的 ask_model() 接口，兼容 OpenAI 风格 API。
 同时封装 提示词构建 与 答案提取 逻辑。
+支持纯文本和多模态（视觉）两种调用模式。
 """
 import re
+import os
 import time
+import base64
 import requests
+import urllib3
+
+# 禁用 SSL 警告（自签名证书场景）
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # =========================
 # 持久化 Session（连接池复用，避免每次请求 TLS 握手）
@@ -20,6 +27,8 @@ def _get_session():
     global _SESSION
     if _SESSION is None:
         _SESSION = requests.Session()
+        # 禁用 SSL 验证（自签名证书场景）
+        _SESSION.verify = False
         # 连接池大小：适配并发场景
         adapter = requests.adapters.HTTPAdapter(
             pool_connections=10,
@@ -56,6 +65,164 @@ def _warm_up(api_key, base_url, model_name, timeout=30):
         print(f"跳过（{e}）")
 
 
+# =========================
+# 能力探测：明确判断模型/接口是否支持某能力
+# =========================
+# 探测结果：
+#   True  = 支持（可继续完整测试）
+#   False = 不支持（API 返回 404/405/400 明确拒绝，或返回错误信息含"not support"等）
+#   None  = 无法确定（网络超时等，建议按"未测试"处理，不轻易判定为不支持）
+#
+# 设计目标：避免"程序认为不具备多模态能力但实际是有的"误判
+#   - 仅当 API 明确返回 404/405 或错误信息明确说不支持时才判定 False
+#   - 超时/5xx 等临时错误返回 None，不轻易判定
+def probe_vision_capability(api_key, base_url, model_name, timeout=60):
+    """
+    探测模型是否支持视觉识图（Vision 输入）。
+    发送一个最小化的多模态请求（1x1 测试图 + 简短问题），
+    根据响应判断接口是否支持 image_url 输入。
+
+    返回:
+        True  = 支持
+        False = 明确不支持（404/405/400 + not support 等关键词）
+        None  = 无法确定（超时/5xx/解析异常）
+    """
+    session = _get_session()
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+
+    # 1x1 红色 PNG 的 base64（最小测试图，避免传输大图）
+    tiny_png_b64 = (
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg=="
+    )
+    image_url = f"data:image/png;base64,{tiny_png_b64}"
+
+    content = [
+        {"type": "text", "text": "What color is this image? Answer in one word."},
+        {"type": "image_url", "image_url": {"url": image_url}},
+    ]
+    payload = {
+        "model": model_name,
+        "messages": [{"role": "user", "content": content}],
+        "temperature": 0,
+        "max_tokens": 16,
+    }
+
+    try:
+        r = session.post(base_url, headers=headers, json=payload, timeout=(10, timeout))
+    except requests.exceptions.Timeout:
+        print("  [能力探测-识图] 请求超时，无法确定是否支持")
+        return None
+    except Exception as e:
+        print(f"  [能力探测-识图] 请求异常: {e}")
+        return None
+
+    status = r.status_code
+    # 200 / 4xx-with-content 都视为支持（部分服务对 1x1 图返回 200 但内容为空）
+    if status == 200:
+        print("  [能力探测-识图] 接口返回 200，支持视觉输入")
+        return True
+
+    # 非 200：检查是否明确"不支持"
+    body = ""
+    try:
+        body = r.text[:500]
+    except Exception:
+        pass
+    body_lower = body.lower()
+
+    # 明确不支持的信号：404/405（接口不存在）、400 + not support 关键词
+    unsupported_signals = [
+        "not support", "unsupported", "image input", "vision",
+        "multimodal", "no such", "not found", "invalid_request",
+        "does not support", "can only support",
+    ]
+    if status in (404, 405):
+        print(f"  [能力探测-识图] 接口返回 {status}，判定为不支持")
+        return False
+    if status == 400 and any(sig in body_lower for sig in unsupported_signals):
+        print(f"  [能力探测-识图] 接口返回 400 且含不支持关键词，判定为不支持")
+        return False
+    if status in (401, 403):
+        print(f"  [能力探测-识图] 接口返回 {status}（鉴权问题），无法确定")
+        return None
+
+    # 其他 4xx/5xx：保守起见返回 None（可能是临时错误）
+    print(f"  [能力探测-识图] 接口返回 {status}，无法确定（body: {body[:120]}）")
+    return None
+
+
+def probe_t2i_capability(api_key, base_url, model_name, timeout=60, size="1024x1024"):
+    """
+    探测模型是否支持文生图（/v1/images/generations 接口）。
+    发送一个最小化的生图请求，根据响应判断接口是否存在且可用。
+
+    返回:
+        True  = 支持
+        False = 明确不支持（404/405，或 400 + not support 关键词）
+        None  = 无法确定（超时/5xx/解析异常）
+    """
+    session = _get_session()
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+
+    # 构造 images/generations URL
+    if "/v1/chat/completions" in base_url:
+        images_url = base_url.replace("/v1/chat/completions", "/v1/images/generations")
+    elif base_url.rstrip("/").endswith("/v1"):
+        images_url = base_url.rstrip("/") + "/images/generations"
+    elif "/v1" in base_url:
+        idx = base_url.find("/v1")
+        images_url = base_url[:idx + 3] + "/images/generations"
+    else:
+        images_url = base_url.rstrip("/") + "/v1/images/generations"
+
+    payload = {
+        "model": model_name,
+        "prompt": "a red circle",
+        "n": 1,
+        "size": size,
+        "response_format": "b64_json",
+    }
+
+    try:
+        r = session.post(images_url, headers=headers, json=payload, timeout=(10, timeout))
+    except requests.exceptions.Timeout:
+        print("  [能力探测-生图] 请求超时，无法确定是否支持")
+        return None
+    except Exception as e:
+        print(f"  [能力探测-生图] 请求异常: {e}")
+        return None
+
+    status = r.status_code
+    if status == 200:
+        print("  [能力探测-生图] 接口返回 200，支持文生图")
+        return True
+
+    body = ""
+    try:
+        body = r.text[:500]
+    except Exception:
+        pass
+    body_lower = body.lower()
+
+    unsupported_signals = [
+        "not support", "unsupported", "image generation", "no such",
+        "not found", "does not support", "can only support",
+        "model does not", "not available",
+    ]
+    if status in (404, 405):
+        print(f"  [能力探测-生图] 接口返回 {status}，判定为不支持")
+        return False
+    if status == 400 and any(sig in body_lower for sig in unsupported_signals):
+        print(f"  [能力探测-生图] 接口返回 400 且含不支持关键词，判定为不支持")
+        return False
+    if status in (401, 403):
+        print(f"  [能力探测-生图] 接口返回 {status}（鉴权问题），无法确定")
+        return None
+
+    print(f"  [能力探测-生图] 接口返回 {status}，无法确定（body: {body[:120]}）")
+    return None
+
+
 def ask_model(prompt, api_key, base_url, model_name, timeout=600, max_tokens=None):
     """
     调用模型 API（兼容 OpenAI chat/completions 风格）
@@ -80,7 +247,12 @@ def ask_model(prompt, api_key, base_url, model_name, timeout=600, max_tokens=Non
             r = session.post(base_url, headers=headers, json=payload,
                              timeout=(15, timeout))
             r.raise_for_status()
-            return r.json()["choices"][0]["message"]["content"]
+            msg = r.json()["choices"][0]["message"]
+            content = msg.get("content")
+            # 推理模型可能 content 为空字符串（所有 token 被 reasoning 消耗）
+            if not content:
+                content = msg.get("reasoning") or msg.get("reasoning_content") or ""
+            return content
         except requests.exceptions.Timeout:
             last_error = f"请求超时（{timeout}s）"
             if attempt < 3:
@@ -109,9 +281,244 @@ def ask_model(prompt, api_key, base_url, model_name, timeout=600, max_tokens=Non
     return ""
 
 
-# =========================
-# 提示词构建
-# =========================
+def _encode_image(image_path):
+    """将本地图片编码为 base64 data URL。"""
+    with open(image_path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("utf-8")
+    ext = os.path.splitext(image_path)[1].lower().lstrip(".")
+    mime = "jpeg" if ext in ("jpg", "jpeg") else (ext or "png")
+    return f"data:image/{mime};base64,{b64}"
+
+
+def ask_model_multimodal(prompt, image_path, api_key, base_url, model_name,
+                         timeout=600, max_tokens=None):
+    """
+    调用多模态模型 API（OpenAI Vision 兼容接口）。
+    将文本 prompt 和本地图片一起发送给模型。
+
+    返回模型输出的原始文本；失败返回空字符串。
+    推理模型可能将内容放在 reasoning 字段，content 为空时回退到 reasoning。
+    """
+    session = _get_session()
+    headers = {"Authorization": f"Bearer {api_key}"}
+
+    try:
+        image_url = _encode_image(image_path)
+    except Exception as e:
+        print(f"  [图片编码失败] {image_path}: {e}")
+        return ""
+
+    content = [
+        {"type": "text", "text": prompt},
+        {"type": "image_url", "image_url": {"url": image_url}},
+    ]
+    payload = {
+        "model": model_name,
+        "messages": [{"role": "user", "content": content}],
+        "temperature": 0,
+        # 推理模型需要足够的 token 完成推理后输出答案
+        "max_tokens": max_tokens or 4096,
+    }
+
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            r = session.post(base_url, headers=headers, json=payload,
+                             timeout=(15, timeout))
+            r.raise_for_status()
+            msg = r.json()["choices"][0]["message"]
+            content = msg.get("content")
+            # 推理模型可能 content 为空字符串（所有 token 被 reasoning 消耗）
+            if not content:
+                content = msg.get("reasoning") or msg.get("reasoning_content") or ""
+            return content
+        except requests.exceptions.Timeout:
+            last_error = f"请求超时（{timeout}s）"
+            if attempt < 3:
+                wait = attempt * 2
+                print(f"  [重试 {attempt}/3] {last_error}，{wait}s 后重试...")
+                time.sleep(wait)
+        except requests.exceptions.HTTPError as e:
+            last_error = f"HTTP {e.response.status_code}"
+            print(f"  [API异常] {last_error}: {e.response.text[:200]}")
+            break
+        except Exception as e:
+            last_error = str(e)
+            print(f"  [API异常] {last_error}")
+            if attempt < 3:
+                wait = attempt * 2
+                print(f"  [重试 {attempt}/3] {wait}s 后重试...")
+                time.sleep(wait)
+
+    print(f"  [API失败] {last_error}")
+    return ""
+
+
+def ask_model_t2i(prompt, api_key, base_url, model_name, timeout=600, size="1024x1024"):
+    """
+    调用文生图模型 API（OpenAI 兼容 /v1/images/generations 接口）。
+
+    参数:
+        prompt     : 生图提示词
+        api_key    : API 密钥
+        base_url   : 完整的 chat/completions URL（自动转换为 images/generations URL）
+        model_name : 模型名
+        timeout    : 超时秒数
+        size       : 图片尺寸
+
+    返回:
+        (image_url_or_b64, raw_response)
+        - image_url_or_b64: 图片 URL 或 base64 数据（失败为空字符串）
+        - raw_response: 完整响应 JSON（用于调试）
+    """
+    session = _get_session()
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+
+    # 将 /v1/chat/completions 转换为 /v1/images/generations
+    # 兼容完整 URL 和 base URL 两种情况
+    if "/v1/chat/completions" in base_url:
+        images_url = base_url.replace("/v1/chat/completions", "/v1/images/generations")
+    elif base_url.rstrip("/").endswith("/v1"):
+        images_url = base_url.rstrip("/") + "/images/generations"
+    elif "/v1" in base_url:
+        # 截断到 /v1 后追加
+        idx = base_url.find("/v1")
+        images_url = base_url[:idx + 3] + "/images/generations"
+    else:
+        # 兜底：直接拼接
+        images_url = base_url.rstrip("/") + "/v1/images/generations"
+
+    payload = {
+        "model": model_name,
+        "prompt": prompt,
+        "n": 1,
+        "size": size,
+        "response_format": "b64_json",
+    }
+
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            r = session.post(images_url, headers=headers, json=payload,
+                             timeout=(15, timeout))
+            r.raise_for_status()
+            data = r.json()
+            # OpenAI 标准格式：data[0].b64_json 或 data[0].url
+            items = data.get("data", [])
+            if items:
+                item = items[0]
+                if "b64_json" in item:
+                    return item["b64_json"], data
+                if "url" in item:
+                    return item["url"], data
+            last_error = "响应中未找到图片数据"
+        except requests.exceptions.Timeout:
+            last_error = f"请求超时（{timeout}s）"
+            if attempt < 3:
+                wait = attempt * 2
+                print(f"  [重试 {attempt}/3] {last_error}，{wait}s 后重试...")
+                time.sleep(wait)
+        except requests.exceptions.HTTPError as e:
+            last_error = f"HTTP {e.response.status_code}"
+            print(f"  [API异常] {last_error}: {e.response.text[:200]}")
+            break
+        except Exception as e:
+            last_error = str(e)
+            print(f"  [API异常] {last_error}")
+            if attempt < 3:
+                wait = attempt * 2
+                print(f"  [重试 {attempt}/3] {wait}s 后重试...")
+                time.sleep(wait)
+
+    print(f"  [文生图API失败] {last_error}")
+    return "", {}
+
+
+def build_t2i_prompt(question):
+    """
+    构建文生图提示词。
+    题干本身就是提示词，这里直接返回。
+    """
+    return question["question_text"]
+
+
+def judge_t2i_answer(question, model_output, judge_api_key, judge_base_url, judge_model, timeout=600):
+    """
+    文生图评分：调用打分模型对生成的图片做 0-10 分评估。
+
+    评分流程：
+      1. 将生成的图片（base64 或 URL）作为多模态输入发送给打分模型
+      2. 打分模型根据提示词和评分维度给出 0-10 分
+      3. 提取分数返回
+
+    参数:
+        model_output : ask_model_t2i 返回的图片标识（base64 或 URL）
+    """
+    prompt_text = question["question_text"]
+    eval_dims = question.get("eval_dims", ["主体准确度", "场景契合度", "画面质量"])
+
+    if not model_output:
+        return 0, "模型未生成图片"
+
+    # 构造图片 URL（base64 或远程 URL）
+    if model_output.startswith("http"):
+        image_url = model_output
+    else:
+        image_url = f"data:image/png;base64,{model_output}"
+
+    dims_str = "、".join(eval_dims)
+    judge_prompt = (
+        f"你是一位严格的图像生成评审专家。请根据以下提示词和评分维度，"
+        f"对生成的图片进行打分。\n\n"
+        f"生图提示词：{prompt_text}\n\n"
+        f"评分维度：{dims_str}\n\n"
+        "评分标准（0-10分）：\n"
+        "- 10分：图片完全符合提示词，画面质量极高，所有维度均优秀\n"
+        "- 7-9分：图片基本符合提示词，有少量瑕疵\n"
+        "- 4-6分：图片部分符合提示词，有明显问题\n"
+        "- 1-3分：图片与提示词差距较大\n"
+        "- 0分：未生成图片或完全不符合提示词\n\n"
+        "【重要规则】你必须只输出一个0-10之间的整数分数，"
+        "然后换行给出一句简短的评分理由。格式如下：\n"
+        "分数\n理由\n"
+        "不要输出任何其他内容。"
+    )
+
+    # 调用打分模型（多模态）
+    content = [
+        {"type": "text", "text": judge_prompt},
+        {"type": "image_url", "image_url": {"url": image_url}},
+    ]
+    payload = {
+        "model": judge_model,
+        "messages": [{"role": "user", "content": content}],
+        "temperature": 0,
+        "max_tokens": 2048,
+    }
+
+    session = _get_session()
+    headers = {"Authorization": f"Bearer {judge_api_key}", "Content-Type": "application/json"}
+
+    for attempt in range(3):
+        try:
+            r = session.post(judge_base_url, headers=headers, json=payload,
+                             timeout=(15, timeout))
+            r.raise_for_status()
+            msg = r.json()["choices"][0]["message"]
+            raw_judge = msg.get("content") or msg.get("reasoning") or msg.get("reasoning_content") or ""
+            if not raw_judge:
+                continue
+            score, comment = _extract_subjective_score(raw_judge)
+            if score >= 0:
+                return score, comment
+            print(f"    评分提取失败 {attempt+1}/3: {raw_judge[:150]}")
+        except Exception as e:
+            print(f"    打分模型调用失败 {attempt+1}/3: {e}")
+            if attempt < 2:
+                time.sleep(3)
+
+    return 0, "[评分失败-需人工审核] 打分模型多次返回不可解析"
+
 
 def build_mc_prompt(question):
     """
@@ -199,6 +606,30 @@ def build_longbench_prompt(question):
     return prompt
 
 
+def build_visual_mc_prompt(question):
+    """
+    构建视觉选择题（ChartQA / TextVQA / MathVista / VQA / MMMU）提示词。
+    图片通过 ask_model_multimodal 单独发送，此处仅构建文本部分。
+    """
+    q_text = question["question_text"]
+    options = question["options"]
+
+    opts_str = ""
+    for label in ["A", "B", "C", "D"]:
+        if label in options:
+            opts_str += f"{label}. {options[label]}\n"
+
+    prompt = (
+        "请仔细观察图片并回答以下问题。\n\n"
+        "【重要规则】你必须只输出一个字母（A/B/C/D），不能输出任何其他文字、"
+        "解释、分析、标点或换行。违反规则将被视为错误。\n\n"
+        f"问题：{q_text}\n\n"
+        f"选项：\n{opts_str}\n"
+        "答案（仅一个字母）："
+    )
+    return prompt
+
+
 # =========================
 # 答案提取（从模型输出中提取最终答案）
 # =========================
@@ -214,17 +645,23 @@ def extract_mc_answer(raw_output):
     if m:
         return m.group(1).upper()
 
-    # 2. 尝试匹配以 A/B/C/D 开头的行
+    # 2. 尝试匹配 "正确选项是" / "最终输出" / "答案是" 后面的字母（推理模型常见格式）
+    m = re.search(r'(?:正确选项[是是]?|最终输出|答案[是是]?|选)\s*([A-D])', text, re.IGNORECASE)
+    if m:
+        return m.group(1).upper()
+
+    # 3. 尝试匹配以 A/B/C/D 开头的行（content 字段常见格式）
     m = re.search(r'(?:^|\n)\s*([A-D])\s*(?:[.\s,]|$)', text, re.IGNORECASE)
     if m:
         return m.group(1).upper()
 
-    # 3. 提取文本中最后一个独立出现的 A/B/C/D
-    letters = re.findall(r'(?<![a-zA-Z])([A-D])(?![a-zA-Z])', text, re.IGNORECASE)
+    # 4. 对于 reasoning 文本，从末尾 500 字符中提取最后一个 A/B/C/D
+    tail = text[-500:] if len(text) > 500 else text
+    letters = re.findall(r'(?<![a-zA-Z])([A-D])(?![a-zA-Z])', tail, re.IGNORECASE)
     if letters:
         return letters[-1].upper()
 
-    # 4. 兜底：取第一个字符
+    # 5. 兜底：取第一个字符
     first_char = text[:1].upper()
     if first_char in "ABCD":
         return first_char
@@ -396,7 +833,7 @@ def _judge_with_retry(judge_prompt, api_key, base_url, model_name, timeout,
 
         raw_judge = ask_model(
             current_prompt, api_key, base_url, model_name,
-            timeout=timeout, max_tokens=300
+            timeout=timeout, max_tokens=2048
         )
 
         if not raw_judge:
@@ -504,6 +941,8 @@ SCORER_MAP = {
     "math_fill": judge_math_answer,
     "subjective": judge_subjective_answer,
     "long_context": judge_long_context_answer,
+    "visual_multiple_choice": judge_mc_answer,
+    "text_to_image": judge_t2i_answer,
 }
 
 
@@ -520,6 +959,8 @@ PROMPT_BUILDER_MAP = {
     "math_fill": build_math_prompt,
     "subjective": build_subjective_prompt,
     "long_context": build_longbench_prompt,
+    "visual_multiple_choice": build_visual_mc_prompt,
+    "text_to_image": build_t2i_prompt,
 }
 
 # 答案提取映射
@@ -528,4 +969,7 @@ EXTRACTOR_MAP = {
     "math_fill": extract_math_answer,
     "subjective": extract_subjective_answer,
     "long_context": extract_subjective_answer,
+    "visual_multiple_choice": extract_mc_answer,
+    # 文生图：模型输出即图片标识（base64 或 URL），无需提取
+    "text_to_image": extract_subjective_answer,
 }

@@ -472,6 +472,150 @@ def parse_longbench(filepath):
 
 
 # =========================
+# 多模态题集解析（视觉问答、图表理解、文字识别、视觉数学、多模态理解）
+# =========================
+
+def parse_multimodal(filepath):
+    """解析多模态视觉题集（ChartQA / TextVQA / MathVista / VQA / MMMU 通用格式）
+
+    格式:
+        Q1 [category]: IMAGE: images/xxx.png
+        问题: xxx
+        A: ... B: ... C: ... D: ...
+        答案: X
+
+    每题返回结构:
+        - id, category, type="visual_multiple_choice"
+        - question_text, options, correct_answer, raw_answer
+        - image_path (相对于题集文件所在目录)
+    """
+    text = _read_file(filepath)
+    questions = []
+    base_dir = os.path.dirname(filepath)
+
+    blocks = re.split(r'\n(?=Q\d+\s*\[)', text)
+    for block in blocks:
+        block = block.strip()
+        if not block:
+            continue
+
+        m = re.match(r'Q(\d+)\s*\[([^\]]+)\]\s*:\s*(.*)', block, re.DOTALL)
+        if not m:
+            continue
+        qid = int(m.group(1))
+        category = m.group(2).strip()
+        rest = m.group(3)
+
+        # 提取图片路径
+        image_path = ""
+        img_m = re.search(r'IMAGE:\s*(\S+)', rest)
+        if img_m:
+            image_path = img_m.group(1).strip()
+            rest = rest[:img_m.start()] + rest[img_m.end():]
+
+        # 提取问题
+        q_m = re.search(r'问题\s*:\s*(.*?)(?=\n\s*A\s*:|\n答案\s*:)', rest, re.DOTALL)
+        if q_m:
+            question_text = q_m.group(1).strip()
+            rest_after_q = rest[q_m.end():]
+        else:
+            # 兜底：取 A 选项之前的内容
+            opt_m = re.search(r'(?:^|\n)\s*A\s*:', rest)
+            if opt_m:
+                question_text = rest[:opt_m.start()].strip()
+                rest_after_q = rest[opt_m.start():]
+            else:
+                question_text = rest.strip()
+                rest_after_q = ""
+
+        # 提取答案
+        ans_m = re.search(r'\n答案\s*:\s*(\S+)', rest_after_q)
+        correct_answer = ans_m.group(1).strip() if ans_m else ""
+        if ans_m:
+            rest_after_q = rest_after_q[:ans_m.start()]
+
+        # 解析选项
+        options = _parse_options(rest_after_q)
+
+        questions.append({
+            "id": qid,
+            "category": category,
+            "type": "visual_multiple_choice",
+            "question_text": question_text,
+            "options": options,
+            "correct_answer": correct_answer,
+            "raw_answer": correct_answer,
+            "image_path": os.path.join(base_dir, image_path) if image_path else "",
+        })
+
+    return questions
+
+
+# =========================
+# 文生图（text-to-image）题集解析
+# =========================
+
+def parse_t2i(filepath):
+    """解析文生图题集
+
+    格式:
+        Q1 [category]: 画一只在草地上奔跑的金毛猎犬，阳光明媚，毛发细节清晰
+        评分维度: 主体准确度, 场景契合度, 画面质量
+        答案: 8
+
+    每题返回结构:
+        - id, category, type="text_to_image"
+        - question_text (即生图提示词), options={}, correct_answer (参考分), raw_answer
+        - eval_dims (评分维度列表，用于打分模型参考)
+    """
+    text = _read_file(filepath)
+    questions = []
+
+    blocks = re.split(r'\n(?=Q\d+\s*\[)', text)
+    for block in blocks:
+        block = block.strip()
+        if not block:
+            continue
+
+        m = re.match(r'Q(\d+)\s*\[([^\]]+)\]\s*:\s*(.*)', block, re.DOTALL)
+        if not m:
+            continue
+        qid = int(m.group(1))
+        category = m.group(2).strip()
+        rest = m.group(3)
+
+        # 提取评分维度
+        eval_dims = []
+        dims_m = re.search(r'评分维度\s*:\s*(.+?)(?=\n答案\s*:|\Z)', rest, re.DOTALL)
+        if dims_m:
+            dims_line = dims_m.group(1).strip()
+            eval_dims = [d.strip() for d in re.split(r'[,，]', dims_line) if d.strip()]
+            rest = rest[:dims_m.start()] + rest[dims_m.end():]
+
+        # 提取参考分（用于打分模型校准，不是硬性答案）
+        ans_m = re.search(r'\n答案\s*:\s*(\d+(?:\.\d+)?)', rest)
+        correct_answer = ans_m.group(1).strip() if ans_m else "8"
+        if ans_m:
+            rest = rest[:ans_m.start()]
+
+        # 题干即生图提示词
+        question_text = rest.strip()
+
+        questions.append({
+            "id": qid,
+            "category": category,
+            "type": "text_to_image",
+            "question_text": question_text,
+            "options": {},
+            "correct_answer": correct_answer,
+            "raw_answer": correct_answer,
+            "eval_dims": eval_dims,
+        })
+
+    return questions
+
+
+# =========================
 # 统一入口
 # =========================
 PARSER_MAP = {
@@ -483,6 +627,14 @@ PARSER_MAP = {
     "bbh_semantic": parse_bbh_semantic,
     "bbh_math": parse_bbh_math,
     "longbench": parse_longbench,
+    # 多模态识图题集（共用 parse_multimodal 解析器）
+    "chartqa": parse_multimodal,
+    "textvqa": parse_multimodal,
+    "mathvista": parse_multimodal,
+    "vqa": parse_multimodal,
+    "mmmu": parse_multimodal,
+    # 文生图题集
+    "t2i": parse_t2i,
 }
 
 

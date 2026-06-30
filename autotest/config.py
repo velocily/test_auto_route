@@ -18,16 +18,16 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 待测模型 API 配置
 # =========================
 # 在此填入你的模型 API 信息（OpenAI 兼容接口）
-TEST_API_KEY = "sk-your-api-key-here"
-TEST_BASE_URL = "https://api.example.com/v1/chat/completions"
-TEST_MODEL_NAME = "your-model-name"
+TEST_API_KEY = "sk-dummy"
+TEST_BASE_URL = "https://u1015585-ca0q-76db8053.westb.seetacloud.com:8443/v1/chat/completions"
+TEST_MODEL_NAME = "qwen36-35b-a3b"
 
 # =========================
 # 打分模型 API 配置（用于主观题自动打分，暂时可和待测模型相同）
 # =========================
-JUDGE_API_KEY = "sk-your-api-key-here"
-JUDGE_BASE_URL = "https://api.example.com/v1/chat/completions"
-JUDGE_MODEL_NAME = "your-model-name"
+JUDGE_API_KEY = "sk-dummy"
+JUDGE_BASE_URL = "https://api.deepseek.com/v1/chat/completions"
+JUDGE_MODEL_NAME = "deepseek-v4-flash"
 
 # =========================
 # 题集文件路径（相对于项目根目录）
@@ -43,6 +43,28 @@ BENCHMARK_FILES = {
     "bbh_semantic":         os.path.join("benchmarks", "bbh_longbench", "bbh-语义理解(10).txt"),     # 客观选择题
     "bbh_math":             os.path.join("benchmarks", "bbh_longbench", "bbh-数学推理(10).txt"),     # 数学计算题
     "longbench":            os.path.join("benchmarks", "bbh_longbench", "longbench-长上下文(10).txt"), # 长上下文主观题
+}
+
+# =========================
+# 多模态题集文件路径（相对于项目根目录）
+# =========================
+# 仅当待测模型支持视觉输入时启用（ENABLE_MULTIMODAL_TEST = True）
+# 题目来源：业内标准视觉多模态基准（ChartQA / TextVQA / MathVista / VQA / MMMU）
+MULTIMODAL_BENCHMARK_FILES = {
+    "chartqa":    os.path.join("benchmarks", "multimodal", "chartqa-图表理解(20).txt"),     # 图表理解
+    "textvqa":    os.path.join("benchmarks", "multimodal", "textvqa-文字识别(20).txt"),     # 文字识别
+    "mathvista":  os.path.join("benchmarks", "multimodal", "mathvista-视觉数学(20).txt"),   # 视觉数学
+    "vqa":        os.path.join("benchmarks", "multimodal", "vqa-视觉问答(30).txt"),         # 视觉问答
+    "mmmu":       os.path.join("benchmarks", "multimodal", "mmmu-多模态理解(30).txt"),       # 多模态理解
+}
+
+# =========================
+# 文生图（text-to-image）题集文件路径
+# =========================
+# 仅当待测模型支持图像生成时启用（ENABLE_T2I_TEST = True）
+# 使用 OpenAI 兼容 /v1/images/generations 接口
+T2I_BENCHMARK_FILES = {
+    "t2i":        os.path.join("benchmarks", "multimodal", "t2i-文生图(50).txt"),           # 文生图
 }
 
 # =========================
@@ -63,6 +85,20 @@ BENCHMARK_NAMES = {
     "longbench":           "longbench-长上下文(10)",
 }
 
+# 多模态题集显示名称
+MULTIMODAL_BENCHMARK_NAMES = {
+    "chartqa":    "chartqa-图表理解(20)",
+    "textvqa":    "textvqa-文字识别(20)",
+    "mathvista":  "mathvista-视觉数学(20)",
+    "vqa":        "vqa-视觉问答(30)",
+    "mmmu":       "mmmu-多模态理解(30)",
+}
+
+# 文生图题集显示名称
+T2I_BENCHMARK_NAMES = {
+    "t2i":        "t2i-文生图(15)",
+}
+
 # =========================
 # 效率测试配置
 # =========================
@@ -79,6 +115,7 @@ EFFICIENCY_INITIAL_CONCURRENCY = [1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32]
 EFFICIENCY_CONCURRENCY_STEP = 10
 
 # 并发数上限（None = 无上限，一直测到吞吐跌穿阈值或全部失败为止）
+# 安全上限 200（代码内硬限制，防止无限递增）
 EFFICIENCY_MAX_CONCURRENCY = None
 
 # 吞吐阈值（相对于单用户吞吐的比例，低于此值认为达到上限）
@@ -99,7 +136,27 @@ BENCHMARKS_JSON_PATH = os.path.join(PROJECT_ROOT, "model_benchmarks.json")
 NUM_SAMPLES = None
 
 # 请求超时（秒）
-REQUEST_TIMEOUT = 600
+REQUEST_TIMEOUT = 120
 
 # 请求间隔（秒），避免 API 限流
 REQUEST_INTERVAL = 1.0
+
+# =========================
+# 多模态评测控制
+# =========================
+# 是否启用多模态视觉题集测试（仅当待测模型支持视觉输入时设为 True）
+# 启用后会在纯文本题集之外，额外运行 5 类多模态题集（共 120 题）
+# 多模态题集使用 OpenAI Vision 兼容接口（image_url + base64）
+ENABLE_MULTIMODAL_TEST = True
+
+# =========================
+# 文生图评测控制
+# =========================
+# 是否启用文生图（text-to-image）题集测试（仅当待测模型支持图像生成时设为 True）
+# 启用后会额外运行 1 类文生图题集（共 50 题）
+# 使用 OpenAI 兼容 /v1/images/generations 接口
+# 评分由打分模型（需支持多模态视觉输入）对生成图片做 0-10 分评估
+ENABLE_T2I_TEST = False
+
+# 文生图默认尺寸
+T2I_IMAGE_SIZE = "1024x1024"
