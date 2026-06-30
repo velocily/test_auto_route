@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 760" width="2480" height="1520" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#37474F"/>
+    </marker>
+    <style>
+      .hdr { font-size: 22px; font-weight: 700; fill: #263238; }
+      .col-title { font-size: 18px; font-weight: 700; }
+      .box-title { font-size: 15px; font-weight: 700; fill: #1a1a1a; }
+      .body { font-size: 13px; fill: #2c2c2c; }
+      .small { font-size: 12px; fill: #4a4a4a; }
+      .arrow-label { font-size: 13px; font-weight: 700; fill: #37474F; }
+    </style>
+  </defs>
+
+  <!-- Title -->
+  <text x="620" y="36" text-anchor="middle" class="hdr">智能路由系统 (WhoEngine) 架构图</text>
+
+  <!-- ============== Column 1: autotest ============== -->
+  <rect x="40" y="70" width="340" height="36" fill="#1976D2" rx="6"/>
+  <text x="210" y="94" text-anchor="middle" class="col-title" fill="#FFFFFF">评测模块 (autotest)</text>
+
+  <!-- 题库 box -->
+  <rect x="40" y="116" width="340" height="232" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5" rx="6"/>
+  <text x="210" y="138" text-anchor="middle" class="box-title">8 类题库</text>
+  <line x1="60" y1="146" x2="360" y2="146" stroke="#90CAF9" stroke-width="1"/>
+  <text x="60" y="166" class="body">• MMLU — 知识广度（选择题）</text>
+  <text x="60" y="186" class="body">• GSM8K — 数学推理（填空题）</text>
+  <text x="60" y="206" class="body">• HellaSwag — 常识推理（选择题）</text>
+  <text x="60" y="226" class="body">• BBH — 语义理解 / 数学推理</text>
+  <text x="60" y="246" class="body">• LongBench — 长上下文阅读</text>
+  <text x="60" y="266" class="body">• 职场主观题 — 项目经理 / 秘书</text>
+  <text x="60" y="286" class="body">• 多模态视觉 — ChartQA/VQA/MMMU</text>
+  <text x="60" y="306" class="body">• 文生图 — T2I（提示词生图）</text>
+  <text x="60" y="332" class="small" fill="#616161">调用 OpenAI 兼容接口，按题库类型构建提示词</text>
+
+  <!-- 评分逻辑 box -->
+  <rect x="40" y="358" width="340" height="116" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5" rx="6"/>
+  <text x="210" y="380" text-anchor="middle" class="box-title">评分逻辑</text>
+  <line x1="60" y1="388" x2="360" y2="388" stroke="#90CAF9" stroke-width="1"/>
+  <text x="60" y="408" class="body">• 客观题：答案比对 → 1/0 分</text>
+  <text x="60" y="428" class="body">• 主观题：LLM 打分 → 0–10 分 + 评语</text>
+  <text x="60" y="448" class="body">• 长上下文：信息提取准确性 + 理解深度</text>
+  <text x="60" y="466" class="small" fill="#616161">打分维度：准确性 / 完整性 / 逻辑性 / 表达</text>
+
+  <!-- 输出 box -->
+  <rect x="40" y="484" width="340" height="116" fill="#E3F2FD" stroke="#1976D2" stroke-width="1.5" rx="6"/>
+  <text x="210" y="506" text-anchor="middle" class="box-title">输出</text>
+  <line x1="60" y1="514" x2="360" y2="514" stroke="#90CAF9" stroke-width="1"/>
+  <text x="60" y="534" class="body">• results/{model}/*.xlsx 报告</text>
+  <text x="60" y="554" class="body">• model_benchmarks.json（汇总）</text>
+  <text x="60" y="574" class="body">• efficiency：TTFT / TPS / 并发上限</text>
+  <text x="60" y="592" class="small" fill="#616161">支持模块化测试 + 增量合并</text>
+
+  <!-- ============== Column 2: bridge ============== -->
+  <rect x="450" y="70" width="340" height="36" fill="#388E3C" rx="6"/>
+  <text x="620" y="94" text-anchor="middle" class="col-title" fill="#FFFFFF">桥梁文件</text>
+
+  <rect x="450" y="116" width="340" height="484" fill="#E8F5E9" stroke="#388E3C" stroke-width="1.5" rx="6"/>
+  <text x="620" y="142" text-anchor="middle" class="box-title" fill="#1B5E20">model_benchmarks.json</text>
+  <line x1="470" y1="152" x2="770" y2="152" stroke="#A5D6A7" stroke-width="1"/>
+
+  <text x="470" y="178" class="body" font-weight="700">结构内容：</text>
+  <text x="470" y="206" class="body">• benchmarks</text>
+  <text x="486" y="226" class="small">domain → score（MMLU/GSM8K…）</text>
+
+  <text x="470" y="252" class="body">• multimodal</text>
+  <text x="486" y="272" class="small">vision_recognition / image_generation</text>
+
+  <text x="470" y="298" class="body">• efficiency</text>
+  <text x="486" y="318" class="small">TTFT / TPS / 并发上限</text>
+
+  <text x="470" y="344" class="body">• capability_status</text>
+  <text x="486" y="364" class="small">supported / unsupported / not_tested</text>
+
+  <line x1="470" y1="390" x2="770" y2="390" stroke="#A5D6A7" stroke-dasharray="3,3"/>
+
+  <text x="620" y="416" text-anchor="middle" class="box-title" fill="#1B5E20">作用</text>
+  <text x="470" y="442" class="body">• 评测系统产出能力数据</text>
+  <text x="470" y="462" class="body">• 路由系统消费能力数据</text>
+  <text x="470" y="482" class="body">• 串联两大模块的核心桥梁</text>
+
+  <line x1="470" y1="506" x2="770" y2="506" stroke="#A5D6A7" stroke-dasharray="3,3"/>
+  <text x="620" y="532" text-anchor="middle" class="small" fill="#616161">自动生成 / 增量更新</text>
+  <text x="620" y="552" text-anchor="middle" class="small" fill="#616161">支持运行时新增模型</text>
+  <text x="620" y="572" text-anchor="middle" class="small" fill="#616161">向后兼容旧扁平格式</text>
+
+  <!-- ============== Column 3: router ============== -->
+  <rect x="860" y="70" width="340" height="36" fill="#F57C00" rx="6"/>
+  <text x="1030" y="94" text-anchor="middle" class="col-title" fill="#FFFFFF">路由模块 (router)</text>
+
+  <!-- 客户端 box -->
+  <rect x="860" y="116" width="340" height="78" fill="#FFF3E0" stroke="#F57C00" stroke-width="1.5" rx="6"/>
+  <text x="1030" y="138" text-anchor="middle" class="box-title">客户端（OpenAI 兼容）</text>
+  <line x1="880" y1="146" x2="1180" y2="146" stroke="#FFCC80" stroke-width="1"/>
+  <text x="880" y="166" class="body">POST /v1/chat/completions</text>
+  <text x="880" y="184" class="small" fill="#616161">支持 @模型名 指令 / 强制路由勾选</text>
+
+  <!-- FastAPI box -->
+  <rect x="860" y="204" width="340" height="68" fill="#FFF3E0" stroke="#F57C00" stroke-width="1.5" rx="6"/>
+  <text x="1030" y="226" text-anchor="middle" class="box-title">FastAPI 服务</text>
+  <line x1="880" y1="234" x2="1180" y2="234" stroke="#FFCC80" stroke-width="1"/>
+  <text x="880" y="254" class="body">异步并发 + 流式 SSE 输出</text>
+  <text x="880" y="266" class="small" fill="#616161">默认 0.0.0.0:8000</text>
+
+  <!-- 路由算法 box -->
+  <rect x="860" y="282" width="340" height="116" fill="#FFF3E0" stroke="#F57C00" stroke-width="1.5" rx="6"/>
+  <text x="1030" y="304" text-anchor="middle" class="box-title">路由算法（核心）</text>
+  <line x1="880" y1="312" x2="1180" y2="312" stroke="#FFCC80" stroke-width="1"/>
+  <text x="880" y="332" class="body">• KNN 近邻软投票 + 关键词先验</text>
+  <text x="880" y="352" class="body">• 多池化嵌入（bge-large-zh 1024维）</text>
+  <text x="880" y="372" class="body">• whoengine.pt 路由器权重</text>
+  <text x="880" y="390" class="small" fill="#616161">domain 分类 → 选最优模型</text>
+
+  <!-- 路由决策 box -->
+  <rect x="860" y="408" width="340" height="78" fill="#FFF3E0" stroke="#F57C00" stroke-width="1.5" rx="6"/>
+  <text x="1030" y="430" text-anchor="middle" class="box-title">路由决策</text>
+  <line x1="880" y1="438" x2="1180" y2="438" stroke="#FFCC80" stroke-width="1"/>
+  <text x="880" y="458" class="body">domain → 最优模型</text>
+  <text x="880" y="476" class="small" fill="#616161">仅选运行中模型，未测兜底</text>
+
+  <!-- 远程模型 box -->
+  <rect x="860" y="496" width="340" height="104" fill="#FFF3E0" stroke="#F57C00" stroke-width="1.5" rx="6"/>
+  <text x="1030" y="518" text-anchor="middle" class="box-title">远程模型服务器</text>
+  <line x1="880" y1="526" x2="1180" y2="526" stroke="#FFCC80" stroke-width="1"/>
+  <text x="880" y="546" class="body">• 转发请求并返回响应</text>
+  <text x="880" y="566" class="body">• remote_endpoints 自动发现</text>
+  <text x="880" y="586" class="small" fill="#616161">OpenAI 兼容 /v1/chat/completions</text>
+
+  <!-- ============== Arrows ============== -->
+  <!-- autotest 输出 → bridge (写入) at y=542 -->
+  <line x1="380" y1="542" x2="446" y2="542" stroke="#37474F" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="413" y="534" text-anchor="middle" class="arrow-label">写入</text>
+
+  <!-- bridge → router 路由算法 (查询) at y=340 -->
+  <line x1="790" y1="340" x2="856" y2="340" stroke="#37474F" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="823" y="332" text-anchor="middle" class="arrow-label">查询</text>
+
+  <!-- 客户端 → FastAPI vertical arrow -->
+  <line x1="1030" y1="194" x2="1030" y2="200" stroke="#37474F" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- FastAPI → 路由算法 vertical arrow -->
+  <line x1="1030" y1="272" x2="1030" y2="278" stroke="#37474F" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- 路由决策 → 远程模型 vertical arrow -->
+  <line x1="1030" y1="486" x2="1030" y2="492" stroke="#37474F" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- 路由算法 → 路由决策 vertical arrow -->
+  <line x1="1030" y1="398" x2="1030" y2="404" stroke="#37474F" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Footer legend -->
+  <text x="620" y="660" text-anchor="middle" class="small" fill="#616161">蓝：评测模块（产出能力数据）  ·  绿：桥梁文件（串联核心）  ·  橙：路由模块（消费能力数据）</text>
+  <text x="620" y="682" text-anchor="middle" class="small" fill="#9e9e9e">流程：autotest 评测 → 写入 benchmarks.json → router 查询 → 路由决策 → 转发到远程模型</text>
+</svg>
